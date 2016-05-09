@@ -6,42 +6,44 @@ import random
 import time
 class Alphabet(object):
     '''
-        把下落的字符设计成类，相关属性和操作都放在这里
+        把下落的字符设计成类，相关属性和操作都放在这里,由于大量生成实例，除了考虑列表，还可以考虑采用工厂模式
     '''
     #构造方法初始化位置属性，包含字符图片，初始位置
-    def __init__(self,alphabet,speed,width,height):
+    def __init__(self,alphabet,width,speed):
         self.alphabet = alphabet
-        self.bg_path = 'type_game_bg/%s.jgp' % alphabet
-        self.speed = speed
+        self.bg_path = 'type_game_bg/%s.gif' % alphabet
         self.bg = PhotoImage(file=self.bg_path)
-        self.max_x = width
-        self.max_y = height
-        self.x = random.randint(0,self.max_x-50)
+        self.x = random.randint(0,width-50)
         self.y = 0
-    #这个方法控制字符运动状态
-    def motion(self,cv):
-        cv.bind("<Key>",self.type_event)
-        for md in range(0,self.max_y+self.speed,self.speed) :
-            self.y = md
-            cv.create_image(self.x,self.y,image=self.bg,tag='pic')
+        self.speed = speed
+    #这个方法控制字符运动状态,类方法，里面用一个列表同时控制多个字母运动情况,每个类都有自己的速度，速度是稳定的。
+    @staticmethod
+    def motion(cv,width,height,speed):
+        time.sleep(0.05)
+        for falling in fallings:
+            falling.y += falling.speed
+            falling_tag = 'falling'+str(fallings.index(falling))
+            cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
             cv.update()
-            time.sleep(0.05)
-            if self.speed ==-2:break
-            if self.y+self.speed >= self.max_y:
-                self.speed = -2
-                break
-            cv.delete("pic")
-        for mu in range(self.y,0,self.speed):
-            self.y = mu
-            self.bg = PhotoImage(file='type_game_bg/balloon.gif')
-            cv.create_image(self.x,self.y,image=self.bg,tag='pic')
+            cv.delete(falling_tag)
+            if falling.speed == -2:
+                fallings.remove(falling)
+                flowings.append(falling)
+            if falling.y+falling.speed == height:
+                fallings.remove(falling)
+        for flowing in flowings:
+            flowing.y += flowing.speed
+            flowing.bg = PhotoImage(file='type_game_bg/balloon.gif')
+            flowing_tag = 'flow'+str(flowings.index(flowing))
+            cv.create_image(flowing.x,flowing.y,image=flowing.bg,tag=flowing_tag)
             cv.update()
-            time.sleep(0.05)
-            cv.delete("pic") 
+            cv.delete(flowing_tag) 
+            if flowing.y <= 0 : flowings.remove(flowing)
     #监听按键
-    def type_event(self,event):
+    @staticmethod
+    def type_event(event):
         print (event.char)
-        for i in falling:
+        for i in fallings:
             if event.char == i.alphabet:i.speed = -2
     #定义这个方法通知计分板类
     def notify(self):
@@ -54,16 +56,18 @@ if __name__ == '__main__':
     root = Tk()
     wd = 800
     hg = 600
+    max = 1
     canvas = Canvas(root,width = wd,height=hg,bg='white')
     canvas.focus_set()
     canvas.bind('<Key>',Alphabet.type_event)
     canvas.pack()
-    waiting = [a,b,c,d,e,f,g,h,i,j,k]
-    falling = []
-    alphabet = 'a'
-    typeA = Alphabet(alphabet,2,wd,hg)
-    falling.append(typeA)
-    typeA.motion(canvas)
+    fallings = [] #正在下落的字母列表
+    flowings = [] #被击中之后上升的字母列表
+    alphabets = ['a','b','c','d','e','f','g']
+    while len(fallings) <= max:
+        select = alphabets[random.randint(0,len(alphabets)-1)] 
+        fallings.append(Alphabet(select,wd,2))
+        Alphabet.motion(canvas,wd,hg,2)
     root.mainloop()
 
 
