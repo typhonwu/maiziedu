@@ -24,7 +24,7 @@ class Alphabet(object):
             falling.y += falling.speed            
             falling_tag = 'falling'+str(fallings.index(falling))
             cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
-            cv.update()
+           # cv.update()
            # cv.delete(falling_tag)
             if falling.y+falling.speed >= height:
                 fallings.remove(falling)
@@ -33,7 +33,7 @@ class Alphabet(object):
             flowing.bg = PhotoImage(file='type_game_bg/balloon.gif')
             flowing_tag = 'flow'+str(flowings.index(flowing))
             cv.create_image(flowing.x,flowing.y,image=flowing.bg,tag=flowing_tag)
-            cv.update()
+           # cv.update()
            # cv.delete(flowing_tag) 
             if flowing.y <= 0 : flowings.remove(flowing)
     #监听按键
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     alphabets = ['a','b','c','d','e','f','g']
     while True:
         Alphabet.motion(canvas,wd,hg,2)
+        canvas.update()
         while len(fallings) < max:
             select = alphabets[random.randint(0,len(alphabets)-1)] 
             fallings.append(Alphabet(select,wd,2))
