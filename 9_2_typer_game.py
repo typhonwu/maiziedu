@@ -25,7 +25,7 @@ class Alphabet(object):
             falling_tag = 'falling'+str(fallings.index(falling))
             cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
             cv.update()
-            cv.delete(falling_tag)
+           # cv.delete(falling_tag)
             if falling.y+falling.speed >= height:
                 fallings.remove(falling)
         for flowing in flowings:
@@ -34,7 +34,7 @@ class Alphabet(object):
             flowing_tag = 'flow'+str(flowings.index(flowing))
             cv.create_image(flowing.x,flowing.y,image=flowing.bg,tag=flowing_tag)
             cv.update()
-            cv.delete(flowing_tag) 
+           # cv.delete(flowing_tag) 
             if flowing.y <= 0 : flowings.remove(flowing)
     #监听按键
     @staticmethod
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     root = Tk()
     wd = 800
     hg = 600
-    max = 1
+    max = 4
     canvas = Canvas(root,width = wd,height=hg,bg='white')
     canvas.focus_set()
     canvas.bind('<Key>',Alphabet.type_event)
