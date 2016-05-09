@@ -21,15 +21,12 @@ class Alphabet(object):
     def motion(cv,width,height,speed):
         time.sleep(0.05)
         for falling in fallings:
-            falling.y += falling.speed
+            falling.y += falling.speed            
             falling_tag = 'falling'+str(fallings.index(falling))
             cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
             cv.update()
             cv.delete(falling_tag)
-            if falling.speed == -2:
-                fallings.remove(falling)
-                flowings.append(falling)
-            if falling.y+falling.speed == height:
+            if falling.y+falling.speed >= height:
                 fallings.remove(falling)
         for flowing in flowings:
             flowing.y += flowing.speed
@@ -43,8 +40,11 @@ class Alphabet(object):
     @staticmethod
     def type_event(event):
         print (event.char)
-        for i in fallings:
-            if event.char == i.alphabet:i.speed = -2
+        for falling in fallings:
+            if event.char == falling.alphabet:
+                falling.speed = -2
+                flowings.append(falling)
+                fallings.remove(falling)
     #定义这个方法通知计分板类
     def notify(self):
         pass
@@ -64,10 +64,11 @@ if __name__ == '__main__':
     fallings = [] #正在下落的字母列表
     flowings = [] #被击中之后上升的字母列表
     alphabets = ['a','b','c','d','e','f','g']
-    while len(fallings) <= max:
-        select = alphabets[random.randint(0,len(alphabets)-1)] 
-        fallings.append(Alphabet(select,wd,2))
+    while True:
         Alphabet.motion(canvas,wd,hg,2)
+        while len(fallings) < max:
+            select = alphabets[random.randint(0,len(alphabets)-1)] 
+            fallings.append(Alphabet(select,wd,2))
     root.mainloop()
 
 
