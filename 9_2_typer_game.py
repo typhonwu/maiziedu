@@ -9,31 +9,34 @@ class fallChar(object):
         把下落的字符设计成类，相关属性和操作都放在这里
     '''
     #构造方法初始化位置属性，包含字符图片，初始位置
-    def __init__(self,alphabet,speed):
+    def __init__(self,alphabet,speed,width,height):
         self.alphabet = alphabet
         self.bg_path = 'type_game_bg/%s.gif' % alphabet
         self.speed = speed
         self.bg = PhotoImage(file=self.bg_path)
+        self.max_x = width
+        self.max_y = height
+        self.x = random.randint(0,self.max_x-50)
     #这个方法控制字符运动状态
-    def motion(self,cv,width,height):
-        startY = 0
-        startX = random.randint(60,width-60)
-        for startY in range(0,height+self.speed,self.speed) :
-            if startY+self.speed >= height:
-                cv.create_image(startX,startY,image=self.bg,tag='pic')
-                cv.update()
+    def motion(self,cv):
+        cv.bind("<Key>",self.type_event)
+        for startY in range(0,self.max_y+self.speed,self.speed) :
+            cv.create_image(self.x,startY,image=self.bg,tag='pic')
+            cv.update()
+            time.sleep(0.05)
+            if startY+self.speed >= self.max_y:
                 self.speed = -2
                 print (startY,self.speed)
                 break
-            cv.create_image(startX,startY,image=self.bg,tag='pic')
-            cv.update()
-            time.sleep(0.05)
             cv.delete("pic")
-        for startY in range(height,0,self.speed):
-            cv.create_image(startX,startY,image=self.bg,tag='pic')
+        for startY in range(self.max_y,0,self.speed):
+            cv.create_image(self.x,startY,image=self.bg,tag='pic')
             cv.update()
             time.sleep(0.05)
             cv.delete("pic") 
+    #监听按键
+    def type_event(event):
+        print (event.char)
     #定义这个方法通知计分板类
     def notify(self):
         pass
@@ -45,12 +48,11 @@ if __name__ == '__main__':
     root = Tk()
     wd = 800
     hg = 600
-    canvas = Canvas(width = wd,height=hg,bg='white')
+    canvas = Canvas(root,width = wd,height=hg,bg='white')
     canvas.pack()
-    alphabet = 'A'
-    typeA = fallChar(alphabet,2)
-    typeA.motion(canvas,wd,hg)
-    canvas.bind("<Key>",)
+    alphabet = 'a'
+    typeA = fallChar(alphabet,2,wd,hg)
+    typeA.motion(canvas)
     root.mainloop()
 
 
