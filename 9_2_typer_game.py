@@ -4,7 +4,7 @@
 from tkinter import *
 import random
 import time
-class fallChar(object):
+class Alphabet(object):
     '''
         把下落的字符设计成类，相关属性和操作都放在这里
     '''
@@ -17,26 +17,32 @@ class fallChar(object):
         self.max_x = width
         self.max_y = height
         self.x = random.randint(0,self.max_x-50)
+        self.y = 0
     #这个方法控制字符运动状态
     def motion(self,cv):
         cv.bind("<Key>",self.type_event)
-        for startY in range(0,self.max_y+self.speed,self.speed) :
-            cv.create_image(self.x,startY,image=self.bg,tag='pic')
+        for md in range(0,self.max_y+self.speed,self.speed) :
+            self.y = md
+            cv.create_image(self.x,self.y,image=self.bg,tag='pic')
             cv.update()
             time.sleep(0.05)
-            if startY+self.speed >= self.max_y:
+            if self.speed ==-2:break
+            if self.y+self.speed >= self.max_y:
                 self.speed = -2
-                print (startY,self.speed)
                 break
             cv.delete("pic")
-        for startY in range(self.max_y,0,self.speed):
-            cv.create_image(self.x,startY,image=self.bg,tag='pic')
+        for mu in range(self.y,0,self.speed):
+            self.y = mu
+            self.bg = PhotoImage(file='type_game_bg/balloon.gif')
+            cv.create_image(self.x,self.y,image=self.bg,tag='pic')
             cv.update()
             time.sleep(0.05)
             cv.delete("pic") 
     #监听按键
-    def type_event(event):
+    def type_event(self,event):
         print (event.char)
+        for i in falling:
+            if event.char == i.alphabet:i.speed = -2
     #定义这个方法通知计分板类
     def notify(self):
         pass
@@ -49,9 +55,13 @@ if __name__ == '__main__':
     wd = 800
     hg = 600
     canvas = Canvas(root,width = wd,height=hg,bg='white')
+    canvas.focus_set()
+    canvas.bind('<Key>',Alphabet.type_event)
     canvas.pack()
+    falling = []
     alphabet = 'a'
-    typeA = fallChar(alphabet,2,wd,hg)
+    typeA = Alphabet(alphabet,2,wd,hg)
+    falling.append(typeA)
     typeA.motion(canvas)
     root.mainloop()
 
