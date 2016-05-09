@@ -11,7 +11,7 @@ class Alphabet(object):
     #构造方法初始化位置属性，包含字符图片，初始位置
     def __init__(self,alphabet,speed,width,height):
         self.alphabet = alphabet
-        self.bg_path = 'type_game_bg/%s.gif' % alphabet
+        self.bg_path = 'type_game_bg/%s.jgp' % alphabet
         self.speed = speed
         self.bg = PhotoImage(file=self.bg_path)
         self.max_x = width
@@ -58,6 +58,7 @@ if __name__ == '__main__':
     canvas.focus_set()
     canvas.bind('<Key>',Alphabet.type_event)
     canvas.pack()
+    waiting = [a,b,c,d,e,f,g,h,i,j,k]
     falling = []
     alphabet = 'a'
     typeA = Alphabet(alphabet,2,wd,hg)
