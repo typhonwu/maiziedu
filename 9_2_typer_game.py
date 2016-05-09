@@ -16,7 +16,7 @@ class Alphabet(object):
         self.x = random.randint(0,width-50)
         self.y = 0
         self.speed = speed
-    #这个方法控制字符运动状态,类方法，里面用一个列表同时控制多个字母运动情况,每个类都有自己的速度，速度是稳定的。
+    #这个方法控制字符运动状态,类方法，里面用列表同时控制多个字母运动情况,每个类都有自己的速度，速度是稳定的。
     @staticmethod
     def motion(cv,width,height,speed):
         time.sleep(0.05)
@@ -24,18 +24,19 @@ class Alphabet(object):
             falling.y += falling.speed            
             falling_tag = 'falling'+str(fallings.index(falling))
             cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
-           # cv.update()
-           # cv.delete(falling_tag)
+            cv.update()
             if falling.y+falling.speed >= height:
+                missings.append(falling)
                 fallings.remove(falling)
         for flowing in flowings:
             flowing.y += flowing.speed
             flowing.bg = PhotoImage(file='type_game_bg/balloon.gif')
             flowing_tag = 'flow'+str(flowings.index(flowing))
             cv.create_image(flowing.x,flowing.y,image=flowing.bg,tag=flowing_tag)
-           # cv.update()
-           # cv.delete(flowing_tag) 
+            cv.update()
             if flowing.y <= 0 : flowings.remove(flowing)
+        for missing in missings:
+            cv.create_image(missing.x,height-25,image=missing.bg)
     #监听按键
     @staticmethod
     def type_event(event):
@@ -57,19 +58,21 @@ if __name__ == '__main__':
     wd = 800
     hg = 600
     max = 4
+    speed = 4
     canvas = Canvas(root,width = wd,height=hg,bg='white')
     canvas.focus_set()
     canvas.bind('<Key>',Alphabet.type_event)
     canvas.pack()
     fallings = [] #正在下落的字母列表
     flowings = [] #被击中之后上升的字母列表
+    missings = [] #没有击中之后停在最下方
     alphabets = ['a','b','c','d','e','f','g']
     while True:
-        Alphabet.motion(canvas,wd,hg,2)
-        canvas.update()
+        Alphabet.motion(canvas,wd,hg,speed)
+       # canvas.update()
         while len(fallings) < max:
             select = alphabets[random.randint(0,len(alphabets)-1)] 
-            fallings.append(Alphabet(select,wd,2))
+            fallings.append(Alphabet(select,wd,speed))
     root.mainloop()
 
 
