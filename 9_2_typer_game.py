@@ -9,20 +9,31 @@ class fallChar(object):
         把下落的字符设计成类，相关属性和操作都放在这里
     '''
     #构造方法初始化位置属性，包含字符图片，初始位置
-    def __init__(self,alphabet):
+    def __init__(self,alphabet,speed):
         self.alphabet = alphabet
         self.bg_path = 'type_game_bg/%s.gif' % alphabet
+        self.speed = speed
         self.bg = PhotoImage(file=self.bg_path)
     #这个方法控制字符运动状态
-    def motion(self,cv,speed,width,height):
+    def motion(self,cv,width,height):
         startY = 0
         startX = random.randint(60,width-60)
-        while startY < height-50:
-            startY += speed
+        for startY in range(0,height+self.speed,self.speed) :
+            if startY+self.speed >= height:
+                cv.create_image(startX,startY,image=self.bg,tag='pic')
+                cv.update()
+                self.speed = -2
+                print (startY,self.speed)
+                break
             cv.create_image(startX,startY,image=self.bg,tag='pic')
             cv.update()
             time.sleep(0.05)
             cv.delete("pic")
+        for startY in range(height,0,self.speed):
+            cv.create_image(startX,startY,image=self.bg,tag='pic')
+            cv.update()
+            time.sleep(0.05)
+            cv.delete("pic") 
     #定义这个方法通知计分板类
     def notify(self):
         pass
@@ -37,8 +48,8 @@ if __name__ == '__main__':
     canvas = Canvas(width = wd,height=hg,bg='white')
     canvas.pack()
     alphabet = 'A'
-    typeA = fallChar(alphabet)
-    typeA.motion(canvas,2,wd,hg)
+    typeA = fallChar(alphabet,2)
+    typeA.motion(canvas,wd,hg)
     canvas.bind("<Key>",)
     root.mainloop()
 
