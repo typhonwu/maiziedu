@@ -19,11 +19,10 @@ class Alphabet(object):
     #这个方法控制字符运动状态,类方法，里面用列表同时控制多个字母运动情况,每个类都有自己的速度，速度是稳定的。
     @staticmethod
     def motion(cv,width,height,speed):
-        time.sleep(0.05)
+        time.sleep(0.025)
         for falling in fallings:
-            falling.y += falling.speed            
-            falling_tag = 'falling'+str(fallings.index(falling))
-            cv.create_image(falling.x,falling.y,image=falling.bg,tag = falling_tag)
+            falling.y += falling.speed
+            cv.create_image(falling.x,falling.y,image=falling.bg)
             cv.update()
             if falling.y+falling.speed >= height:
                 missings.append(falling)
@@ -31,12 +30,12 @@ class Alphabet(object):
         for flowing in flowings:
             flowing.y += flowing.speed
             flowing.bg = PhotoImage(file='type_game_bg/balloon.gif')
-            flowing_tag = 'flow'+str(flowings.index(flowing))
-            cv.create_image(flowing.x,flowing.y,image=flowing.bg,tag=flowing_tag)
+            cv.create_image(flowing.x,flowing.y,image=flowing.bg)
             cv.update()
             if flowing.y <= 0 : flowings.remove(flowing)
         for missing in missings:
             cv.create_image(missing.x,height-25,image=missing.bg)
+            cv.update()
     #监听按键
     @staticmethod
     def type_event(event):
@@ -48,10 +47,6 @@ class Alphabet(object):
                 fallings.remove(falling)
     #定义这个方法通知计分板类
     def notify(self):
-        pass
-class scoreboard(object):
-    #这个方法用于改变分数以及升级
-    def score(self):
         pass
 if __name__ == '__main__':
     root = Tk()
