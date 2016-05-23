@@ -10,12 +10,12 @@
 from django.db import models
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=30)
-    address = models.CharField(max_length=50)
-    city = models.CharField(max_length=60)
-    state_province = models.CharField(max_length=30)
-    country = models.CharField(max_length=50)
-    website = models.URLField()
+    name = models.CharField(max_length=30,verbose_name="名称")
+    address = models.CharField(max_length=50,verbose_name="地址")
+    city = models.CharField(max_length=60,verbose_name="城市")
+    state_province = models.CharField(max_length=30,verbose_name="省份")
+    country = models.CharField(max_length=50,verbose_name="国家")
+    website = models.URLField(verbose_name="网址")
 
     class Meta:
         verbose_name = '出版商'
@@ -24,7 +24,7 @@ class Publisher(models.Model):
     def __str__(self):
         return self.name
 class Author(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,verbose_name="姓名")
 
     class Meta:
         verbose_name = '作者'
@@ -33,11 +33,12 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 class AuthorDetail(models.Model):
-    sex = models.BooleanField(max_length=1, choices=((0, '男'),(1, '女'),))
-    email = models.EmailField()
-    address = models.CharField(max_length=50)
-    birthday = models.DateField()
-    author = models.OneToOneField(Author)
+    sex = models.BooleanField(max_length=1, choices=((0, '男'),(1,
+                                                                 '女'),),verbose_name="性别")
+    email = models.EmailField(verbose_name="邮箱")
+    address = models.CharField(max_length=50,verbose_name="地址")
+    birthday = models.DateField(verbose_name="生日")
+    author = models.OneToOneField(Author,verbose_name="作者")
 
     class Meta:
         verbose_name = '作者细节'
@@ -46,10 +47,10 @@ class AuthorDetail(models.Model):
         return self.author+'详情'
 
 class Book(models.Model):
-    title = models.CharField(max_length=100)
-    authors = models.ManyToManyField(Author)
-    publisher = models.ForeignKey(Publisher)
-    publication_date = models.DateField()
+    title = models.CharField(max_length=100,verbose_name="书名")
+    authors = models.ManyToManyField(Author,verbose_name="作者")
+    publisher = models.ForeignKey(Publisher,verbose_name="出版社")
+    publication_date = models.DateField(verbose_name="出版日期")
 
     class Meta:
         verbose_name = '书籍'
