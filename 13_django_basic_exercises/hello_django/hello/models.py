@@ -20,13 +20,18 @@ class Publisher(models.Model):
     class Meta:
         verbose_name = '出版商'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
 class Author(models.Model):
     name = models.CharField(max_length=30)
 
     class Meta:
         verbose_name = '作者'
         verbose_name_plural = verbose_name
-
+    
+    def __str__(self):
+        return self.name
 class AuthorDetail(models.Model):
     sex = models.BooleanField(max_length=1, choices=((0, '男'),(1, '女'),))
     email = models.EmailField()
@@ -37,6 +42,8 @@ class AuthorDetail(models.Model):
     class Meta:
         verbose_name = '作者细节'
         verbose_name_plural = verbose_name
+    def __str__(self):
+        return self.author+'详情'
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
@@ -47,3 +54,6 @@ class Book(models.Model):
     class Meta:
         verbose_name = '书籍'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
