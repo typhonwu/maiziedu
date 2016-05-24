@@ -25,12 +25,12 @@
 			</form>
 			<ol class="list-group list_of_items">
 				{% for item in item_list %}
-				<li class="list-group-item">
+				<li id="{{ item.id }}" class="list-group-item">
 					<div class="text_holder">
 						{{ item.content }} - {{ item.pub_date|date:"Y-m-d H:i:s" }}
 						<div class="btn-group pull-right">
 							<button class="delete btn btn-warning">Delete</button>
-							<button class="edit btn btn-success">Edit</button>
+							<button class="edit btn btn-success" onclick="edit('{{ item.id }}')">Edit</button>
 						</div>
 					</div>
 					<div class="checkbox">
@@ -49,6 +49,15 @@
 				{% endif %}
 			</div>
 		</div>
+		<script>
+			function edit(item_id){
+				$("#"+item_id).append('<form action="/edit/" class="edit_input_box">'+
+        '<input type="hidden" size="50" name="item_id" class="itembox" value="'+item_id+'">'+
+        '<input type="text" size="50" name="item" class="itembox">'+
+		'<input type="submit" value="submit" class="edit btn btn-success">'+
+	'</form>');
+			}
+		</script>
 	</body>
 
 </html>
