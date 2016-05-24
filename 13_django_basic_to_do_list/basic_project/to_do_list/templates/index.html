@@ -24,9 +24,10 @@
 </label>
 			</form>
 			<ol class="list-group list_of_items">
-				<li class="list-group-item completed_item">
+				{% for item in item_list %}
+				<li class="list-group-item">
 					<div class="text_holder">
-						reerytre
+						{{ item.content }} - {{ item.pub_date|date:"Y-m-d H:i:s" }}
 						<div class="btn-group pull-right">
 							<button class="delete btn btn-warning">Delete</button>
 							<button class="edit btn btn-success">Edit</button>
@@ -36,6 +37,7 @@
 						<label><input type="checkbox" class="pull-right"></label>
 					</div>
 				</li>
+				{% endfor %}
 			</ol>
 		</div>
 	</body>
