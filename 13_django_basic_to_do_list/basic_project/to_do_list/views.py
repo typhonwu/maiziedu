@@ -4,7 +4,11 @@ from to_do_list.models import Item
 # Create your views here.
 #待办事项列表
 def index(request):
-	return render(request,'index.html',locals())
+    try:
+        item_list = Item.objects.all().order_by("-pub_date")
+    except Exception as e:
+        print (e)
+    return render(request,'index.html',locals())
 #添加待办事项,需要对列表进行分页
 def add(request):
     try:
