@@ -18,5 +18,5 @@ from django.contrib import admin
 from to_do_list import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^to_do_list/$',views.hello,name='to_do_list')
+    url(r'^to_do_list/$',views.index,name='index')
 ]
