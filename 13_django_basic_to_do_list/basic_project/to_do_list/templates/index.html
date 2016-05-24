@@ -39,6 +39,15 @@
 				</li>
 				{% endfor %}
 			</ol>
+			<div style="float:right;">
+				{% if item_list.has_previous %}
+				<a href="?page={{ item_list.previous_page_number }}">上一页</a>&nbsp;
+				{% endif %}
+				第{{ item_list.number }}页/总共{{ item_list.paginator.num_pages }}页&nbsp;
+				{% if item_list.has_next %}
+				<a href="?page={{ item_list.next_page_number }}">下一页</a>&nbsp;
+				{% endif %}
+			</div>
 		</div>
 	</body>
 

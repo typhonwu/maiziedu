@@ -1,11 +1,20 @@
 # coding:utf-8
 from django.shortcuts import render,redirect,resolve_url
 from to_do_list.models import Item
+from django.core.paginator import Paginator,PageNotAnInteger,InvalidPage,EmptyPage
 # Create your views here.
 #待办事项列表
 def index(request):
     try:
         item_list = Item.objects.all().order_by("-pub_date")
+        paginator = Paginator(item_list,5)
+        try:
+            #获取页码并显示
+            page = int(request.GET.get("page",1))
+            item_list = paginator.page(page)
+        #获取页码出错时直接显示第一页
+        except (PageNotAnInteger,InvalidPage,EmptyPage):
+            item_list = paginator.page(1)
     except Exception as e:
         print (e)
     return render(request,'index.html',locals())
