@@ -1,5 +1,5 @@
 # coding:utf-8
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,resolve_url
 from to_do_list.models import Item
 # Create your views here.
 #待办事项列表
@@ -14,7 +14,7 @@ def add(request):
             obj = Item.objects.create(content = content)
             #保存成功后再次跳转回待办事项列表
             if obj:
-                return redirect("/index/")
+                return redirect(resolve_url("index"))
     except Exception as e:
         print (e)
     #如果保存失败则跳转到提示消息页面
