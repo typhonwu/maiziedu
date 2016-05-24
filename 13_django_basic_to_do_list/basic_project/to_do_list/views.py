@@ -34,7 +34,17 @@ def add(request):
     return render(request,"message.html",{"message":u"待办事项添加失败"})
 #修改待办事项
 def edit(request):
-    pass
+    try:
+        item_id = request.GET.get("item_id",None)
+        content = request.GET.get("item",None)
+        if len(item_id) > 0 and len(content) > 0 :
+            obj = Item.objects.get(pk=item_id)
+            obj.content = content
+            obj.save()
+        return redirect("/index/")
+    except Exception as e:
+        print (e)
+    return render(request,"message.html",{"message":u"待办事项修改失败"})
 #删除待办事项
 def delete(request):
     pass
