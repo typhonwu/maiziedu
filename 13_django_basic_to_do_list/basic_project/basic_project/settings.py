@@ -56,7 +56,7 @@ ROOT_URLCONF = 'basic_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,12 +75,15 @@ WSGI_APPLICATION = 'basic_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#配置mysql数据库，开发环境可以用root用户名，生产环境不要这样
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'to_do_list',
         'USER':'root',
         'PASSWORD':'123456',
+        'HOST':'localhost',
+        'PORT':'3306',#mysql默认端口就是3306
     }
 }
 
@@ -122,7 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
+#配置静态文件目录
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
 #配置日志系统，将sql显示到控制台
 LOGGING = {
     'version': 1,
