@@ -1,13 +1,24 @@
 # coding:utf-8
-from django.shortcuts import render
-
+from django.shortcuts import render,redirect
+from to_do_list.models import Item
 # Create your views here.
 #待办事项列表
 def index(request):
 	return render(request,'index.html',locals())
 #添加待办事项,需要对列表进行分页
 def add(request):
-    pass
+    try:
+        content = request.GET.get("item",None)
+        #有输入时才处理
+        if len(content) > 0:
+            obj = Item.objects.create(content = content)
+            #保存成功后再次跳转回待办事项列表
+            if obj:
+                return redirect("/index/")
+    except Exception as e:
+        print (e)
+    #如果保存失败则跳转到提示消息页面
+    return render(request,"message.html",{"message":u"待办事项添加失败"})
 #修改待办事项
 def edit(request):
     pass

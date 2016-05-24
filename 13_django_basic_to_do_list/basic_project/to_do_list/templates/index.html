@@ -16,9 +16,9 @@
 <body>
 <div class="container" id="main">
 <h1>ToDoList</h1>
-<form role="form" id="main_input_box">
+<form role="form" action={%  url 'add' %} id="main_input_box">
 <label>
-<input type="text" class="form-control" id="custom_textbox" name="Item" placeholder="还有什么事情需要做?">
+<input type="text" class="form-control" id="custom_textbox" name="item" placeholder="还有什么事情需要做?">
 <input type="submit" value="Add" class="btn btn-primary add_button">
 </label>
 </form>

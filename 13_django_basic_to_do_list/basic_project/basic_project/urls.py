@@ -18,7 +18,7 @@ from django.contrib import admin
 from to_do_list import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^to_do_list/$',views.index,name='index'),
+    url(r'^index/$',views.index,name='index'),
     url(r'^add/$',views.add,name='add'),
     url(r'^delete/$',views.delete,name='delete'),
     url(r'^edit/$',views.edit,name='edit'),
