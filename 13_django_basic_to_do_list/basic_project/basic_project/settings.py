@@ -123,7 +123,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+# 和模板文件中的对应，你可以写成{% static '下级路径'
+# %},也可以写成/static/下级路径
 STATIC_URL = '/static/'
 #配置静态文件目录
 STATICFILES_DIRS = (
