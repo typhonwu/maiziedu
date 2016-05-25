@@ -29,7 +29,7 @@
 					<div class="text_holder">
 						{{ item.content }} - {{ item.pub_date|date:"Y-m-d H:i:s" }}
 						<div class="btn-group pull-right">
-							<button class="delete btn btn-warning">Delete</button>
+							<a class="delete btn btn-warning" href="/delete/?item_id={{ item.id }}">Delete</a>
 							<button class="edit btn btn-success" onclick="edit('{{ item.id }}')">Edit</button>
 						</div>
 					</div>

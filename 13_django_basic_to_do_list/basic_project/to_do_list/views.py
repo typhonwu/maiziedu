@@ -47,7 +47,16 @@ def edit(request):
     return render(request,"message.html",{"message":u"待办事项修改失败"})
 #删除待办事项
 def delete(request):
-    pass
-#标记事项完成
+    try:
+        item_id = request.GET.get("item_id",None)
+        #查找到才处理
+        if len(item_id) > 0:
+            obj = Item.objects.get(pk = item_id)
+            obj.delete()
+        #跳转回待办事项列表
+        return redirect(resolve_url("index"))
+    except Exception as e:
+        print (e)
+    return render(request,"message.html",{"message":u"待办事项删除失败"})
 def done(request):
     pass
