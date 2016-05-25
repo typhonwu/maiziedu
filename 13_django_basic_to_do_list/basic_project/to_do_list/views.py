@@ -2,7 +2,7 @@
 from django.shortcuts import render,redirect,resolve_url
 from to_do_list.models import Item
 from django.core.paginator import Paginator,PageNotAnInteger,InvalidPage,EmptyPage
-# Create your views here.
+# Create your views here
 #待办事项列表
 def index(request):
     try:
@@ -37,13 +37,14 @@ def add(request):
 #修改待办事项
 def edit(request):
     try:
+        page = request.GET.get("page",None)
         item_id = request.GET.get("item_id",None)
-        content = request.GET.get("item",None)
+        content = request.GET.get("content",None)
         if len(item_id) > 0 and len(content) > 0 :
             obj = Item.objects.get(pk=item_id)
             obj.content = content
             obj.save()
-        return redirect("/index/")
+        return redirect("/index/?page="+page)
     except Exception as e:
         print (e)
     return render(request,"message.html",{"message":u"待办事项修改失败"})
@@ -56,7 +57,9 @@ def delete(request):
             obj = Item.objects.get(pk = item_id)
             obj.delete()
         #跳转回待办事项列表
-        return redirect(resolve_url("index"))
+        page = request.GET.get("page",1)
+        print (type(page))
+        return redirect(resolve_url("index")+"?page="+page)
     except Exception as e:
         print (e)
     return render(request,"message.html",{"message":u"待办事项删除失败"})
@@ -67,7 +70,8 @@ def done(request):
             obj = Item.objects.get(pk = item_id)
             obj.is_done = False if obj.is_done else True
             obj.save()
-        return redirect(resolve_url("index"))
+        page = request.GET.get("page",1)
+        return redirect(resolve_url("index")+"?page="+page)
     except Exception as e:
         print (e)
     return render(request,"message.html",{"message":u"待办事项状态修改失败"})
