@@ -59,4 +59,16 @@ def delete(request):
         print (e)
     return render(request,"message.html",{"message":u"待办事项删除失败"})
 def done(request):
-    pass
+    try:
+        item_id = request.GET.get("item_id",None)
+        if len(item_id) > 0:
+            obj = Item.objects.get(pk = item_id)
+            if obj.is_done:
+                obj.is_done = False
+            else:
+                obj.is_done = True
+            obj.save()
+        return redirect(resolve_url("index"))
+    except Exception as e:
+        print (e)
+    return render(request,"message.html",{"message":u"待办事项状态修改失败"})
