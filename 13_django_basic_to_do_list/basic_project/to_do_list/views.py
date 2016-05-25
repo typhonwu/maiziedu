@@ -7,8 +7,8 @@ from django.core.paginator import Paginator,PageNotAnInteger,InvalidPage,EmptyPa
 def index(request):
     try:
         item_list = Item.objects.all().order_by("-pub_date")
-        #把查询的结果每五条一页分页
-        paginator = Paginator(item_list,5)
+        #把查询的结果每三条一页分页
+        paginator = Paginator(item_list,3)
         try:
             #获取页码,如果没取到就默认第一页
             page = int(request.GET.get("page",1))
