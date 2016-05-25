@@ -63,10 +63,7 @@ def done(request):
         item_id = request.GET.get("item_id",None)
         if len(item_id) > 0:
             obj = Item.objects.get(pk = item_id)
-            if obj.is_done:
-                obj.is_done = False
-            else:
-                obj.is_done = True
+            obj.is_done = False if obj.is_done else True
             obj.save()
         return redirect(resolve_url("index"))
     except Exception as e:
