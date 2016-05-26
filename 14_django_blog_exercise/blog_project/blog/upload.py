@@ -10,11 +10,13 @@ import datetime as dt
 @csrf_exempt
 def upload_image(request, dir_name):
     ##################
+    # 这是kindeditor想要的格式
     #  kindeditor图片上传返回数据格式说明：
     # {"error": 1, "message": "出错信息"}
     # {"error": 0, "url": "图片地址"}
     ##################
     result = {"error": 1, "message": "上传出错"}
+    #imgFile来自于富文本编辑器查看源码之后找到的它定义的文件名字
     files = request.FILES.get("imgFile", None)
     if files:
         result =image_upload(files, dir_name)
@@ -42,5 +44,6 @@ def image_upload(files, dir_name):
     file_name=str(uuid.uuid1())+"."+file_suffix
     path_file=os.path.join(path, file_name)
     file_url = settings.MEDIA_URL + relative_path_file + file_name
+    #写入操作，二进制形式，最终完成上传，真正保存图片
     open(path_file, 'wb').write(files.file.read())
     return {"error": 0, "url": file_url}
