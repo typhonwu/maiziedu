@@ -16,7 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from blog import views
+from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$',views.index,name='index')
+    url(r'^$',views.index,name='index'),
+    #配置用于处理图片上传的url映射
+    url(r"^uploads/(?P<path>.*)$", \
+                        #django.views.static.serve专门用于处理静态文件
+                        "django.views.static.serve", \
+                        #这里用到了settings中配置好的路径MEDIA_ROOT
+                        {"document_root": settings.MEDIA_ROOT,}),
 ]
