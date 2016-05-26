@@ -14,3 +14,18 @@ class Tag(models.Model):
     def __str__(self):
     	#必须返回字符串类型，str(self.id)
         return self.name
+
+# 文章分类
+class Category(models.Model):
+    name = models.CharField(max_length=30, verbose_name='分类名称')
+    #排序属性
+    index = models.IntegerField('显示顺序(从小到大)',default=999,verbose_name='分类的排序')
+
+    class Meta:
+        verbose_name = '分类'
+        verbose_name_plural = verbose_name
+        #按照index和id属性排序
+        ordering = ['index', 'id']
+
+    def __unicode__(self):
+        return self.name
