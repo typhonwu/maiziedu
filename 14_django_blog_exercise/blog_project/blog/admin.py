@@ -25,6 +25,17 @@ class ArticleAdmin(admin.ModelAdmin):
 	list_editable = ('click_count',)
 	#定义可以按照哪些字段分列
 	list_filter = ('title','desc','click_count',)
+
+	#引入富文本编辑器的类
+	class Media:
+		js = (
+			#核心文件
+			'/static/js/kindeditor-4.1.10/kindeditor-min.js',
+			#引入中文语言文件
+			'/static/js/kindeditor-4.1.10/lang/zh_CN.js',
+			#引入配置文件
+			'/static/js/kindeditor-4.1.10/config.js',
+		)
 admin.site.register(User)
 admin.site.register(Tag)
 #改成自定义形式注册
