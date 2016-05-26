@@ -87,3 +87,19 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return str(self.id)
+
+# 友情链接
+class Links(models.Model):
+    title = models.CharField(max_length=50, verbose_name='标题')
+    description = models.CharField(max_length=200, verbose_name='友情链接描述')
+    callback_url = models.URLField(verbose_name='url地址')
+    date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
+    index = models.IntegerField(default=999, verbose_name='排列顺序(从小到大)')
+
+    class Meta:
+        verbose_name = '友情链接'
+        verbose_name_plural = verbose_name
+        ordering = ['index', 'id']
+
+    def __unicode__(self):
+        return self.title
