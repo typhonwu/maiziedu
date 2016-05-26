@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.views.global_setting'
             ],
         },
     },
@@ -127,6 +128,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'static'),
 )
+
+#网站的基本信息配置
+SITE_NAME = '礁石的个人博客'
+SITE_DESC = '专注Python开发，欢迎和大家交流'
+WEIBO = 'http://weibo.com/holdhiitfitness/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1'
+WEIBO_TENCENT = 'http://weibo.com/holdhiitfitness/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1'
+PRO_RSS = 'http://www.abroadrecommend.com'
+PRO_EMAIL = 'johnson_hugh@163.com'
 
 
 # 自定义日志输出信息
