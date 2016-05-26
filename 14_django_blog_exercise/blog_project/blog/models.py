@@ -61,6 +61,7 @@ class Article(models.Model):
     user = models.ForeignKey(User, verbose_name='用户')
     #外键
     category = models.ForeignKey(Category, blank=True, null=True, verbose_name='分类')
+    #多对多关系将会自动多生成一张表，blog_article_tag
     tag = models.ManyToManyField(Tag, verbose_name='标签')
 
     class Meta:
