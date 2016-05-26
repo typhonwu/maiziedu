@@ -6,7 +6,7 @@ import os
 import uuid
 import json
 import datetime as dt
-
+#这个装饰器用于不再进行表单验证提交
 @csrf_exempt
 def upload_image(request, dir_name):
     ##################

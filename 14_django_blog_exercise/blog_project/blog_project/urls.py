@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from blog import views
 from django.conf import settings
+from blog.upload import upload_image
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.index,name='index'),
@@ -26,4 +27,7 @@ urlpatterns = [
                         "django.views.static.serve", \
                         #这里用到了settings中配置好的路径MEDIA_ROOT
                         {"document_root": settings.MEDIA_ROOT,}),
+    #用于映射富文本编辑器的图片上传
+    url(r'^admin/upload/(?P<dir_name>[^/]+)$', upload_image,\
+        name='upload_image'),
 ]
