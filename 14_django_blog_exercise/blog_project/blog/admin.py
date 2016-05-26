@@ -3,7 +3,7 @@ from blog.models import *
 # Register your models here.
 class ArticleAdmin(admin.ModelAdmin):
 	#决定后台只显示哪些字段
-	fields = ('title','desc','content',)
+	exclude = ('title','desc','content',)
 
 admin.site.register(User)
 admin.site.register(Tag)
