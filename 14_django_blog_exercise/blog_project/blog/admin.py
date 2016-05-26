@@ -7,7 +7,7 @@ class ArticleAdmin(admin.ModelAdmin):
 	fieldsets = (
 		#这些展开
 		(None, {
-				'fields': ('title','desc','content',)
+				'fields': ('title','desc','content','user',)
 			}
 		),
 		#这些默认合并
@@ -17,7 +17,14 @@ class ArticleAdmin(admin.ModelAdmin):
 			}
 		),
 	)
-
+	#定义显示已保存文章的哪些字段
+	list_display = ('title','desc','click_count',)
+	#定义是否显示链接
+	list_display_links = ('title','desc',)
+	#设置哪些字段可以直接编辑
+	list_editable = ('click_count',)
+	#定义可以按照哪些字段分列
+	list_filter = ('title','desc','click_count',)
 admin.site.register(User)
 admin.site.register(Tag)
 #改成自定义形式注册
