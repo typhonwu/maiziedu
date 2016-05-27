@@ -13,7 +13,10 @@ def global_setting(request):
 #定义首页方法
 def index(request):
     try:
+        #分类信息获取（导航数据）
         category_list = Category.objects.all()
+        #广告数据
+        #最新文章数据
     except Exception as e:
         #如果出现异常就写入日志
         logger.error(e)

@@ -28,7 +28,7 @@ class Category(models.Model):
 		#按照index和id属性排序
 		ordering = ['index', 'id']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 # 用户模型
@@ -48,7 +48,7 @@ class User(AbstractUser):
 		verbose_name_plural = verbose_name
 		ordering = ['-id']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.username
 
 # 文章模型
@@ -70,7 +70,7 @@ class Article(models.Model):
 		verbose_name_plural = verbose_name
 		ordering = ['-date_publish']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 # 评论模型
@@ -87,7 +87,7 @@ class Comment(models.Model):
 		#按发布日期倒序排列
 		ordering = ['-date_publish']
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.id)
 
 # 友情链接
@@ -103,7 +103,7 @@ class Links(models.Model):
 		verbose_name_plural = verbose_name
 		ordering = ['index', 'id']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 # 广告
@@ -120,5 +120,5 @@ class Ad(models.Model):
 		verbose_name_plural = verbose_name
 		ordering = ['index', 'id']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
