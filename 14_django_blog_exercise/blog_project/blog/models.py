@@ -60,7 +60,7 @@ class ArticleManager(models.Manager):
 		date_list = self.values('date_publish')
 		for date in date_list:
 			#取出的日期先转换格式
-			date['date_publish'].strftime('%Y/%m文档存档')
+			date = date['date_publish'].strftime('%Y/%m文档存档')
 			if date not in distinct_date_list:
 				distinct_date_list.append(date)
 		return distinct_date_list
