@@ -29,6 +29,8 @@ def index(request):
         except (EmptyPage,InvalidPage,PageNotAnInteger):
             #如果出错默认返回第一页
             article_list = paginator.page(1)
+        #添加归档方法
+        archive_list = Article.objects.distinct_date()
     except Exception as e:
         #如果出现异常就写入日志
         logger.error(e)
