@@ -103,7 +103,7 @@ class Comment(models.Model):
 		ordering = ['-date_publish']
 
 	def __str__(self):
-		return str(self.id)
+		return str(self.content)
 
 # 友情链接
 class Links(models.Model):

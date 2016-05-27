@@ -22,6 +22,7 @@ def global_setting(request):
     click_article_list = article_list.order_by('click_count')
     #文章排行榜数据-按评论排序
     #文章排行榜数据-只选推荐的
+    recommend_article_list = Article.objects.filter(is_recommend = True)
     return {'SITE_NAME':settings.SITE_NAME,
             'SITE_DESC':settings.SITE_DESC,
             'category_list':category_list,
@@ -31,6 +32,7 @@ def global_setting(request):
             'link_list':link_list,
             'article_list':article_list,
             'click_article_list':click_article_list,
+            'recommend_article_list':recommend_article_list,
            }
 # Create your views here.
 #定义首页方法
