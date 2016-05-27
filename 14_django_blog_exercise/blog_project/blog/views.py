@@ -37,7 +37,21 @@ def index(request):
     return render(request,'index.html',locals())
 def archive(request):
     try:
-        pass
+        category_list = Category.objects.all()
+        ad_list = Ad.objects.all()[:5]
+        archive_list = Article.objects.distinct_date()
+        #先获取客户端提交的信息
+        year = request.GET.get('year',None)
+        month = request.GET.get('month',None)
+        #同样的文章分页,但是用到filter()做模糊查询
+        article_list = Article.objects.filter\
+        (date_publish__icontains = year+'-'+month)
+        paginator = Paginator(article_list,10)
+        try:
+            page = int(request.GET.get('page',1))
+            article_list = paginator.page(page)
+        except (EmptyPage,InvalidPage,PageNotAnInteger):
+            article_list = paginator.page(1)
     except Exception as e:
         logger.error(e)
     return render(request,'archive.html',locals())
