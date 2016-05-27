@@ -16,8 +16,9 @@ def index(request):
         #分类信息获取（导航数据）
         category_list = Category.objects.all()
         #广告数据
+        ad_list = Ad.objects.all()[:5]
         #最新文章数据
     except Exception as e:
         #如果出现异常就写入日志
         logger.error(e)
-    return render(request,'index.html',{'category_list':category_list})
+    return  render(request,'index.html',{'category_list':category_list,'ad_list':ad_list})
