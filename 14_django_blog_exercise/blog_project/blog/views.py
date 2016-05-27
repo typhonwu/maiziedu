@@ -13,11 +13,15 @@ def global_setting(request):
     category_list = Category.objects.all()
     ad_list = Ad.objects.all()[:5]
     archive_list = Article.objects.distinct_date()
+    article_list = Article.objects.all()
     #标签云数据
     tag_list = Tag.objects.all()
     #友情链接数据
     link_list = Links.objects.all()
-    #文章排行榜数据
+    #文章排行榜数据-按点击排序
+    click_article_list = article_list.order_by('click_count')
+    #文章排行榜数据-按评论排序
+    #文章排行榜数据-只选推荐的
     return {'SITE_NAME':settings.SITE_NAME,
             'SITE_DESC':settings.SITE_DESC,
             'category_list':category_list,
@@ -25,13 +29,14 @@ def global_setting(request):
             'ad_list':ad_list,
             'tag_list':tag_list,
             'link_list':link_list,
+            'article_list':article_list,
+            'click_article_list':click_article_list,
            }
 # Create your views here.
 #定义首页方法
 def index(request):
     try:
         #最新文章数据
-        article_list = Article.objects.all()
         paginator = Paginator(article_list,10)
         try:
             #获取请求中的页面，默认为1
