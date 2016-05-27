@@ -14,6 +14,7 @@ def global_setting(request):
     ad_list = Ad.objects.all()[:5]
     archive_list = Article.objects.distinct_date()
     #标签云数据
+    tag_list = Tag.objects.all()
     #友情链接数据
     #文章排行榜数据
     return {'SITE_NAME':settings.SITE_NAME,
@@ -21,6 +22,7 @@ def global_setting(request):
             'category_list':category_list,
             'archive_list':archive_list,
             'ad_list':ad_list,
+            'tag_list':tag_list,
            }
 # Create your views here.
 #定义首页方法
