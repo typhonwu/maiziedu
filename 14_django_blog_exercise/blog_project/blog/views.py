@@ -16,6 +16,7 @@ def global_setting(request):
     #标签云数据
     tag_list = Tag.objects.all()
     #友情链接数据
+    link_list = Links.objects.all()
     #文章排行榜数据
     return {'SITE_NAME':settings.SITE_NAME,
             'SITE_DESC':settings.SITE_DESC,
@@ -23,6 +24,7 @@ def global_setting(request):
             'archive_list':archive_list,
             'ad_list':ad_list,
             'tag_list':tag_list,
+            'link_list':link_list,
            }
 # Create your views here.
 #定义首页方法
