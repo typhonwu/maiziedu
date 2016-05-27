@@ -50,7 +50,20 @@ class User(AbstractUser):
 
 	def __str__(self):
 		return self.username
-
+# 自定义文章管理器
+# 1.新加一个数据处理的方法（这里采用）
+# 2.改变原有的Queryse方法
+class ArticleManager(models.Manager):
+	def distinct_date(self):
+		distinct_date_list = []
+		#取出日期字段
+		date_list = self.values('date_publish')
+		for date in date_list:
+			#取出的日期先转换格式
+			date['date_publish'].strftime('%Y/%m文档存档')
+			if date not in distinct_date_list:
+				distinct_date_list.append(date)
+		return distinct_date_list
 # 文章模型
 class Article(models.Model):
 	title = models.CharField(max_length=50, verbose_name='文章标题')
@@ -64,6 +77,8 @@ class Article(models.Model):
 	category = models.ForeignKey(Category, blank=True, null=True, verbose_name='分类')
 	#多对多关系将会自动多生成一张表，blog_article_tag
 	tag = models.ManyToManyField(Tag, verbose_name='标签')
+	#在文章模型中加入自定义的管理器
+	objects = ArticleManager()
 
 	class Meta:
 		verbose_name = '文章'
