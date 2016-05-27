@@ -30,4 +30,6 @@ urlpatterns = [
     #用于映射富文本编辑器的图片上传
     url(r'^admin/upload/(?P<dir_name>[^/]+)$', upload_image,\
         name='upload_image'),
+    #映射到归档页面
+    url(r'^archive/',views.archive,name='archive'),
 ]

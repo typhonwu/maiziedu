@@ -35,3 +35,10 @@ def index(request):
         #如果出现异常就写入日志
         logger.error(e)
     return render(request,'index.html',locals())
+def archive(request):
+    try:
+        pass
+    except Exception as e:
+        logger.error(e)
+    return render(request,'archive.html',locals())
+
