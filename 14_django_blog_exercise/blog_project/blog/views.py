@@ -32,5 +32,4 @@ def index(request):
     except Exception as e:
         #如果出现异常就写入日志
         logger.error(e)
-    return render(request,'index.html',\
-                  {'category_list':category_list,'ad_list':ad_list,'article_list':article_lit})
+    return render(request,'index.html',locals())
