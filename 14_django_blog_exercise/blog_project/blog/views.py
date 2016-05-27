@@ -60,3 +60,22 @@ def archive(request):
         logger.error(e)
     return render(request,'archive.html',locals())
 
+def tag(request):
+    try:
+        #先获取客户端提交的标签
+        tag = request.GET.get('tag',None)
+        #注意这里tag和article是多对多关系，需要分两步取出标签下的所有文章，要用到_set
+        tag = Tag.objects.get(name = tag)
+        article_list = tag.article_set.all()
+        paginator = Paginator(article_list,10)
+        try:
+            page = int(request.GET.get('page',1))
+            article_list = paginator.page(page)
+        except (EmptyPage,InvalidPage,PageNotAnInteger):
+            article_list = paginator.page(1)
+    except Exception as e:
+        logger.error(e)
+    return render(request,'tag.html',locals())
+
+
+    

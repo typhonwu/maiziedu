@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load staticfiles %} {% block left_content %} {% include 'ad.html' %}
 <div class="topnews">
-	<h2>{{ request.GET.year }}/{{ request.GET.month }}归档文章</h2> 
+	<h2>标签：{{ request.GET.tag }}</h2> 
 	{% for article in article_list %}
 	<div class="blogs">
 		<ul>
