@@ -46,15 +46,7 @@ def global_setting(request):
 #定义首页方法
 def index(request):
     try:
-        #最新文章数据
-        paginator = Paginator(article_list,10)
-        try:
-            #获取请求中的页面，默认为1
-            page = int(request.GET.get('page',1))
-            article_list = paginator.page(page)
-        except (EmptyPage,InvalidPage,PageNotAnInteger):
-            #如果出错默认返回第一页
-            article_list = paginator.page(1)
+        article_list = getPage(article_list)
     except Exception as e:
         #如果出现异常就写入日志
         logger.error(e)
@@ -67,12 +59,7 @@ def archive(request):
         #同样的文章分页,但是用到filter()做模糊查询
         article_list = Article.objects.filter\
         (date_publish__icontains = year+'-'+month)
-        paginator = Paginator(article_list,10)
-        try:
-            page = int(request.GET.get('page',1))
-            article_list = paginator.page(page)
-        except (EmptyPage,InvalidPage,PageNotAnInteger):
-            article_list = paginator.page(1)
+        article_list = getPage(article_list)
     except Exception as e:
         logger.error(e)
     return render(request,'archive.html',locals())
@@ -84,15 +71,18 @@ def tag(request):
         #注意这里tag和article是多对多关系，需要分两步取出标签下的所有文章，要用到_set
         tag = Tag.objects.get(name = tag)
         article_list = tag.article_set.all()
-        paginator = Paginator(article_list,10)
-        try:
-            page = int(request.GET.get('page',1))
-            article_list = paginator.page(page)
-        except (EmptyPage,InvalidPage,PageNotAnInteger):
-            article_list = paginator.page(1)
+        article_list = getPage(article_list)
     except Exception as e:
         logger.error(e)
     return render(request,'tag.html',locals())
 
-
+#重构分页代码
+def getPage(request,article_list):
+    paginator = Paginator(article_list,10)
+    try:
+        page = int(request.GET.get('page',1))
+        article_list = paginator.page(page)
+    except (EmptyPage,InvalidPage,PageNotAnInteger):
+        article_list = paginator.page(1)
+    return article_list 
     

@@ -1,10 +1,10 @@
 from django.conf.urls import url
-from blog.views import index,archive
+from blog.views import *
 
 urlpatterns = [
-    url(r'^$',views.index,name='index'),
+    url(r'^$',index,name='index'),
     #映射到归档页面
-    url(r'^archive/',views.archive,name='archive'),
+    url(r'^archive/',archive,name='archive'),
     #映射到标签页面
-    url(r'^tag/',views.tag,name='tag'),
+    url(r'^tag/',tag,name='tag'),
 ]
