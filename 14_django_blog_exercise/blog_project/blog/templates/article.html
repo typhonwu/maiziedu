@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+<!--需要加载自定义的过滤器-->
 {% load myfilter %}
 {% block left_content %}
     <div class="postdate">
+      <!--这是自定义过滤器，获得大写月份,左边的值会先传给自定义的过滤器，然后经过滤器处理后再返回-->    
       <div class="month">{{ article.date_publish | month_to_upper }}</div>
       <div class="date">{{ article.date_publish | date:'d' }}</div>
     </div>
