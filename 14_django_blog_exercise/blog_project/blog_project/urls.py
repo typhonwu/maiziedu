@@ -15,12 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from blog import views
 from django.conf import settings
 from blog.upload import upload_image
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$',views.index,name='index'),
     #配置用于处理图片上传的url映射
     url(r"^uploads/(?P<path>.*)$", \
                         #django.views.static.serve专门用于处理静态文件
@@ -30,8 +27,6 @@ urlpatterns = [
     #用于映射富文本编辑器的图片上传
     url(r'^admin/upload/(?P<dir_name>[^/]+)$', upload_image,\
         name='upload_image'),
-    #映射到归档页面
-    url(r'^archive/',views.archive,name='archive'),
-    #映射到标签页面
-    url(r'^tag/',views.tag,name='tag'),
+    #重构urls.py，把blog相关url放到blog之下
+    url(r'^',include('blog.urls')),
 ]
