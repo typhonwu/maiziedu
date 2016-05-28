@@ -9,7 +9,7 @@
     <div class="title">
         <h2><a href="" rel="bookmark" title="{{ article.title }}">{{ article.title }}</a></h2>
         <div class="postmeta">
-          <span class="postmeta_author">{{ article.user.username }}</span>
+        <span class="postmeta_author">{{ article.user.username }}</span>
           <span class="postmeta_category"><a href="" rel="category">{{ article.category.name }}</a></span>
           <!--这里使用了date过滤器修改格式-->
           <span class="postmeta_time">{{ article.date_publish | date:'Y-m-d' }}</span>
