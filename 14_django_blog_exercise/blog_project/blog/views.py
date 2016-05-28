@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import pdb
 from django.shortcuts import render
 import logging
 from django.conf import settings
@@ -21,6 +22,12 @@ def global_setting(request):
     #文章排行榜数据-按点击排序
     click_article_list = article_list.order_by('click_count')
     #文章排行榜数据-按评论排序
+    comment_article_list=[]
+    result_list = Comment.objects.with_counts()
+    #pdb.set_trace()
+    for article_id in result_list:
+        article = Article.objects.get(id = article_id)
+        comment_article_list.append(article)
     #文章排行榜数据-只选推荐的
     recommend_article_list = Article.objects.filter(is_recommend = True)
     return {'SITE_NAME':settings.SITE_NAME,
@@ -32,6 +39,7 @@ def global_setting(request):
             'link_list':link_list,
             'article_list':article_list,
             'click_article_list':click_article_list,
+            'comment_article_list':comment_article_list,
             'recommend_article_list':recommend_article_list,
            }
 # Create your views here.

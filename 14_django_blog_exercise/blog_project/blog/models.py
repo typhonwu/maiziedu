@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import pdb
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
@@ -87,14 +88,34 @@ class Article(models.Model):
 
 	def __str__(self):
 		return self.title
-
+# 自定义评论管理器
+# 为了写入原生sql，返回按article分组统计排序的方法
+class CommentManager(models.Manager):
+	def with_counts(self):
+		from django.db import connection
+		cursor = connection.cursor()
+		cursor.execute("""
+			select article_id from blog_comment 
+			group by article_id 
+			order by count(article_id) 
+			desc
+		""")
+		result_list = []
+		#pdb.set_trace()
+		#取出来的是元组类型
+		for row in cursor.fetchall():
+			id = row[0]
+			result_list.append(id)
+		return result_list
 # 评论模型
 class Comment(models.Model):
 	content = models.TextField(verbose_name='评论内容')
 	date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
 	user = models.ForeignKey(User, blank=True, null=True, verbose_name='用户')
-	article = models.ForeignKey(Article, blank=True, null=True, verbose_name='文章')
+	article = models.ForeignKey(Article,related_name="entries", blank=True, null=True, verbose_name='文章')
 	pid = models.ForeignKey('self', blank=True, null=True, verbose_name='父级评论')
+	# 使用自定义的管理器
+	objects = CommentManager()
 
 	class Meta:
 		verbose_name = '评论'
