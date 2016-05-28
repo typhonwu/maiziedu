@@ -178,6 +178,7 @@ def comment_post(request):
 # 注销
 def do_logout(request):
     try:
+        # 直接用django提供的注销功能即可
         logout(request)
     except Exception as e:
         print e
