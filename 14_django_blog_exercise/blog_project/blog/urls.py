@@ -9,4 +9,8 @@ urlpatterns = [
     url(r'^article/$', article, name='article'),
     # 映射到标签页面
     url(r'^tag/', tag, name='tag'),
+    # 登录注册注销
+    url(r'^logout$', do_logout, name='logtout'),
+    url(r'^login$', login, name='login'),
+    url(r'^reg$', reg, name='reg'),
 ]

@@ -48,3 +48,4 @@ class CommentForm(forms.Form):
     article = forms.CharField(widget=forms.HiddenInput())
 
 
+
