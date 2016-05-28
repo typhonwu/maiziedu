@@ -98,3 +98,42 @@ def getPage(request, article_list):
     except (EmptyPage, InvalidPage, PageNotAnInteger):
         article_list = paginator.page(1)
     return article_list
+
+
+# 文章详情
+
+
+def article(request):
+    try:
+        # 获取文章id
+        id = request.GET.get('id', None)
+        try:
+            # 获取文章信息
+            article = Article.objects.get(pk=id)
+        # 注意捕获文章不存在的异常
+        except Article.DoesNotExist:
+            return render(request, 'failure.html', {'reason': '没有找到对应的文章'})
+
+        # 评论表单
+        comment_form = CommentForm({
+            'author': request.user.username,
+            'email': request.user.email,
+            'url': request.user.url,
+            'article': id} if request.user.
+            is_authenticated() else{'article': id})
+        # 获取评论信息
+        comments = Comment.objects.filter(article=article).order_by('id')
+        comment_list = []
+        for comment in comments:
+            for item in comment_list:
+                if not hasattr(item, 'children_comment'):
+                    setattr(item, 'children_comment', [])
+                if comment.pid == item:
+                    item.children_comment.append(comment)
+                    break
+            if comment.pid is None:
+                comment_list.append(comment)
+    except Exception as e:
+        print (e)
+        logger.error(e)
+    return render(request, 'article.html', locals())
