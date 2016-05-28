@@ -33,6 +33,7 @@
       <div class="commentstitle"><h3 id="comments"><span class="commentsnumber">only 1 comment</span> untill now</h3></div>
 
       <ol class="commentlist">
+          <!--先遍历父级评论-->
           {% for comment in comment_list %}
           <li id="comment-59418">
                 <div class="top"><a href='{{ comment.url }}' rel='external nofollow' class='url'>{{ comment.username }}</a><span class="time"> @ <a href="#comment-59418" title="">{{ comment.date_publish | date:'Y-m-d H:i:s' }}</a></span></div>
@@ -42,6 +43,7 @@
                                 <p>{{ comment.content }}</p>
                 </div>
           </li>
+          <!--如果父级评论有子评论，就把子评论输出-->
           {% for children_comment in comment.children_comment %}
           <li id="comment-59542">
                 <div class="reply">
