@@ -38,11 +38,16 @@ class Category(models.Model):
 # 两者各有优劣
 class User(AbstractUser):
 	#头像用图片类型
-	avatar = models.ImageField(upload_to='avatar/%Y/%m', default='avatar/default.png', max_length=200, blank=True, null=True, verbose_name='用户头像')
+	avatar = models.ImageField(\
+        upload_to='avatar/%Y/%m', default='avatar/default.png', \
+        max_length=200, blank=True, null=True, verbose_name='用户头像')
 	#可以为空
 	qq = models.CharField(max_length=20, blank=True, null=True, verbose_name='QQ号码')
 	#不能重复
-	mobile = models.CharField(max_length=11, blank=True, null=True, unique=True, verbose_name='手机号码')
+	mobile = models.CharField(max_length=11, \
+                           blank=True, null=True, unique=True, verbose_name='手机号码')
+    #新增字段
+	url=models.URLField(max_length=100,blank=True,null=True,verbose_name='个人网页地址')
 
 	class Meta:
 		verbose_name = '用户'
@@ -110,6 +115,11 @@ class CommentManager(models.Manager):
 # 评论模型
 class Comment(models.Model):
 	content = models.TextField(verbose_name='评论内容')
+	username = models.CharField(max_length =\
+                             30,blank=True,null=True,verbose_name='用户名')
+	email = models.EmailField(max_length=50,blank=True,null=True,verbose_name='邮箱地址')
+	url =\
+    models.URLField(max_length=100,blank=True,null=True,verbose_name='个人网页地址')
 	date_publish = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
 	user = models.ForeignKey(User, blank=True, null=True, verbose_name='用户')
 	article = models.ForeignKey(Article,related_name="entries", blank=True, null=True, verbose_name='文章')
