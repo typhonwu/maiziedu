@@ -164,14 +164,16 @@ def comment_post(request):
                 url=comment_form.cleaned_data["url"],
                 content=comment_form.cleaned_data["comment"],
                 article_id=comment_form.cleaned_data["article"],
+                # 用django的user类提供的方法来验证是否登录，是就返回用户，否则返回匿名对象
                 user=request.user if request.user.is_authenticated() else None)
             comment.save()
         else:
-        # 没通过就写入error
+        # 没通过就写入error，主要是清除session
             return render(request, 'failure.html',
                 {'reason': comment_form.errors})
     except Exception as e:
         logger.error(e)
+        # 注销之后跳转回之前的页面
     return redirect(request.META['HTTP_REFERER'])
 
 

@@ -60,6 +60,7 @@
 
     <div id="commentform">
     <h3 id="respond">Add your comment now</h3>
+    <!--模板中调用方法判断是否登录-->
     {% if not request.user.is_authenticated %}
     <div class='login_info'>还没有登陆？可以登录后再评论哦。<b><a href="{% url 'login' %}">&raquo;去登录</a>&nbsp;<a href="{% url 'reg' %}">&raquo;去注册</a></b></div>
     {% else %}
@@ -67,7 +68,7 @@
     {% endif %}
     <!--post方式提交评论表单，django对于post方式会自动进行csrf验证-->
     <form action="{% url 'comment_post' %}" method="post">
-    <!--所以要加上一个csrf标签，才能通过服务器验证，否则django会把它当做非法请求-->
+    <!--所以要加上一个csrf标签，才能通过服务器验证，否则django会把它当做非法请求，出现403验证出错的页面-->
     {% csrf_token %}
     <p>{{ comment_form.author }}
     <label for="author">Name (required)</label></p>
