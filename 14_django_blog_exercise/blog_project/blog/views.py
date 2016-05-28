@@ -122,18 +122,30 @@ def article(request):
             'article': id} if request.user.
             is_authenticated() else{'article': id})
         # 获取评论信息
+        # 注意这个技巧：用一行把文章对应的评论都取出来之后对结果进行归类，只取一次，推荐
         comments = Comment.objects.filter(article=article).order_by('id')
         comment_list = []
+        # 实现评论的层级关系
         for comment in comments:
             for item in comment_list:
                 if not hasattr(item, 'children_comment'):
                     setattr(item, 'children_comment', [])
+                # 如果父级评论非空且和某条评论相等，那就说明该评论是父评论，加入到子评论列表中
                 if comment.pid == item:
                     item.children_comment.append(comment)
                     break
+            # 父级评论为空，说明本身就是最顶层的评论
             if comment.pid is None:
                 comment_list.append(comment)
+        # 还可以在获取查询结果的时候进行归类处理，要用到Q查询（读取数据库次数较多，不推荐）
+        # 先取出所有父级评论
+        # comments = Comment.objects.filter(article=article, pid=None).order_by('id')
+        # 再取出下级评论
+        # comments = Comment.objects.filter(article=article,Q(pid=None)).order_by('id')
     except Exception as e:
         print (e)
         logger.error(e)
     return render(request, 'article.html', locals())
+
+
+# 评论功能
