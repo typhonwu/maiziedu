@@ -65,7 +65,9 @@
     {% else %}
     <div class='login_info'><b>{{ request.user.username }}</b>,快来写点评论吧!&nbsp;<a href="{% url 'logout' %}">注销</a></div>
     {% endif %}
+    <!--post方式提交评论表单，django对于post方式会自动进行csrf验证-->
     <form action="{% url 'comment_post' %}" method="post">
+    <!--所以要加上一个csrf标签，才能通过服务器验证，否则django会把它当做非法请求-->
     {% csrf_token %}
     <p>{{ comment_form.author }}
     <label for="author">Name (required)</label></p>

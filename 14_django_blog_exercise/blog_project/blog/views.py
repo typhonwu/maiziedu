@@ -151,6 +151,7 @@ def article(request):
 
 
 # 提交评论
+# @csrf_exemp 如果不想进行csrf验证，可以加上这个装饰器，告诉django不需要进行验证
 def comment_post(request):
     try:
         comment_form = CommentForm(request.POST)
