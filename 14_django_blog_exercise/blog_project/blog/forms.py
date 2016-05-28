@@ -31,6 +31,7 @@ class CommentForm(forms.Form):
     '''
     评论表单
     '''
+    # 这里可以直接定义模板中的class等属性
     author = forms.CharField(widget=forms.TextInput(attrs={"id": "author", "class": "comment_input",
                                                            "required": "required","size": "25", "tabindex": "1"}),
                               max_length=50,error_messages={"required":"username不能为空",})
