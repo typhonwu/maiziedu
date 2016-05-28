@@ -230,17 +230,21 @@ def do_login(request):
                 # 登录
                 username = login_form.cleaned_data["username"]
                 password = login_form.cleaned_data["password"]
+                # 使用django提供的验证方法，传入用户名和密码，会返回一个user对象。这个方法我们也可以重写
                 user = authenticate(username=username, password=password)
+                # 如果用户存在，那就通过登录验证，和注册一样
                 if user is not None:
                     user.backend = \
                         'django.contrib.auth.backends.ModelBackend'  # 指定默认的登录验证方式
                     login(request, user)
+                # 否则就跳转到登录失败
                 else:
                     return render(request, 'failure.html', 
                         {'reason': '登录验证失败'})
                 return redirect(request.POST.get('source_url'))
             else:
                 return render(request, 'failure.html', {'reason': login_form.errors})
+        # 如果不是post提交就跳转到登录页面
         else:
             login_form = LoginForm()
     except Exception as e:

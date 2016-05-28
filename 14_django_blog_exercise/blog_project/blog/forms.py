@@ -7,7 +7,7 @@ import re
 
 class LoginForm(forms.Form):
     '''
-    登录Form
+    登录Form，只需要用户名和密码
     '''
     username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username", "required": "required",}),
                               max_length=50,error_messages={"required": "username不能为空",})
