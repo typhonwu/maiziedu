@@ -150,4 +150,25 @@ def article(request):
     return render(request, 'article.html', locals())
 
 
-# 评论功能
+# 提交评论
+def comment_post(request):
+    try:
+        comment_form = CommentForm(request.POST)
+        # 先对表单信息进行验证，通过后才获取信息
+        if comment_form.is_valid():
+            # 获取表单信息
+            comment = Comment.objects.create(
+                username=comment_form.cleaned_data["author"],
+                email=comment_form.cleaned_data["email"],
+                url=comment_form.cleaned_data["url"],
+                content=comment_form.cleaned_data["comment"],
+                article_id=comment_form.cleaned_data["article"],
+                user=request.user if request.user.is_authenticated() else None)
+            comment.save()
+        else:
+        # 没通过就写入error
+            return render(request, 'failure.html',
+                {'reason': comment_form.errors})
+    except Exception as e:
+        logger.error(e)
+    return redirect(request.META['HTTP_REFERER'])
