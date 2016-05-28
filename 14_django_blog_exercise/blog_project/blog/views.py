@@ -11,6 +11,9 @@ from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteg
 logger = logging.getLogger('blog.views')
 #用setting数据定义全局变量,返回一个字典
 def global_setting(request):
+    #用变量装settings的设置,才能通过locals()传过去
+    SITE_NAME = settings.SITE_NAME
+    SITE_DESC = settings.SITE_DESC
     #重构一：把类别，广告，归档这些公用内容提出来
     category_list = Category.objects.all()
     ad_list = Ad.objects.all()[:5]
@@ -38,18 +41,8 @@ def global_setting(request):
     
     #文章排行榜数据-只选推荐的
     recommend_article_list = Article.objects.filter(is_recommend = True)
-    return {'SITE_NAME':settings.SITE_NAME,
-            'SITE_DESC':settings.SITE_DESC,
-            'category_list':category_list,
-            'archive_list':archive_list,
-            'ad_list':ad_list,
-            'tag_list':tag_list,
-            'link_list':link_list,
-            'article_list':article_list,
-            'click_article_list':click_article_list,
-            'comment_article_list':comment_article_list,
-            'recommend_article_list':recommend_article_list,
-           }
+    return locals()
+
 # Create your views here.
 #定义首页方法
 def index(request):
