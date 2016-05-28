@@ -32,6 +32,7 @@
                         {{ reg_form.password }}
 						<div class="clear"> </div>
 					</li>
+					<!--用于记录注册跳转来源，方便注册之后跳转之前的页面-->
                     <input type="hidden" name="source_url" value="{{ request.META.HTTP_REFERER }}">
 					<input type="submit" value="Create And Login">
 					<div class="clear"> </div>

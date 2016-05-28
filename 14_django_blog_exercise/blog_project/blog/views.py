@@ -189,7 +189,9 @@ def do_logout(request):
 
 def do_reg(request):
     try:
+        # 注册一定要以post方式提交
         if request.method == 'POST':
+            # 直接使用django的表单类别，否则你还不如去用flask这些轻量级框架
             reg_form = RegForm(request.POST)
             if reg_form.is_valid():
                 # 注册
@@ -197,13 +199,16 @@ def do_reg(request):
                     username=reg_form.cleaned_data["username"],
                     email=reg_form.cleaned_data["email"],
                     url=reg_form.cleaned_data["url"],
+                    # 用户明文提交，不过我们是以加密形式保存密码，就用django提供的密码加密方法，这里用它默认的加密方式
                     password=make_password(reg_form.cleaned_data["password"]),)
                 user.save()
 
-                # 登录
+                # 注册完之后就登录
                 user.backend = \
                     'django.contrib.auth.backends.ModelBackend'  # 指定默认的登录验证方式
+                # 这个登录方法也是django提供的标准方法
                 login(request, user)
+                # 登录之后跳转回之前的网页
                 return redirect(request.POST.get('source_url'))
             else:
                 return render(request, 'failure.html',
