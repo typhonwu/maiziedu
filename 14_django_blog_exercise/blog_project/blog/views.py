@@ -115,6 +115,8 @@ def article(request):
             return render(request, 'failure.html', {'reason': '没有找到对应的文章'})
 
         # 评论表单
+        # 这里初始化了一个评论表单的对象供article.html使用。
+        # 这个是用于分别处理登陆情况和未登录情况下默认写入哪些值，提高用户体验
         comment_form = CommentForm({
             'author': request.user.username,
             'email': request.user.email,
