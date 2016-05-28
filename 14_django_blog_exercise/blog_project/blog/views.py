@@ -3,6 +3,7 @@ import pdb
 from django.shortcuts import render
 import logging
 from django.conf import settings
+from django.db.models import Count
 from blog.models import *
 #这是django的原生分页类，可以做许多设置
 from django.core.paginator import Paginator,InvalidPage,EmptyPage,PageNotAnInteger
@@ -28,6 +29,13 @@ def global_setting(request):
     for article_id in result_list:
         article = Article.objects.get(id = article_id)
         comment_article_list.append(article)
+    #老师直接用聚合函数做评论排序
+    #comment_count_list = Comment.objects.values('article')\
+    #        .annotate(comment_count =\
+    #        Count('article').order_by('-comment_count'))
+    #comment_article_list = Article.objects.get(pk=comment[article])\
+    #        for comment in comment_count_list
+    
     #文章排行榜数据-只选推荐的
     recommend_article_list = Article.objects.filter(is_recommend = True)
     return {'SITE_NAME':settings.SITE_NAME,
