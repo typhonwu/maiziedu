@@ -11,10 +11,12 @@
         <div class="postmeta">
           <span class="postmeta_author">{{ article.user.username }}</span>
           <span class="postmeta_category"><a href="" rel="category">{{ article.category.name }}</a></span>
+          <!--这里使用了date过滤器修改格式-->
           <span class="postmeta_time">{{ article.date_publish | date:'Y-m-d' }}</span>
         </div>
     </div>
         <div class="entry">
+          <!--这里使用了安全方面的过滤器，出于数据安全要求，如果不用这个过滤器，会被进行转义成字符串.这个就是告诉django不需要过滤，数据很安全-->
           {{ article.content | safe }}
         </div>
         <span class="tags">
