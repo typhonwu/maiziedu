@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Ajax初步入门视频课程</title>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+var xmlHttp = null;
+
+function readyStateChangeHandle()
+{
+    if (xmlHttp.readyState ==4 ) {
+        if (xmlHttp.status == 200 ) {
+            document.getElementById('vv').innerHTML = xmlHttp.responseText;        
+        }     
+    } 
+}
+
+function ajaxFunction(the_request_url)
+{
+    try {
+        xmlHttp = new XMLHttpRequest() ;   
+    }    
+    catch(e) {
+        try {
+            xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch(e) {
+            try {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch(e) {
+                alert("您的浏览器不支持ajax") ;
+                return false;
+            }    
+        }    
+    }
+
+    if (xmlHttp) {
+        xmlHttp.open('GET', the_request_url, true);     
+        xmlHttp.onreadystatechange = readyStateChangeHandle;
+        xmlHttp.send(null);
+    } else {
+        alert('error');     
+    }
+}
+
+
+</script>
+<input type="button" id="test" value="test" onclick="javascript:ajaxFunction('ajax-04.txt')" />
+<br/><br/>
+<div style="border:1px solid black;width:300px;height:250px;" id="vv">test ajax</div>
+
+</body>
+
+</html>
