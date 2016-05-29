@@ -15,8 +15,10 @@ var x = 10;
 document.write(eval(x+7));
 
 eval("2+3");
-
+不建议这么赋值使用
 var myeval = eval;
+
+弹出输入框获取计算表达式
 try {
     alert("Result:" + eval(prompt("Enter an expression", "")));    
 } catch(e) {
@@ -25,6 +27,7 @@ try {
 }
 
 */
+/* 用eval解析json格式数据为json对象 */
 var txt = "{'userid':11,'name':'liyi'}";
 var txtObj = eval("("+txt+")");
 document.write(txtObj.userid);
