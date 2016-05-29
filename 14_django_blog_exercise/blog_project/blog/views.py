@@ -10,6 +10,9 @@ from django.core.paginator import Paginator,\
     InvalidPage, EmptyPage, PageNotAnInteger
 # 导入定义的表单类
 from blog.forms import *
+# django的重量级体现，登录注册直接提供封装好的类
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.hashers import make_password
 # 使用setting.py中配置的日志器，一般都在views.py中使用日志器，因为这里都是业务逻辑
 logger = logging.getLogger('blog.views')
 
