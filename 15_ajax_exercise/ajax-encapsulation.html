@@ -150,6 +150,8 @@ var AjaxUtil = {
     //处理json格式的函数
     function process(json){
             //如果有传值，就输出
+            //alert(json.id);//可以用来确定是否执行到这里
+            //debugger;//直接用来调试,浏览器进行调试
             if(json){
                 $("id").value = json.id;
                 $("username").value = json.username;
