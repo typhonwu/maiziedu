@@ -144,6 +144,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
 AUTH_USER_MODEL = 'blog.User'
 
 #网站的基本信息配置
+SITE_URL = 'http://localhost:8000/'
 SITE_NAME = '礁石的个人博客'
 SITE_DESC = '专注Python开发，欢迎和大家交流'
 WEIBO = 'http://weibo.com/holdhiitfitness/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1'

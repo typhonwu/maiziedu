@@ -21,6 +21,7 @@ logger = logging.getLogger('blog.views')
 
 def global_setting(request):
     # 用变量装settings的设置,才能通过locals()传过去
+    SITE_URL = settings.SITE_URL
     SITE_NAME = settings.SITE_NAME
     SITE_DESC = settings.SITE_DESC
     # 重构一：把类别，广告，归档这些公用内容提出来
