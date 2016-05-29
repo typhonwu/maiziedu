@@ -12,12 +12,16 @@ function readyStateChangeHandle()
     if(xmlHttp.readyState==4)
     {
         if(xmlHttp.status==200)
-        {
+        {   
+            /* 获取xml文件 */
             var xmlDOM=xmlHttp.responseXML;
+            /* 再获取xml文件的文档元素 */
             var xmlRoot=xmlDOM.documentElement;
             try
             {
+                /* 获取文档中的item标签内容 */
                 var xmlItem=xmlRoot.getElementsByTagName("item");
+                /* 获取第一个item的第一个子元素数据 */
                 alert(xmlItem[0].firstChild.data);
             }
             catch(e)
@@ -29,6 +33,7 @@ function readyStateChangeHandle()
 }
 function ajaxRequest()
 {
+    /* 建立对象 */
     if(window.XMLHttpRequest)
     {
         xmlHttp=new XMLHttpRequest();
