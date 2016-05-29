@@ -109,22 +109,25 @@ function removeLoading()
     tipObj.innerHTML = '';
     tipObj.style.display = "none";
 }
-
+//这个方法验证用户名是否被占用
 function checkName()
 {
     var name = document.getElementById('username').value;
     if(isNull(name)) {
         showTips('请输入用户名');    
     }
-    loading();
-    var sendData = {username:name,action:'checkname'};
-    Ajax('get','check.php',sendData,function(data) {
-        removeLoading(); 
+    loading();//自己写的js方法，用于显示加载中...
+    var sendData = {username:name,action:'checkname'};//向验证页面床送了两个数据
+    //loading过程中发送Ajax请求
+    Ajax('get','check.php',sendData,function(data) {//这是一个匿名函数，自定义Ajax函数中已经给它预留了位置，在成功获得ajax回应之后执行
+        removeLoading(); //返回之后就去掉加载中...
+        //返回的是json格式数据，用eval处理
         var user = eval('('+data+')')
+        //如果找到用户名，提示已被占用，如果未被占用，这里就不提示
         if (user.id) {
             showTips('用户名已被占用，请重新输入用户名');    
         }
-        }, function(data){
+        }, function(data){//匿名函数，ajax请求发送失败时执行
             
             showTips('ajax请求错误');    
         });
@@ -293,14 +296,14 @@ function Ajax(type, url, data, success, failed){
         xhr.send(data);
     }
  
-    // 处理返回数据
+    // 处理返回数据，全程用XMLHttpRequest的onreadystatechange方法监控请求状态
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                success(xhr.responseText);
+                success(xhr.responseText);//如果成功就回调success位置传进来的函数
             } else {
                 if(failed){
-                    failed(xhr.status);
+                    failed(xhr.status);//如果失败就回调failed位置传进来的函数
                 }
             }
         }
