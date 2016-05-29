@@ -58,7 +58,9 @@ def global_setting(request):
 
 def index(request):
     try:
-        article_list = getPage(article_list)
+        # pdb.set_trace()
+        article_list = Article.objects.all()
+        article_list = getPage(request,article_list)
     except Exception as e:
         # 如果出现异常就写入日志
         logger.error(e)
@@ -96,7 +98,8 @@ def tag(request):
 
 
 def getPage(request, article_list):
-    paginator = Paginator(article_list, 10)
+    # pdb.set_trace()
+    paginator = Paginator(article_list, 5)
     try:
         page = int(request.GET.get('page', 1))
         article_list = paginator.page(page)

@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.conf import settings
 from blog.upload import upload_image
 urlpatterns = [
+    # 映射到管理界面
+    url(r'^admin/', include(admin.site.urls)),
     #配置用于处理图片上传的url映射
     url(r"^uploads/(?P<path>.*)$", \
                         #django.views.static.serve专门用于处理静态文件
