@@ -18,7 +18,7 @@ msg:<input type="text" id="msg" name="msg"/>
 
 var AjaxUtil = {
      
-    // 基础选项
+    // 默认基础选项
     options : {
         method : "get", // 默认提交的方法,get post
         url : "", // 请求的路径 required
@@ -49,26 +49,26 @@ var AjaxUtil = {
         }
         return xmlhttp;
     },
-    // 设置基础选项
+    // 设置基础选项，覆盖默认选项
     setOptions : function(newOptions) {
         for ( var pro in newOptions) {
-            this.options[pro] = newOptions[pro];
+            this.options[pro] = newOptions[pro];//覆盖之前的默认键值
         }
     },
     // 格式化请求参数
     formateParameters : function() {
         var paramsArray = [];
-        var params = this.options.params;
-        for ( var pro in params) {
+        var params = this.options.params;//获取默认的键值参数
+        for ( var pro in params) {//进行遍历循环
             var paramValue = params[pro]; 
             /*if(this.options.method.toUpperCase() === "GET")
             {
                 paramValue = encodeURIComponent(params[pro]);
             }*/
-            paramsArray.push(pro + "=" + paramValue);
+            paramsArray.push(pro + "=" + paramValue);//组成key=value这样的键值对
         }
-        return paramsArray.join("&");
-        // method=get&url=&callback=&type=text
+        return paramsArray.join("&");//最后连接成一个字符串返回
+        // 举例：method=get&url=&callback=&type=text
     },
      
     // 状态改变的处理
@@ -76,14 +76,14 @@ var AjaxUtil = {
         // 获取返回值
         var returnValue;
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            switch (this.options.type) {
+            switch (this.options.type) {//对不同格式数据分别处理
             case "xml":
                 returnValue = xmlhttp.responseXML;
                 break;
             case "json":
                 var jsonText = xmlhttp.responseText;
                 if(jsonText){
-                    returnValue = eval("(" + jsonText + ")");
+                    returnValue = eval("(" + jsonText + ")");//通过eval函数解析处理后的json数据
                 }
                 break;
             default:
@@ -91,6 +91,7 @@ var AjaxUtil = {
                 break;
             }
             if (returnValue) {
+                //传入解析处理之后的数据调用默认选项里面的callback函数名
                 this.options.callback.call(this, returnValue);
             } else {
                 this.options.callback.call(this);
@@ -99,11 +100,11 @@ var AjaxUtil = {
     },
      
     // 发送Ajax请求
-    //{'method':'get'}
+    // 里面的参数格式：{'method':'get'}
     request : function(options) {
         var ajaxObj = this;
      
-        // 设置参数
+        // 设置参数，回调函数
         ajaxObj.setOptions.call(ajaxObj, options);
      
         // 创建XMLHttpRequest对象
