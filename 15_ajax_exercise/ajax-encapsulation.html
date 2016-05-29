@@ -3,6 +3,7 @@
 <title>Ajax初步入门视频课程</title>
 </head>
 <body>
+<!-- 这里就是要传送的表单信息 -->
 id:<input type="text" id="id" name="id"/>
 <br/>
 user_id:<input type="text" id="userid" name="userid"/>
@@ -11,8 +12,10 @@ user_name:<input type="text" id="username" name="name"/>
 <br/>
 user_age:<input type="text" id="age" name="age"/>
 <br/>
+<!-- 用来展示错误信息 -->
 msg:<input type="text" id="msg" name="msg"/>
 <br/>
+<!-- 在按钮处添加点击事件 -->
 <input type="button" value="test userid" onclick="findUser();" />
 <script type="text/javascript">
 
@@ -118,7 +121,7 @@ var AjaxUtil = {
         // 格式化参数
         var formateParams = ajaxObj.formateParameters.call(ajaxObj);
      
-        // 请求的方式
+        // 请求的方式为GET就直接拼接
         var method = ajaxObj.options.method;
         var url = ajaxObj.options.url;
      
@@ -144,12 +147,15 @@ var AjaxUtil = {
     function $(id) {
         return document.getElementById(id);
     }
+    //处理json格式的函数
     function process(json){
+            //如果有传值，就输出
             if(json){
                 $("id").value = json.id;
                 $("username").value = json.username;
                 $("age").value  = json.age;
             }
+            //否则为空
             else{
                 $("msg").value = "用户不存在";
                 $("id").value = "";
@@ -157,9 +163,9 @@ var AjaxUtil = {
                 $("age").value = "";
             }
     }
-  
+ //  
 function findUser() {
-        var userid = $("userid").value;
+        var userid = $("userid").value;//这个$就是调用上面定义的那个函数
         if (userid) {
             AjaxUtil.request({
                 url:"ajax-07.txt",
