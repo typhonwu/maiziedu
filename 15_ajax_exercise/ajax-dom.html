@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Ajax初步入门视频课程</title>
+</head>
+<body>
+<div id="div1">
+    <p id="p1">第一段</p>
+    <p id="p2">第二段</p> 
+</div>
+<script type="text/javascript">
+
+
+var param = document.createElement('p');
+var node  = document.createTextNode("这是新文本");
+param.appendChild(node);
+
+var ele = document.getElementById("div1");
+ele.appendChild(param);
+
+
+
+
+</script>
+<script>
+var ele = document.getElementById("div1");
+var child = document.getElementById("p1");
+ele.removeChild(child);
+
+</script>
+</body>
+</html>
