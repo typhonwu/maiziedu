@@ -1,0 +1,55 @@
+<html>
+<head>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+function ajaxFunction(the_request_url)
+{
+    var xmlHttp;
+    
+    try {
+        xmlHttp = new XMLHttpRequest() ;   
+    }    
+    catch(e) {
+        try {
+            xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch(e) {
+            try {
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch(e) {
+                alert("您的浏览器不支持ajax") ;
+                return false;
+            }    
+        }    
+    }
+
+    if (xmlHttp) {
+        xmlHttp.open('GET', the_request_url, true);     
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState ==4 ) {
+                if (xmlHttp.status == 200 ) {
+                    document.getElementById('vv').innerHTML = xmlHttp.responseText;        
+                }     
+            }   
+        };
+        xmlHttp.send(null);
+    } else {
+        alert('error');     
+    }
+}
+
+
+</script>
+
+<input type="button" id="test" value="test" onclick="javascript:ajaxFunction('test-3.txt')" />
+<br/><br/>
+<div id="vv">test ajax</div>
+
+</body>
+
+</html>
