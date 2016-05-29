@@ -2,7 +2,7 @@
 from django import forms
 from django.conf import settings
 from django.db.models import Q
-from models import User
+from blog.models import User
 import re
 
 class LoginForm(forms.Form):

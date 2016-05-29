@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
-# import pdb
-from django.shortcuts import render
+import pdb
+from django.shortcuts import render,redirect
 import logging
 from django.conf import settings
 # from django.db.models import Count
@@ -8,6 +8,8 @@ from blog.models import *
 # 这是django的原生分页类，可以做许多设置
 from django.core.paginator import Paginator,\
     InvalidPage, EmptyPage, PageNotAnInteger
+# 导入定义的表单类
+from blog.forms import *
 # 使用setting.py中配置的日志器，一般都在views.py中使用日志器，因为这里都是业务逻辑
 logger = logging.getLogger('blog.views')
 
@@ -104,6 +106,7 @@ def getPage(request, article_list):
 
 
 def article(request):
+    # pdb.set_trace()
     try:
         # 获取文章id
         id = request.GET.get('id', None)
@@ -183,7 +186,7 @@ def do_logout(request):
         # 直接用django提供的注销功能即可
         logout(request)
     except Exception as e:
-        print e
+        print (e)
         logger.error(e)
     return redirect(request.META['HTTP_REFERER'])
 
