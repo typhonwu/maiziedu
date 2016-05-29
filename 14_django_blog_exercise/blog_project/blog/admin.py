@@ -7,7 +7,7 @@ class ArticleAdmin(admin.ModelAdmin):
 	fieldsets = (
 		#这些展开
 		(None, {
-				'fields': ('title','desc','content','user','tag',)
+				'fields': ('title','desc','content','user','tag','category',)
 			}
 		),
 		#这些默认合并
