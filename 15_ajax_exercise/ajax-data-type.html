@@ -64,10 +64,16 @@ function Ajax(type, url, data, success, failed){
 function clickEvent() {
     var sendData = {name:'asher',sex:'male'};
     Ajax('get', 'ajax-08-data.js', sendData, function(data){
-            eval(data)
+            eval(data)//获取js代码之后用eval函数去执行js即可
             /*
+            //介绍获取text类型和html类型，前者就是字符串文本，后者就会变成html代码加入进去
+            //其实json和xml数据都可以用txt格式文件保存，区别只是json和xml的格式可以被识别
+            然后json用eval函数解析，xml则需要通过标签名来获取
+            //这里介绍获取json格式之后如何处理
+            var user = eval('('+date+')');
+            //这里介绍获取xml类型之后如何处理
             var xmlDOM= data;
-            var xmlRoot=xmlDOM.documentElement;
+            var xmlRoot=xmlDOM.documentElement;\\先获取xml的根元素
             try
             {
                 var xmlItem=xmlRoot.getElementsByTagName("name");
