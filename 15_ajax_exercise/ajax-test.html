@@ -29,14 +29,19 @@ function ajaxFunction(the_request_url)
     }
 
     if (xmlHttp) {
-        xmlHttp.open('GET', the_request_url, true);     
+        /* 如果创建成功，就打开一个url请求 */
+        xmlHttp.open('GET', the_request_url, true);
+        /* 主要监控这个数据，一旦readystate状态改变，就调用这个函数 */
         xmlHttp.onreadystatechange = function() {
+            /* 如果服务器处理成功并返回 */
             if (xmlHttp.readyState ==4 ) {
                 if (xmlHttp.status == 200 ) {
+                    /* 就把回应中的文本取出来放在id为vv的html标签中，设置为innerHTML值 */
                     document.getElementById('vv').innerHTML = xmlHttp.responseText;        
                 }     
             }   
         };
+        /* 发送这个请求 */
         xmlHttp.send(null);
     } else {
         alert('error');     
@@ -45,7 +50,7 @@ function ajaxFunction(the_request_url)
 
 
 </script>
-
+<!-- 一旦点击就会直接载入事先用ajax准备好的数据 -->
 <input type="button" id="test" value="test" onclick="javascript:ajaxFunction('test-3.txt')" />
 <br/><br/>
 <div id="vv">test ajax</div>
