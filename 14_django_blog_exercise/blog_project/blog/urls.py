@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^comment/post/$', comment_post, name='comment_post'),
     # 映射到标签页面
     url(r'^tag/', tag, name='tag'),
+    # 映射到分类页面
+    url(r'^category/$', category, name='category'),
     # 登录注册注销
     url(r'^logout$', do_logout, name='logout'),
     url(r'^login$', do_login, name='login'),

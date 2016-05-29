@@ -32,8 +32,8 @@ def global_setting(request):
     tag_list = Tag.objects.all()
     # 友情链接数据
     link_list = Links.objects.all()
-    # 文章排行榜数据-按点击排序
-    click_article_list = article_list.order_by('click_count')
+    # 文章排行榜数据-按点击排序,模板只要求取前6个
+    click_article_list = article_list.order_by('click_count')[:6]
     # 文章排行榜数据-按评论排序
     comment_article_list = []
     result_list = Comment.objects.with_counts()
@@ -262,3 +262,20 @@ def do_login(request):
     except Exception as e:
         logger.error(e)
     return render(request, 'login.html', locals())
+
+# 分类
+
+
+def category(request):
+    try:
+        # 先获取客户端提交的信息
+        cid = request.GET.get('cid', None)
+        try:
+            category = Category.objects.get(pk=cid)
+        except Category.DoesNotExist:
+            return render(request, 'failure.html', {'reason': '分类不存在'})
+        article_list = Article.objects.filter(category=category)
+        article_list = getPage(request, article_list)
+    except Exception as e:
+        logger.error(e)
+    return render(request, 'category.html', locals())
