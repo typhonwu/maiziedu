@@ -16,7 +16,9 @@
 <!-- 手机输入框获取焦点，失去焦点，点击提交时分别绑定了三个事件，其中点击提交默认是不显示的，要手机号通过验证才显示，然后点击执行绑定事件 -->
 手机：<input type="text" name="usermobile" id="usermobile" onfocus="clearTips();" onblur="checkMobile();"/><input type="button" value="获取手机验证码" id="mobilebtn" style="display:none;"  onclick="getMobileCode();"/>
 <br/><br/>
+<!-- 这里验证码获得、失去焦点，点击验证码图片分别执行三个方法 -->
 验证码：<input type="text" name="vcode" id="vcode" onblur="checkCode();" onfocus="clearTips();"/>
+<!-- 这里的src有点技巧，其实提交的网页每次都会自动生成新的随机数图片，而我们点击事件中追加随机数，修改src，防止被缓存，从而获得不同的验证码 -->
 <img id="code" src="http://www.mytest.com/ajax/code.php" style="width:80;height:24px;border:0;" onclick="changeCode();"/>
 <br/><br/>
 <p style="clear:both;width:500px;color:red;display:none;" id="tips" error=""> </p>
@@ -148,6 +150,7 @@ function changeCode()
 {
    var url = document.getElementById('code').src ;
    var rand = Math.floor(Math.random() * ( 1000 + 1));
+   //每次请求都加上一个随机数，防止被缓存，每次都会生成最新图片
    url += '?' +  rand;
    document.getElementById('code').src  = url;
 }
