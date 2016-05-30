@@ -8,7 +8,12 @@
 		<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 		<script>
+			//这在jquery中是文档载入完毕就执行的意思
 			$(function() {
+				//这个方法监听输入框的值
+				$('#input').bind('input propertychange',function(){
+					$('#result').html($(this).val()+'共'+$(this).val().length + ' characters');
+				});
 				var availableTags = [
 					"ActionScript",
 					"AppleScript",
@@ -50,6 +55,7 @@
 				<form name="f" id="form">
 					<input type="text" id="input" maxlength="100" autocomplete="off">
 					<input type="submit" value="百度一下">
+					<div id="result"></div>
 				</form>
 			</div>
 		</div>
