@@ -10,33 +10,25 @@
 		<script>
 			//这在jquery中是文档载入完毕就执行的意思
 			$(function() {
-				//这个方法监听输入框的值
+				var availableTags = []
+				//这个方法监听并实时获取输入框的值
 				$('#input').bind('input propertychange',function(){
-					$('#result').html($(this).val()+'共'+$(this).val().length + ' characters');
+					//$('#result').html($(this).val()+'共'+$(this).val().length + ' characters');
+					$.ajax({//这是jquery中封装好发送ajax请求的方法，和麦子课程中封装好的那个一致
+    					type:"GET" ,
+    					url:"{% url 'autoComplete' %}",
+    					data:"query=" + $('#input').val() ,
+    					cache: false,
+    					success: function(result){\\如果获得服务器回应就回调这个函数
+  							if (result){
+
+   								}
+   							else{
+    							
+   							}
+    					}
+   					})
 				});
-				var availableTags = [
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"
 				];
 				$("#input").autocomplete({
 					source: availableTags
