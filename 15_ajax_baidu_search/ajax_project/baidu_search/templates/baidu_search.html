@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="../static/styles.css">
+		<link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+		<meta charset="utf-8">
+		<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+		<script>
+			$(function() {
+				var availableTags = [
+					"ActionScript",
+					"AppleScript",
+					"Asp",
+					"BASIC",
+					"C",
+					"C++",
+					"Clojure",
+					"COBOL",
+					"ColdFusion",
+					"Erlang",
+					"Fortran",
+					"Groovy",
+					"Haskell",
+					"Java",
+					"JavaScript",
+					"Lisp",
+					"Perl",
+					"PHP",
+					"Python",
+					"Ruby",
+					"Scala",
+					"Scheme"
+				];
+				$("#input").autocomplete({
+					source: availableTags
+				});
+			});
+		</script>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="s_form">
+			<div id="s_form_wrapper">
+				<div id="logo">
+					<img id="s_lg_img" src="../static/baidu_logo.png" width="270" height="129">
+				</div>
+				<form name="f" id="form">
+					<input type="text" id="input" maxlength="100" autocomplete="off">
+					<input type="submit" value="百度一下">
+				</form>
+			</div>
+		</div>
+
+		
+		
+	</body>
+
+</html>
