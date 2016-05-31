@@ -17,15 +17,17 @@
 					$.ajax({//这是jquery中封装好发送ajax请求的方法，和麦子课程中封装好的那个一致
     					type:"GET" ,
     					url:"/autoComplete",
-    					data:{query:$('#input').val()} ,
+    					data:{query:$('#input').val()},
     					dataType:"json",
     					cache: false,
-    					success: function(result){\\如果获得服务器回应就回调这个函数
-    						alert('接受')
+    					success: function(result){//如果获得服务器回应就回调这个函数
+    						$.each(result.items, function(item){//这个方法遍历数据并加入到autocomplete的数据源中
+    							availableQuries.push(item);
+  							});
     					}
    					});
 				});
-				$("#input").autocomplete({
+				$("#input").autocomplete({//autocomplete从这里获得数据源
 					source: availableQuries
 				});
 			});
