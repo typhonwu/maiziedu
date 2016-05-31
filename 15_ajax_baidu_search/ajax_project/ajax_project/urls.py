@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from baidu_search.views import autoComplete
+from baidu_search.views import autoComplete,index
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^',index,name='index'),
     url(r'^autocomplete$', autoComplete, name='autoCompelete'),
 ]
