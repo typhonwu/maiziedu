@@ -1,27 +1,9 @@
 //get或post方法
 function do_ajax(){
     word = $("#word").val();
-    if(word!=''){
-        $.get("/validate/word/", {"word": word}, function(data){
-            var str='';
-            if(data.message!=[]){
-                $.each($.parseJSON(data), function (k, v){
-                str +='<li  class="list" id="this_li" onclick=fun(this);>'+v.fields.word_value+'</li>';
-                });
-                if(str!=''){
-                    $("#drop_down").css("display", "block");
-                    $("#word_txt").html(str);
-                }else{
-                    $("#drop_down").css("display", "none");
-                }
-            }
-        })
-    }else{
-        $("#drop_down").css("display", "none");
-    }
-}
-var fun = function(obj){
-    $("#word").val($(obj).html());
-    $("#drop_down").css("display", "none");
-}
+    //用键值对的形式向服务器传送数据，在django的views中也用相同名称获取数据
+    //这个方法就是$.ajax()的简写形式
+    $.get('/search/', {'word':word}, function(data){
+        alert(data.length)
+    })
 
