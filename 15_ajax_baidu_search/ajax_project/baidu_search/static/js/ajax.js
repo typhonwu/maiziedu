@@ -31,4 +31,5 @@ function do_ajax(){
 function autoCompelete(obj){
     //alert($(obj).html())
     $("#word").val($(obj).html())
+    $('#drop_down').css('display','none');
 }
