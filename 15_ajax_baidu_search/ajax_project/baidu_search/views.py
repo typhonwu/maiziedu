@@ -1,6 +1,7 @@
+# coding:utf-8
 from django.shortcuts import render
 from baidu_search.models import Item
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.core.serializers import serialize
 import json
 # Create your views here.
@@ -14,7 +15,8 @@ def autoComplete(request):
     return JsonResponse(item_list,safe=False)
 
 def search(req):
-    req.GET.get('word','')
+    word = req.GET.get('word','')
+    print (word)
     try:
         if word:
             #区别contains和icontains，后者忽略大小写
@@ -22,7 +24,7 @@ def search(req):
             #这里把列表序列化，然后取名为json，二者形成键值对的json对象，传给word_list
             word_list = serialize('json',item_list)
             #这里不需要返回模板，返回json即可,需要把它用dumps打包一下，指明类型
-    except word.DoesNotExist:
+    except:
         pass
-    return HttpResposne(json.dumps(word_list),content_type='application/json')
+    return HttpResponse(json.dumps(word_list),content_type='application/json')
   
