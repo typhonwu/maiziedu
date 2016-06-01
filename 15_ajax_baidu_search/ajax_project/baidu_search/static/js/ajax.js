@@ -15,7 +15,7 @@ function do_ajax(){
             //$('#word_txt').html('<li>'+value.fields.title+'</li>')
             //为了实现自动填充功能，绑定一个事件，其中this指的是当前值
             //为了避免单引号失效，里面用双引号
-            str += '<li id="this_li" onclick="choose(this)">'+value.fields.title+'</li>';
+            str += '<li id="this_li" onclick="autoCompelete(this)">'+value.fields.title+'</li>';
             if(str != ''){
                 $('#drop_down').css('display','block');
                 $('#word_txt').html(str)
@@ -28,6 +28,7 @@ function do_ajax(){
     });
 }
 
-var choose=function choose(obj){
-    alert($(obj).html())
+function autoCompelete(obj){
+    //alert($(obj).html())
+    $("#word").val($(obj).html())
 }
