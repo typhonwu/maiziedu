@@ -11,21 +11,17 @@
 			//这在jquery中是文档载入完毕就执行的意思
 			$(function() {
 				var availableQuries = [];
+				word = $("#input").val();
 				//这个方法监听并实时获取输入框的值
 				$('#input').bind('input propertychange',function(){
 					$('#result').html($(this).val()+'共'+$(this).val().length + ' characters');
-					$.ajax({//这是jquery中封装好发送ajax请求的方法，和麦子课程中封装好的那个一致
-    					type:"GET" ,
-    					url:"/autoComplete",
-    					data:{query:$('#input').val()},
-    					dataType:"json",
-    					cache: false,
-    					success: function(result){//如果获得服务器回应就回调这个函数
-    						$.each(result.items, function(item){//这个方法遍历数据并加入到autocomplete的数据源中
-    							availableQuries.push(item);
-  							});
-    					}
-   					});
+					$.get('/search/', {'word':word}, function(data){
+						queries = $.parseJSON(data);
+						$.each(queries,function(key,value){
+							availableQuries.push(value.fields.title);
+						})
+					})
+
 				});
 				$("#input").autocomplete({//autocomplete从这里获得数据源
 					source: availableQuries
