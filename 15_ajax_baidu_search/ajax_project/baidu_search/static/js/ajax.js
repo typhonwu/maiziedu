@@ -13,7 +13,9 @@ function do_ajax(){
             //具体取哪个字段可以在chrome的控制台查看一下返回的json文件内容
             //这种写法每次都会刷新，最后只会出现最后一条记录
             //$('#word_txt').html('<li>'+value.fields.title+'</li>')
-            str += '<li>'+value.fields.title+'</li>';
+            //为了实现自动填充功能，绑定一个事件，其中this指的是当前值
+            //为了避免单引号失效，里面用双引号
+            str += '<li id="this_li" onclick="choose(this)">'+value.fields.title+'</li>';
             if(str != ''){
                 $('#drop_down').css('display','block');
                 $('#word_txt').html(str)
@@ -26,3 +28,6 @@ function do_ajax(){
     });
 }
 
+var choose=function choose(obj){
+    alert($(obj).html())
+}
