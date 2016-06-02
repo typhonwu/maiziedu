@@ -49,7 +49,7 @@
 			</div>
 		</div>
 		{% load to_do_extras %}
-		{% dateAllen "%Y-%m-%d %I:%M %p" as allentime%}
+		{% get_current_time "%Y-%m-%d %I:%M %p" as allentime%}
 		<p> it is {{ allentime }} </p>
 		<script>
 			function edit(item_id,page){

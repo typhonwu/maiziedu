@@ -44,3 +44,8 @@ def dateAllen(parse,token):
     elif len(args) != 2:
         raise  template.TemplateSyntaxError("invalid agrs")
     return AllenDateNode(args[1][1:-1], asvar)
+
+# Django自动有提供赋值装饰器
+@register.assignment_tag()
+def get_current_time(format_string):
+	return datetime.now().strftime(format_string)
