@@ -23,6 +23,9 @@ class AllenDateNode(template.Node):
 		return datetime.now().strftime(self.format_string)
 
 # 创建编译函数，主要用于获取模板中的参数，并实例化相应的标签类
+
+
+@register.tag(name="dateAllen")# 可以直接用装饰器注册
 def dateAllen(parse,token):
 	try:
 		# 解析传入的token
@@ -32,4 +35,4 @@ def dateAllen(parse,token):
 	# 最后返回我们自定义的标签类,最后的节选是为了去掉模板渲染中两边的引号
 	return AllenDateNode(format_string[1:-1])
 # 最后注册一下自定义标签
-register.tag(name="dateAllen",compile_function=dateAllen)
+# register.tag(name="dateAllen",compile_function=dateAllen)
