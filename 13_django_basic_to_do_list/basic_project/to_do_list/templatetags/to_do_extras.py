@@ -25,7 +25,8 @@ class AllenDateNode(template.Node):
 # 创建编译函数，主要用于获取模板中的参数，并实例化相应的标签类
 
 
-@register.tag(name="dateAllen")# 可以直接用装饰器注册
+# 可以直接用装饰器注册，如果把name参数去掉，那就默认注册为函数名
+@register.tag
 def dateAllen(parse,token):
 	try:
 		# 解析传入的token
