@@ -20,7 +20,9 @@ class AllenDateNode(template.Node):
 
 	# 自定义标签主要就是实现这个函数
 	def render(self,context):
-		return datetime.now().strftime(self.format_string)
+		now = datetime.now().strftime(self.format_string)
+		context["mytime"] = now
+		return ""
 
 # 创建编译函数，主要用于获取模板中的参数，并实例化相应的标签类
 
