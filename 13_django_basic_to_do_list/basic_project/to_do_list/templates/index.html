@@ -49,8 +49,8 @@
 			</div>
 		</div>
 		{% load to_do_extras %}
-		{% dateAllen "%Y-%m-%d %I:%M %p" %}
-		<p> it is {{ mytime }} </p>
+		{% dateAllen "%Y-%m-%d %I:%M %p" as allentime%}
+		<p> it is {{ allentime }} </p>
 		<script>
 			function edit(item_id,page){
 				$("#"+item_id).append('<form action="/edit/" class="edit_input_box">'+

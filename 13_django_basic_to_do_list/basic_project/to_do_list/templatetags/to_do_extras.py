@@ -15,14 +15,19 @@ register = template.Library()
 
 class AllenDateNode(template.Node):
 	# 初始化日期格式
-	def __init__(self, format_string):
+	def __init__(self, format_string,asvar):
 		self.format_string = format_string
+		self.asvar = asvar
 
 	# 自定义标签主要就是实现这个函数
 	def render(self,context):
 		now = datetime.now().strftime(self.format_string)
-		context["mytime"] = now
-		return ""
+        # 渲染时如果用了别名，就把这个值传给别名
+		if self.asvar:
+			context[self.asvar] = now
+			return " "
+		else:
+			return now
 
 # 创建编译函数，主要用于获取模板中的参数，并实例化相应的标签类
 
@@ -30,12 +35,12 @@ class AllenDateNode(template.Node):
 # 可以直接用装饰器注册，如果把name参数去掉，那就默认注册为函数名
 @register.tag
 def dateAllen(parse,token):
-	try:
-		# 解析传入的token
-		tagname,format_string = token.split_contents()
-	except ValueError:
-		raise TemplateSyntaxError("invalid args")
-	# 最后返回我们自定义的标签类,最后的节选是为了去掉模板渲染中两边的引号
-	return AllenDateNode(format_string[1:-1])
-# 最后注册一下自定义标签
-# register.tag(name="dateAllen",compile_function=dateAllen)
+    args = token.split_contents()
+    asvar = None
+    # 如果参数长度为4，且倒数第二个是as，也就是说在模板中用自定义标签时用了这个字眼就会被识别
+    if len(args) == 4 and args[-2] == "as":
+        # 就自动把参数列表最后一个元素给标签的asvar属性
+        asvar = args[-1]
+    elif len(args) != 2:
+        raise  template.TemplateSyntaxError("invalid agrs")
+    return AllenDateNode(args[1][1:-1], asvar)
