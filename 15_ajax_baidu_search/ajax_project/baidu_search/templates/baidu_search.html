@@ -11,6 +11,7 @@
 			//这在jquery中是文档载入完毕就执行的意思
 			$(function() {
 				var availableQuries = [];
+				var autoQuries = [];
 				word = $("#input").val();
 				//这个方法监听并实时获取输入框的值
 				$('#input').bind('input propertychange',function(){
@@ -19,7 +20,7 @@
 						queries = $.parseJSON(data);
 						$.each(queries,function(key,value){
 							availableQuries.push(value.fields.title);
-						})
+						});
 					})
 
 				});

@@ -7,7 +7,7 @@ import json
 from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
-    return render(request,'baidu_search.html')
+    return render(request,'baidu_search_tutorial.html')
 def autoComplete(request):
     query = request.GET.get('query',None)
     if query:
