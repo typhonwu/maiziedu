@@ -12,4 +12,4 @@ class Item(models.Model):
         verbose_name_plural = verbose_name
     #python3用这个返回信息，python2用__unicode__
     def __str__(self):
-        return self.title
+        return self.content
