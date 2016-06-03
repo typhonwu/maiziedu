@@ -75,3 +75,6 @@ def done(request):
     except Exception as e:
         print (e)
     return render(request,"message.html",{"message":u"待办事项状态修改失败"})
+
+def jinjia2(request):
+    return render(request,"jinjia2.html")

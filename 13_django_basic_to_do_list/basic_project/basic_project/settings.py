@@ -59,7 +59,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR,'to_do_list/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment:':'basic_project.jinja2.environment'
+            'environment':'basic_project.jinja2.environment',
         },
     },
 ]

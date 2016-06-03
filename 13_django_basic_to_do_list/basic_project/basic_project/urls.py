@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^delete/$',views.delete,name='delete'),
     url(r'^edit/$',views.edit,name='edit'),
     url(r'^done/$',views.done,name='done'),
+    url(r'^jinjia2/$',views.jinjia2,name='jinjia2'),
 ]
