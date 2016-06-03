@@ -10,6 +10,7 @@ context是一个传递给模版的key-value对。
 from django import template
 from datetime import datetime
 from to_do_list.models import Item
+import pdb
 # 用来注册自定义标签
 register = template.Library()
 
@@ -51,8 +52,9 @@ def dateAllen(parse,token):
 def get_current_time(format_string):
 	return datetime.now().strftime(format_string)
 
-# 包含标签，指定渲染给主页模板
-@register.inclusion_tag("index.html")
+# 包含标签，指定渲染给某个模板，然后在引用这个标签的地方把数据和模板格式一起传入
+@register.inclusion_tag("inclusion.html")
 def things_is_done(done):
 	things = Item.objects.filter(is_done=done)
-	return {"things":things,"is_done":done}
+	# pdb.set_trace()
+	return {"things":things}
