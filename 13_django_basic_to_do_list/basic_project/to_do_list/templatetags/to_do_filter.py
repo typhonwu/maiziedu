@@ -1,4 +1,6 @@
 from django import template
+from django.template.defaultfilters import stringfilter
+
 
 register = template.Library()
 
@@ -11,3 +13,8 @@ def cut_filter(value, arg):
 
 # 注册这个自定义过滤器，名字可以随便起，主要是指定调用哪个函数
 # register.filter(name="cut_filter", filter_func=cut_filter)
+
+@register.filter()
+@stringfilter # 还可以用django内置过滤器自动转义为字符串
+def lower(value):
+	return value.lower()
