@@ -55,7 +55,9 @@
 		{% load to_do_filter %}
 		{{ "all the money come in my hand" | cut_filter:" "}}
 
-		
+		{% with "<h1>hello</h1>" as tmpValue%}
+			<p> {{ tmpValue|add:"world" }} </p>
+		{% endwith %}
 		<script>
 			function edit(item_id,page){
 				$("#"+item_id).append('<form action="/edit/" class="edit_input_box">'+

@@ -1,6 +1,6 @@
 from django import template
 from django.template.defaultfilters import stringfilter
-
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -18,3 +18,8 @@ def cut_filter(value, arg):
 @stringfilter # 还可以用django内置过滤器自动转义为字符串
 def lower(value):
 	return value.lower()
+
+
+@register.filter()
+def add(value, arg):
+	return ("%s %s" %(value, arg))
