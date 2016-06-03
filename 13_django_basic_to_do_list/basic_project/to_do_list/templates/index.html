@@ -52,6 +52,8 @@
 		{% get_current_time "%Y-%m-%d %I:%M %p" as allentime%}
 		<p> it is {{ allentime }} </p>
 		{% things_is_done "0" %}
+		{% load to_do_filter %}
+		{{ "all the money come in my hand" | cut_filter:" "}}
 
 		
 		<script>
