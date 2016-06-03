@@ -20,6 +20,6 @@ def lower(value):
 	return value.lower()
 
 
-@register.filter()
+@register.filter(is_safe=True)
 def add(value, arg):
 	return ("%s %s" %(value, arg))
