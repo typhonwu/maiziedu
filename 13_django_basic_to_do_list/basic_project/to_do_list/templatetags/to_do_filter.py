@@ -22,4 +22,4 @@ def lower(value):
 
 @register.filter(is_safe=True)
 def add(value, arg):
-	return ("%s %s" %(value, arg))
+	return mark_safe("%s %s" %(value, arg))
