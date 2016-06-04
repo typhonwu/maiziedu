@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mongoengine',
     'to_do_list',
 ]
 
@@ -69,16 +70,17 @@ WSGI_APPLICATION = 'basic_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+MONGODB_DATABASES = {
+    "default":{
+        "name":"test",
+        "host":'127.0.0.1',
+        "tz_aware":True,
+    }
+}
 
-#配置mysql数据库，开发环境可以用root用户名，生产环境不要这样
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'to_do_list',
-        'USER':'root',
-        'PASSWORD':'123456',
-        'HOST':'localhost',
-        'PORT':'3306',#mysql默认端口就是3306
+        'ENGINE': 'django.db.backends.dummy',
     }
 }
 
@@ -143,3 +145,7 @@ LOGGING = {
             },
         }
 }
+
+# 建立和mongodb的连接
+from mongoengine import connect
+connect('test',host='127.0.0.1')
