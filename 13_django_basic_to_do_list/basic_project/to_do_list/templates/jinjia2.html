@@ -6,7 +6,9 @@
 </head>
 <body>
 	{% for i in tempValue %}
-		{{ i }}
+		{% if i == 1 %}
+			{{ i }}
+		{% endif %}
 	{% endfor %}
 
 	{% set tempInt = 10 %}
