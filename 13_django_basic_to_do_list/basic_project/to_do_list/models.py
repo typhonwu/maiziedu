@@ -8,6 +8,14 @@ class TodoManager(models.Manager)
     def incomplete(self):
         return self.filter(is_done=False)
 
+class TodoQuerySet(models.QuerySet):
+    def incomplete(self):
+        return self.filter(is_done=False)
+
+class NewTodoManager(models.Manager):
+    def get_querset(self):
+        return TodoQuerySet(self.modle,using=self._db)
+
 class Item(models.Model):
     content = models.CharField(max_length=100,verbose_name=u"待办事项")
     is_done = models.BooleanField(default=False,verbose_name=u"事项状态")
@@ -22,5 +30,5 @@ class Item(models.Model):
     # 另外指定Manager管理器，可以有多个
     todoList = models.Manager()
     incomplete = IncompleteTodoManager()
-    # 具体调用形式就变成了Item.objects.incomplete()
-    objects = TodoManager()
+    # 具体调用形式就变成了Item.objects.all.incomplete()
+    objects = NewTodoManager()
