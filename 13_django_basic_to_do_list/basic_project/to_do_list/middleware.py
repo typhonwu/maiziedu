@@ -15,7 +15,9 @@ class CheckBrowser(object):
 		if len(result)>0:
 			# 如果浏览器是5~8版本，就显示升级页面
 			# return render(request,"warning.html")
-			agent = (request.META['HTTP_USER_AGENT'])
+			path = (request.META['PATH_INFO'])
+			print (path)
+			print (path.find("/warning"))
 			# 如果没找到信息，不在升级界面，就让它跳转
-			if path.find("/warning") > -1:
+			if path.find("/warning") == -1:
 				return redirect("/warning/")
