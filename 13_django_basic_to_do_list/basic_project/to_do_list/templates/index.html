@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load to_do_filter %}
+{% load to_do_extras %}
 <!DOCTYPE html>
 <html>
 
@@ -26,7 +28,7 @@
 				{% for item in item_list %}
 				<li id="{{ item.id }}" class="list-group-item {% if item.is_done %}completed_item{% endif %}">
 					<div class="text_holder">
-						{{ item.content }} - {{ item.pub_date|timesince }}
+						{{ item.content }} - {{ item.pub_date|mytimesince }}
 						<div class="btn-group pull-right">
 							<a class="delete btn btn-warning" href="/delete/?item_id={{ item.id }}&page={{ item_list.number }}">Delete</a>
 							<button class="edit btn btn-success" onclick="edit('{{ item.id }}','{{ item_list.number }}')">Edit</button>
@@ -48,11 +50,11 @@
 				{% endif %}
 			</div>
 		</div>
-		{% load to_do_extras %}
+		
 		{% get_current_time "%Y-%m-%d %I:%M %p" as allentime%}
 		<p> it is {{ allentime }} </p>
 		{% things_is_done "0" %}
-		{% load to_do_filter %}
+		
 		{{ "all the money come in my hand" | cut_filter:" "}}
 
 		{% with "<h1>hello</h1>" as tmpValue%}
