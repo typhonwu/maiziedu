@@ -32,7 +32,11 @@ def mytimesince_filter(value):
 	now = datetime.now()
 	days = (now - value).days
 	# print (days)
-	if days != 0:
+	if days // 30 != 0:
+		result = str(days//30) + "月前"
+	elif days // 7 !=0:
+		result = str(days//7) + "周前"
+	elif days != 0:
 		result = str(days)+"天前"
 	else:
 		seconds = (now-value).seconds 
