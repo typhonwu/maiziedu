@@ -78,3 +78,6 @@ def done(request):
 
 def jinjia2(request):
     return render(request,"jinjia2.html",{"tempValue":[1,2,3]})
+
+def warning(request):
+    return render(request,"warning.html")

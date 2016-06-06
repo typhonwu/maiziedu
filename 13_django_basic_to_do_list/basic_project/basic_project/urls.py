@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^edit/$',views.edit,name='edit'),
     url(r'^done/$',views.done,name='done'),
     url(r'^jinjia2/$',views.jinjia2,name='jinjia2'),
+    url(r'^warning/$',views.warning,name='warning'),
 ]

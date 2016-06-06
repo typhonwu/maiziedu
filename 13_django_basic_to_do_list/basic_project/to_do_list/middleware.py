@@ -1,5 +1,6 @@
 import re
-from django.shortcuts import render
+from django.shortcuts import redirect
+
 class CheckBrowser(object):
     # Request预处理函数,调用时机在 Django 接收到 request
     # 之后，但仍未解析URL以确定应当运行的 view 之前。Django 向它传入相应的
@@ -13,4 +14,8 @@ class CheckBrowser(object):
 		# print (result)
 		if len(result)>0:
 			# 如果浏览器是5~8版本，就显示升级页面
-			return render(request,"warning.html")
+			# return render(request,"warning.html")
+			path = (request.META['PATH_INFO])
+			# 如果没找到信息，不在升级界面，就让它跳转
+			if path.find("/warning") > -1:abs
+				return redirect("/warning/")
