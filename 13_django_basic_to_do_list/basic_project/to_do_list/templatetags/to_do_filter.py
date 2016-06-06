@@ -1,6 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
+from datetime import datetime
 #声明标签库，方便后面的注册
 register = template.Library()
 
@@ -24,9 +25,21 @@ def lower(value):
 def add(value, arg):
 	return mark_safe("%s %s" %(value, arg)) 
 
-def mytimesince_filter(value,arg=None):
-	print (value)
-	print (arg)
-	return value
+def mytimesince_filter(value):
+	# 传入的value是信息发布时间时间
+	# print (value)
+	now = datetime.now()
+	days = (now - value).days
+	# print (days)
+	if days != 0:
+		return str(days)+"天前"
+	else:
+		seconds = (now-value).seconds 
+		if seconds/3600 !=0:
+			return str(seconds/3600) + "小时前"
+		elif seconds/60 != 0:
+			return str(seconds/60)+"分钟前"
+		else:
+			return "刚刚"
 # 注册这个自定义过滤器，名字可以随便起，主要是指定调用哪个函数
 register.filter("mytimesince",mytimesince_filter)
