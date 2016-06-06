@@ -26,7 +26,7 @@
 				{% for item in item_list %}
 				<li id="{{ item.id }}" class="list-group-item {% if item.is_done %}completed_item{% endif %}">
 					<div class="text_holder">
-						{{ item.content }} - {{ item.pub_date|date:"Y-m-d H:i:s" }}
+						{{ item.content }} - {{ item.pub_date|timesince }}
 						<div class="btn-group pull-right">
 							<a class="delete btn btn-warning" href="/delete/?item_id={{ item.id }}&page={{ item_list.number }}">Delete</a>
 							<button class="edit btn btn-success" onclick="edit('{{ item.id }}','{{ item_list.number }}')">Edit</button>
