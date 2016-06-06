@@ -56,11 +56,16 @@ ROOT_URLCONF = 'basic_project.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2',
-        'DIRS': [os.path.join(BASE_DIR,'to_do_list/templates')],
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'basic_project.jinja2.environment',
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
         },
     },
 ]
@@ -80,7 +85,12 @@ MONGODB_DATABASES = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.dummy',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'to_do_list',
+        'USER':'root',
+        'PASSWORD':'123456',
+        'HOST':'localhost',
+        'PORT':'3306',#mysql默认端口就是3306
     }
 }
 
@@ -147,5 +157,5 @@ LOGGING = {
 }
 
 # 建立和mongodb的连接
-from mongoengine import connect
-connect('test',host='127.0.0.1')
+# from mongoengine import connect
+# connect('test',host='127.0.0.1')
