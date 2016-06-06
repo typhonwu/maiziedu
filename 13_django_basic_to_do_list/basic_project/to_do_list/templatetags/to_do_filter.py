@@ -35,10 +35,10 @@ def mytimesince_filter(value):
 		return str(days)+"天前"
 	else:
 		seconds = (now-value).seconds 
-		if seconds/3600 !=0:
-			return str(seconds/3600) + "小时前"
-		elif seconds/60 != 0:
-			return str(seconds/60)+"分钟前"
+		if seconds//3600 !=0:
+			return str(seconds//3600) + "小时前"
+		elif seconds//60 != 0:
+			return str(seconds//60)+"分钟前"
 		else:
 			return "刚刚"
 # 注册这个自定义过滤器，名字可以随便起，主要是指定调用哪个函数
