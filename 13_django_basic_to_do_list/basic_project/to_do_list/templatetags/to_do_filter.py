@@ -28,18 +28,18 @@ def add(value, arg):
 def mytimesince_filter(value):
 	# 传入的value是信息发布时间时间
 	# print (value)
+	result = "刚刚"
 	now = datetime.now()
 	days = (now - value).days
 	# print (days)
 	if days != 0:
-		return str(days)+"天前"
+		result = str(days)+"天前"
 	else:
 		seconds = (now-value).seconds 
 		if seconds//3600 !=0:
-			return str(seconds//3600) + "小时前"
+			result = str(seconds//3600) + "小时前"
 		elif seconds//60 != 0:
-			return str(seconds//60)+"分钟前"
-		else:
-			return "刚刚"
+			result = str(seconds//60)+"分钟前"
+	return result
 # 注册这个自定义过滤器，名字可以随便起，主要是指定调用哪个函数
 register.filter("mytimesince",mytimesince_filter)
