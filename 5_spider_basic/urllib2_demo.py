@@ -22,6 +22,7 @@ def request():
     # urlopen既可以接受网址为参数，也可以接受request对象为参数，后者可以定制请求头
     s = urllib2.urlopen(req)
     print s.read(100)
+    print s.headers # 打印回应头的全部信息
     s.close()
 
 if __name__ == '__main__':
