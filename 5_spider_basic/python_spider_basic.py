@@ -43,9 +43,14 @@ def urlencode():
 
 def urldecode():
     qs = 'coment=very+good&score=100&name=%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80'
-    print qs
-    print (urlparse.parse_qs(qs))
-
+    # print qs
+    # print (urlparse.parse_qs(qs))
+    url =\
+    'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=0&rsv_idx=1&tn=baidu&wd=%E5%A6%82%E4%BD%95%E9%94%BB%E7%82%BC%E6%AF%94%E8%BE%83%E5%A5%BD&rsv_pq=9d6509f2005ab761&rsv_t=b583CVjrEYETPx89UY0AtoqtiOQA5H31RBW6rI%2FbrNqKB92ovD9pYKddzZ0&rqlang=cn&rsv_enter=1&rsv_sug3=22&rsv_sug1=23&rsv_sug7=100'
+    result = urlparse.urlparse(url)
+    print result # 返回一个parseresult对象
+    params = urlparse.parse_qs(result.query)
+    print params # 返回一个字典对象
 
 if __name__=='__main__':
     urldecode()
