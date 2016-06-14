@@ -35,7 +35,11 @@ def progress(block,block_size,total_size):
         (block * block_size, total_size, 
         (float)(block * block_size) * 100 / total_size))
     
-
+# --------------------------用urllib进行编码和解码
+def urlencode():
+    params = {'score' : 100, 'name':'爬虫基础', 'coment': 'very good'}
+    qs = urllib.urlencode(params)
+    print qs
 
 if __name__=='__main__':
-    retrieve()
+    urlencode()
