@@ -30,7 +30,18 @@ def get_custom_headers():
     print(r.status_code)
     print(r.content)
 
+def get_cookie():
+    headers = {'User-Agent': 'Chrome'}
+    url = 'http://www.douban.com'
+    r = requests.get(url, headers=headers)
+    print(r.status_code)
+    print(r.cookies)
+    requests.get(url, headers=headers)
+    print(r.status_code)
+    print(r.cookies)
+
 if __name__ == '__main__':
     # get_json()
     # get_querystring()
-    get_custom_headers()
+    # get_custom_headers()
+    get_cookie()
