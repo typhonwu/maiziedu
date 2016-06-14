@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import urllib
 import datetime
+import pdb
 
 def download_stock_data(stock_list):  # 下载全部记录
     # 对列表中的股票id一一获取记录
@@ -20,7 +21,9 @@ def download_stock_data_in_period(stock_list,start,end): # 下载指定时间段
         fname = '%s_%d%d%d_%d%d%d.csv' % (sid,start.year,start.month,start.day,
                                          end.year,end.month,end.day)
         print 'downloading %s from %s' % (fname,url)
-        urllib.urlretrieve(url,fname)
+        if urllib.urlopen(url).getcode() == 200:
+            urllib.urlretrieve(url,fname)
+        else: print '没有获取'
 
 
 
