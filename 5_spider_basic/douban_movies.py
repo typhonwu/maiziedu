@@ -7,7 +7,7 @@ handle_endtag( tag)
 
 来实现自己需要的功能。
 
-tag是的html标签，attrs是 (属性，值)元组(tuple)的列表(list)。
+tag是的html标签，attrs是 (属性，值)元组(tuple)组成的列表(list)。
 HTMLParser自动将tag和attrs都转为小写。
 '''
 
@@ -34,6 +34,7 @@ class MovieParser(HTMLParser):
         HTMLParser.__init__(self)
         self.movies = []
     # 重写这个方法来处理开始标签标签,因为这些要取的属性值都写在<li>中
+    # 这个方法中的tag指<li>这种标签，attrs指相关属性值，二者已经写好了处理逻辑会自动整理好传入
     def handle_starttag(self,tag,attrs):
         # 定义一个内部函数用来解析属性
         def _attr(attrlist, attrname):  # 传入属性列表和要获取属性值的属性名
@@ -45,7 +46,7 @@ class MovieParser(HTMLParser):
         # 找到列表标签中data-title属性值不为空和data-category属性值为nowplaying的li标签内容
         if tag == 'li' and _attr(attrs, 'data-title') and _attr(attrs, 'data-category') == 'nowplaying':
             movie = {}
-            # 用内部方便把需要的属性值取出来
+            # 用内部方法把需要的属性值取出来
             movie['title'] = _attr(attrs, 'data-title')
             movie['score'] = _attr(attrs, 'data-score')
             movie['director'] = _attr(attrs, 'data-director')
@@ -71,5 +72,6 @@ if __name__ == '__main__':
     movies = nowplaying_movies(url)
 
     import json
+    # 转换成json格式再打印一次
     print('%s' % json.dumps(
         movies, sort_keys=True, indent=4, separators=(',', ': ')))
