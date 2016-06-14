@@ -23,6 +23,14 @@ def get_querystring():
     print(r.status_code)
     print(r.content)
 
+
+def get_custom_headers():
+    headers = {'x-header1': 'value1', 'x-header2': 'value2'}
+    r = requests.get('http://httpbin.org/get', headers=headers)
+    print(r.status_code)
+    print(r.content)
+
 if __name__ == '__main__':
     # get_json()
-    get_querystring()
+    # get_querystring()
+    get_custom_headers()
