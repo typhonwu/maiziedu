@@ -10,7 +10,7 @@ class CheckBrowser(object):
 		agent = (request.META['HTTP_USER_AGENT'])
 		print (agent)
 		# 用正则来进行筛选,主要匹配MSIE 5~8
-		result = re.findall("MSIE [5678]",agent) 
+		result = re.findall("MSIE [567]",agent) 
 		# print (result)
 		if len(result)>0:
 			# 如果浏览器是5~8版本，就显示升级页面
