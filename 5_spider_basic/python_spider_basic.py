@@ -22,6 +22,8 @@ def demo():
 # ------------------------urllib.urlretrieve方式:用于获取文件
 def retrieve():
     # 从第一个参数开始获取文件，以第二个参数为保存路径
+    # python简洁写法，右边本来就要返回一个元组，包含两个值
+    # 然后左边两个参数就是元组解包
     fname,msg = \
     urllib.urlretrieve('http://blog.kamidox.com','index.html', reporthook=progress)
     print fname # 这是文件保存路径
