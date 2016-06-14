@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import urllib
-
+import urlparse
 def demo():
     s = urllib.urlopen('http://blog.kamidox.com')
     # print s.read(100)
@@ -38,8 +38,14 @@ def progress(block,block_size,total_size):
 # --------------------------用urllib进行编码和解码
 def urlencode():
     params = {'score' : 100, 'name':'爬虫基础', 'coment': 'very good'}
-    qs = urllib.urlencode(params)
+    qs = urllib.urlencode(params) # 传入字典型参数进行编码
     print qs
 
+def urldecode():
+    qs = 'coment=very+good&score=100&name=%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80'
+    print qs
+    print (urlparse.parse_qs(qs))
+
+
 if __name__=='__main__':
-    urlencode()
+    urldecode()
