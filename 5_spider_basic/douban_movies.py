@@ -25,7 +25,7 @@ handle_comment 处理注释
 handle_decl 处理<!开头的，比如<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 handle_pi 处理形如<?instruction>的东西
 '''
-import urllib
+import urllib2
 from HTMLParser import HTMLParser
 
 
@@ -61,7 +61,7 @@ def nowplaying_movies(url):
     req = urllib2.Request(url, headers=headers)
     s = urllib2.urlopen(req)
     parser = MovieParser()  # 这是另外准备好的电影解析器
-    parser.feed(s.read)  # 给解析器喂数据
+    parser.feed(s.read())  # 给解析器喂数据
     s.close()
     return parser.movies  # 解析器解析后返回解析好的电影
 
