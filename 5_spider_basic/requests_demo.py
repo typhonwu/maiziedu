@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 requests:第三方库，http for humans
+可以阅读官方文档获得更多信息：http://requests.readthedocs.io/en/latest/
 '''
 
 
