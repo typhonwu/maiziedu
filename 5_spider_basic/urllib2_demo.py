@@ -4,6 +4,7 @@ urllib2比urllib多了urllib2.Request对象，请求头定制更加丰富
 urllib独有编码解码功能
 '''
 import urllib2
+import urllib # 这里主要为了用它进行编码
 
 def urlopen():
     url = 'http://blog.kamidox.com/no_exist'
@@ -25,5 +26,19 @@ def request():
     print s.headers # 打印回应头的全部信息
     s.close()
 
+def request_post_debug():
+    # POST
+    data = {'username': 'kamidox', 'password': 'xxxxxxxx'}
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    req = urllib2.Request(
+        'http://www.douban.com',
+        data=urllib.urlencode(data),
+                    headers=headers)
+    # 自定义handler，这是urllib2的特色。调试等级为1，会打印与服务器交互的信息
+    opener = urllib2.build_opener(urllib2.HTTPHandler(debuglevel=1))
+    s = opener.open(req)
+    print s.read(100)
+    s.close()
+
 if __name__ == '__main__':
-    request()
+    request_post_debug()
