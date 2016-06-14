@@ -40,8 +40,15 @@ def get_cookie():
     print(r.status_code)
     print(r.cookies)
 
+def post():
+    r = requests.post('http://httpbin.org/post', data={'user': 'username', 'pass': 'password'})
+    print(r.status_code)
+    print(r.headers['Content-Type'])
+    print(r.content)
+
 if __name__ == '__main__':
     # get_json()
     # get_querystring()
     # get_custom_headers()
-    get_cookie()
+    # get_cookie()
+    post()
