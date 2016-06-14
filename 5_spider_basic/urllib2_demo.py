@@ -5,6 +5,7 @@ urllib独有编码解码功能
 '''
 import urllib2
 import urllib # 这里主要为了用它进行编码
+import cookielib
 
 def urlopen():
     url = 'http://blog.kamidox.com/no_exist'
@@ -46,6 +47,21 @@ def install_debug_handler():
         urllib2.HTTPSHandler(debuglevel=1))
     urllib2.install_opener(opener) # 把自定义的handler安装成默认
 
+def handle_cookie():
+    cookiejar = cookielib.CookieJar()
+    handler = urllib2.HTTPCookieProcessor(cookiejar=cookiejar)
+    opener = urllib2.build_opener(handler,urllib2.HTTPHandler(debuglevel=1))
+    # 第一个请求不带cookie
+    s = opener.open('https://www.douban.com')
+    print(s.read(400))
+    s.close()
+
+    # 把获取的cookiex信息打印出来
+    print '=' * 80
+    print cookiejar._cookies
+    print '=' * 80
+    # 第二个请求自动把获得的cookie自动加入
+    s = opener.open('https://www.douban.com')
+    s.close()
 if __name__ == '__main__':
-    install_debug_handler()  # 调用这个方法把定义好的handler安装到默认
-    request()
+    handle_cookie()
