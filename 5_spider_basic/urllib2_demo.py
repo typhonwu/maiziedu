@@ -40,5 +40,12 @@ def request_post_debug():
     print s.read(100)
     s.close()
 
+def install_debug_handler():
+    opener = urllib2.build_opener(
+        urllib2.HTTPHandler(debuglevel=1),
+        urllib2.HTTPSHandler(debuglevel=1))
+    urllib2.install_opener(opener) # 把自定义的handler安装成默认
+
 if __name__ == '__main__':
-    request_post_debug()
+    install_debug_handler()  # 调用这个方法把定义好的handler安装到默认
+    request()
