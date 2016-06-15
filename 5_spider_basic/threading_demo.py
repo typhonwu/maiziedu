@@ -89,7 +89,7 @@ class Consumer(threading.Thread):
 
 # 生产者-消费者问题
 def consumer_producer_demo():
-    for i in range(1):
+    for i in range(10):
         Consumer().start()
 
     for i in range(1):
