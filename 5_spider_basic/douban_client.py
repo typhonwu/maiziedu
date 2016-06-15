@@ -57,7 +57,9 @@ class DoubanClient(object):
 
     def edit_signature(self, username, signature):
         url = 'https://www.douban.com/people/%s/' % username
+        # 第一次访问用户主页，用get获取信息，这个不涉及安全，不需要post
         r = self.session.get(url)
+        # 根据我们分析的url流程，从页面中获取ck的value值，并放入要post的数据中
         data = {'ck': _get_ck(r.content), 'signature': signature}
         url = 'https://www.douban.com/j/people/%s/edit_signature' % username
         headers = {'referer': url,
@@ -97,7 +99,7 @@ def _get_captcha(content):
 
 
 def _get_ck(content):
-
+    # 构造一个解析器专门用于解析Ck值
     class CKParser(HTMLParser):
         def __init__(self):
             HTMLParser.__init__(self)
@@ -115,4 +117,5 @@ def _get_ck(content):
 if __name__ == '__main__':
     c = DoubanClient()
     c.login('hughohoho@gmail.com', 'n,f4f6DRzroUZ(bLrWzG')
-    c.edit_signature('username', 'python 爬虫基础')
+    # 一定要先登录再修改
+    c.edit_signature('113667643', 'python 爬虫基础')
