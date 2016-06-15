@@ -125,6 +125,13 @@ def re_pattern_syntax():
     print(re.match(r'ab+', 'a'))
     print(re.match(r'ab?', 'a'))
 
+    # greedy/non-greedy：查大还是查小
+    s = '<H1>title</H1>'
+    # 默认贪婪模式，这个会全部匹配<............>
+    print(re.match(r'<.*>', s).group())
+    # ?指非贪婪，也就是最短匹配
+    print(re.match(r'<.*?>', s).group())
+
 
 
 
