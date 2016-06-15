@@ -167,6 +167,9 @@ def re_pattern_syntax_meta_char():
     # \D:匹配非数字
     print(re.search(r'(\D+)\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').groups())
 
+
+
+def re_pattern_flags():
     # \s\S: \s匹配空格，\S匹配非空格，space
     # 制表符：[ \t\n\r\f\v] \f: 换页 \v: 垂直制表
     print(re.match(r'Name:\s+([a-zA-Z]+)', 'Name: \tJoey').groups())
@@ -179,6 +182,19 @@ def re_pattern_syntax_meta_char():
     print(re.match(r'(name)\W+(\w+)', 'Name: Joey'))
     print(re.match(r'(name)\W+(\w+)', 'Name: Joey', re.IGNORECASE).groups())
 
+    # re.VERBOSE
+    a = re.compile(r"""
+                   \d +  # the integral part
+                   \.    # the decimal point
+                   \d *  # some fractional digits""")
+    b = re.compile(r"""
+                   \d +  # the integral part
+                   \.    # the decimal point
+                   \d *  # some fractional digits""", re.VERBOSE)
+    c = re.compile(r"\d+\.\d*")
+    print(a.search('20.5'))
+    print(b.search('20.5').group())
+    print(c.search('20.5').group())
 
 if __name__ == '__main__':
     re_pattern_flags()
