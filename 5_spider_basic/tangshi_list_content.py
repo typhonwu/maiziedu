@@ -88,15 +88,21 @@ def download_poem(poem):
     poem['content'] = '\n'.join(parser.content)
 
 
+# 处理换行异常
 def trim_ws(s):
+    # 替换掉空白符
     c = re.sub(r'\s+', '', s)
 
+    # 定义内部方法，自动换行,传入一个match对象
     def _add_crlf(m):
+        # 返回替换后的字符串+回车
+        # matchObject.group()指代对象的整个字符串
         return m.group() + '\r\n'
-
+    # sub的函数方式用法，这里的c是替换掉空白符之后的matchObject
     c = re.sub(r'，|。', _add_crlf, c)
     # c = c.replace('，', '，\n')
     # c = c.replace('。', '。\n')
+    # 建议首选replace，sub方法要慢些，但是方便些
     return c
 
 
@@ -124,14 +130,14 @@ def trim_test():
 
 
 if __name__ == '__main__':
-    l = retrive_tangshi_300()
-    print('total %d poems.' % len(l))
-    for i in range(10):
-        print('标题: %(title)s\t作者：%(author)s\tURL: %(url)s' % (l[i]))
+    # l = retrive_tangshi_300()
+    # print('total %d poems.' % len(l))
+    # for i in range(10):
+    #    print('标题: %(title)s\t作者：%(author)s\tURL: %(url)s' % (l[i]))
 
     # download each poem
-    for i in range(len(l)):
-        print('#%d downloading poem from: %s' % (i, l[i]['url']))
-        download_poem(l[i])
-        print('标题: %(title)s\t作者：%(author)s\n%(content)s' % (l[i]))
+    # for i in range(len(l)):
+    #    print('#%d downloading poem from: %s' % (i, l[i]['url']))
+    #    download_poem(l[i])
+    #    print('标题: %(title)s\t作者：%(author)s\n%(content)s' % (l[i]))
     trim_test()
