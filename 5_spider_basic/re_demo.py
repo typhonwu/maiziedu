@@ -141,7 +141,7 @@ def re_pattern_syntax():
     # {m,n} non-greedy
     print(re.match(r'ab{2,4}?', 'abbbbbb').group())
 
-    # 转义字符 \ 用来匹配特殊字符
+    # 转义字符 \ 用来匹配特殊字符，有了r就是不需要再转义，少写\，体验更好
     print(re.search(r'\$(\d+\.\d+)', 'The price is $9.00').groups())
 
 
