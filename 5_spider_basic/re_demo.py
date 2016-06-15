@@ -103,7 +103,11 @@ def re_match_object():
     print(m.groups())  # 返回从1开始后面所有匹配组
 
 
-
+def re_pattern_syntax():
+    # dot：匹配任意项
+    print(re.match(r'.*', 'abc\nedf').group())
+    # 注意\n,如果没有DOTALL(),那么.不能指代\n,而\n是指换行，也就是说只会匹配到abc
+    print(re.match(r'.*', 'abc\nedf', re.DOTALL).group())
 
 
 
