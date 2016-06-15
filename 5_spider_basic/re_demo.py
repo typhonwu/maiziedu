@@ -144,6 +144,12 @@ def re_pattern_syntax():
     # 转义字符 \ 用来匹配特殊字符，有了r就是不需要再转义，少写\，体验更好
     print(re.search(r'\$(\d+\.\d+)', 'The price is $9.00').groups())
 
+    # [] 集合:把匹配可能性写入
+    print(re.search(r'0[xX]([0-9A-Fa-f]+)', 'The hex value is 0xFF03D6').groups())
+    print(re.search(r'[0-9]{3}-[0-9]{4}-[0-9]{4}', 'The Phone Number is 138-2231-2398').group())
+    print(re.search(r'[0-9\-]+', 'The Phone Number is 138-2231-2398').group())
+
+
 
 
 if __name__ == '__main__':
