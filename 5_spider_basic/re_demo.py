@@ -86,5 +86,19 @@ def re_method():
     for m in re.finditer(r'\d+', s2):
         print(m.group())
 
+    # sub ：返回替换的字符串
+    s2 = 'The first price is $9.90 and the second price is $100'
+    print(re.sub(r'\d+', '<number>', s2))
+    # subn ：在sub的基础上多返回n，也就是替换了多少个
+    print(re.subn(r'\d+', '<number>', s2))
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     re_pattern_flags()
