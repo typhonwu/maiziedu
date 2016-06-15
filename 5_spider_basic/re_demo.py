@@ -81,5 +81,10 @@ def re_method():
     # findall vs. search
     print(re.search(r'\d+', s2).group())
 
+    # finditer：返回迭代器，可以用循环处理
+    s2 = 'The first price is $9.90 and the second price is $100'
+    for m in re.finditer(r'\d+', s2):
+        print(m.group())
+
 if __name__ == '__main__':
     re_pattern_flags()
