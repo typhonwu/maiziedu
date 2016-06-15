@@ -172,7 +172,8 @@ def re_pattern_syntax_meta_char():
     print(re.match(r'Name:\s+([a-zA-Z]+)', 'Name: \tJoey').groups())
     print(re.match(r'\S+:\s*(\S+)', 'Name: Joey').groups())
 
-
+    # \w\W: [a-zA-Z0-9_]，匹配字符\非字符
+    print(re.match(r'(\w+)(\W+)(\w+)', 'Name: Joey').groups())
 
 
 
