@@ -162,6 +162,9 @@ def re_pattern_syntax_meta_char():
 
     # \d\D：匹配数字\非数字
     print(re.search(r'\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').group())
+    # \b匹配单词开头和结尾，这里的意思就是手机号前后都没有其他内容
+    print(re.search(r'\b(\d{3}-\d{4}-\d{4})\b', 'The Phone Number is 138-2231-2398').group())
+    # \D:匹配非数字
     print(re.search(r'(\D+)\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').groups())
 
 
