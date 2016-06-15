@@ -53,19 +53,21 @@ class PoemParser(HTMLParser):
 class PoemContentParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
-        self.content = []
-        self.in_p = False
+        self.content = []  # 定义一个列表保存古诗内容
+        self.in_p = False  # 设定一个标志用于确认是否想要的标签
 
     def handle_starttag(self, tag, attrs):
+        # 对<p>进行判断
         if tag == 'p' and _attr(attrs, 'align') == 'center':
             self.in_p = True
 
     def handle_endtag(self, tag):
+        # 对</p>进行判断
         if tag == 'p':
             self.in_p = False
 
     def handle_data(self, data):
-        if self.in_p:
+        if self.in_p:  # 只要是合法标签，就是我们要的数据
             self.content.append(data)
 
 
@@ -80,7 +82,9 @@ def retrive_tangshi_300():
 def download_poem(poem):
     r = requests.get('http://www.gushiwen.org' + poem['url'])
     parser = PoemContentParser()
+    # 把返回的网页内容喂给古诗内容解析器解析
     parser.feed(r.content)
+    # 解析的内容保存在解析器的content属性中，这里用回车连接，打印时自动换行
     poem['content'] = '\n'.join(parser.content)
 
 
