@@ -114,6 +114,10 @@ def re_pattern_syntax():
     # re.MULTILINE匹配多行，意思就是从\n之后又算作从开头匹配
     print(re.findall(r'^abc', 'abc\nabc', re.MULTILINE))
 
+    # $：每行结尾，与脱字符配对记忆
+    print(re.findall(r'abc.$', 'abc1\nabc2'))
+    print(re.findall(r'abc.$', 'abc1\nabc2', re.MULTILINE))
+
 
 
 
