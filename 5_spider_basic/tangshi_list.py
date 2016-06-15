@@ -49,6 +49,7 @@ class PoemParser(HTMLParser):
                 self.current_poem['title'] = m.group(1)
                 self.current_poem['author'] = m.group(2)
                 self.tangshi_list.append(self.current_poem)
+                # 每次保存之后需要初始化，避免被覆盖，只抓取同一首
                 self.current_poem = {}
 
 
