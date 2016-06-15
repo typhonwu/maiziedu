@@ -149,7 +149,8 @@ def re_pattern_syntax():
     print(re.search(r'[0-9]{3}-[0-9]{4}-[0-9]{4}', 'The Phone Number is 138-2231-2398').group())
     print(re.search(r'[0-9\-]+', 'The Phone Number is 138-2231-2398').group())
 
-
+    # | ： 或者
+    print(re.search(r'([0-9]|-)+', 'The Phone Number is 138-2231-2398').group())
 
 
 if __name__ == '__main__':
