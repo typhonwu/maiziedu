@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
+？
+yes or not,放在后面表示可能有可能没有
+
 ^​
 Matches the beginning of the line.
 $ ​
@@ -68,6 +71,15 @@ def re_method():
     # split：使用正则表达式来分割，
     s1 = 'Hello, this is Joey'
     print(re.split(r'\W+', s1))  # \W指非字母，也就是说这里是把任意非字母符号作为分隔符
+
+    # findall:返回所有匹配项
+    s1 = 'Hello, this is Joey'
+    s2 = 'The first price is $9.90 and the second price is $100'
+    print(re.findall(r'\w+', s1))
+    print(re.findall(r'\d+', s2))
+
+    # findall vs. search
+    print(re.search(r'\d+', s2).group())
 
 if __name__ == '__main__':
     re_pattern_flags()
