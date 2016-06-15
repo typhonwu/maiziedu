@@ -175,6 +175,9 @@ def re_pattern_syntax_meta_char():
     # \w\W: [a-zA-Z0-9_]，匹配字符\非字符
     print(re.match(r'(\w+)(\W+)(\w+)', 'Name: Joey').groups())
 
+    # re.I/re.IGNORECASE
+    print(re.match(r'(name)\W+(\w+)', 'Name: Joey'))
+    print(re.match(r'(name)\W+(\w+)', 'Name: Joey', re.IGNORECASE).groups())
 
 
 if __name__ == '__main__':
