@@ -109,6 +109,10 @@ def re_pattern_syntax():
     # 注意\n,如果没有DOTALL(),那么.不能指代\n,而\n是指换行，也就是说只会匹配到abc
     print(re.match(r'.*', 'abc\nedf', re.DOTALL).group())
 
+    # caret：脱字号，指代开头，以之开头
+    print(re.findall(r'^abc', 'abc\nabc'))
+    # re.MULTILINE匹配多行，意思就是从\n之后又算作从开头匹配
+    print(re.findall(r'^abc', 'abc\nabc', re.MULTILINE))
 
 
 
