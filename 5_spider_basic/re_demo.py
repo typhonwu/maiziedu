@@ -167,6 +167,11 @@ def re_pattern_syntax_meta_char():
     # \D:匹配非数字
     print(re.search(r'(\D+)\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').groups())
 
+    # \s\S: \s匹配空格，\S匹配非空格，space
+    # 制表符：[ \t\n\r\f\v] \f: 换页 \v: 垂直制表
+    print(re.match(r'Name:\s+([a-zA-Z]+)', 'Name: \tJoey').groups())
+    print(re.match(r'\S+:\s*(\S+)', 'Name: Joey').groups())
+
 
 
 
