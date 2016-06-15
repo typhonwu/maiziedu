@@ -153,5 +153,18 @@ def re_pattern_syntax():
     print(re.search(r'([0-9]|-)+', 'The Phone Number is 138-2231-2398').group())
 
 
+def re_pattern_syntax_meta_char():
+    # \number：和第number个匹配组是一样的，重复出现
+    print(re.search(r'(.+) \1', 'the the').group())
+    print(re.search(r'[0-9]{3}(-[0-9]{4})\1', 'The Phone Number is 138-2231-2398'))
+    print(re.search(r'[0-9]{3}(-[0-9]{4})\1', 'The Phone Number is 138-2231-2231').group())
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     re_pattern_flags()
