@@ -132,7 +132,14 @@ def re_pattern_syntax():
     # ?指非贪婪，也就是最短匹配
     print(re.match(r'<.*?>', s).group())
 
-
+    # {m}：匹配m次
+    print(re.match(r'ab{2}', 'abb').group())
+    # {m,n}/{m,}：匹配m到n次/至少出现m次
+    print(re.match(r'ab{2,4}', 'abbbbbb').group())
+    print(re.match(r'ab{2,5}', 'ab'))
+    print(re.match(r'ab{2,}', 'abbbbbb').group())
+    # {m,n} non-greedy
+    print(re.match(r'ab{2,4}?', 'abbbbbb').group())
 
 
 
