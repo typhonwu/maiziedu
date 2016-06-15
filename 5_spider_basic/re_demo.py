@@ -65,5 +65,9 @@ def re_method():
     m = re.match('(.*)c', 'abcd')
     print(m.group(0), m.group(1))
 
+    # split：使用正则表达式来分割，
+    s1 = 'Hello, this is Joey'
+    print(re.split(r'\W+', s1))  # \W指非字母，也就是说这里是把任意非字母符号作为分隔符
+
 if __name__ == '__main__':
     re_pattern_flags()
