@@ -107,8 +107,13 @@ def trim_ws(s):
 
 
 def trim_href(s):
+    # 简单字符串处理首选replace
     s = s.replace('<br>', '')
+    # 匹配图片标签alt属性值-alt:"诗"
+    # 用非贪婪模式(.*?)
+    # re.search返回的还是matchObject
     alt = re.search(r'alt\s*=\s*\"?(.*?)\"?\s+', s, re.IGNORECASE)
+    # 把多余的a标签替换为找出来的alt值
     s = re.sub(r'<a.*?</a>', alt.groups(1), s)
     return trim_ws(s)
 
