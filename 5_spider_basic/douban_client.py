@@ -6,8 +6,11 @@ from HTMLParser import HTMLParser
 class DoubanClient(object):
     def __init__(self):
         object.__init__(self)
+        # 第一次设置头信息，为了获取服务器返回的登陆界面信息，后面还会再加入伪装信息
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36',
                    'origin': 'http://www.douban.com'}
+        
+        # create requests session
         self.session = requests.session()
         self.session.headers.update(headers)
 
@@ -18,21 +21,37 @@ class DoubanClient(object):
               login='登录'):
 
         url = 'https://www.douban.com/accounts/login'
+        # 使用session来发送请求，第一次是get方式，用于获取服务器返回的登陆界面
         r = self.session.get(url)
+
+        # 又见元组解包写法，用元组一次给两个变量赋值
         (captcha_id, captcha_url) = _get_captcha(r.content)
+        
+        # 如果发送请求获得了验证码，就要求输入人眼识别后的验证码内容
         if captcha_id:
             captcha_solution = raw_input('please input solution for captcha [%s]:' % captcha_url)
-        url = 'https://www.douban.com/accounts/login'
+        
+
+        # post login request
         data = {'form_email': username,
                 'form_password': password,
                 'source': source,
                 'redir': redir,
                 'login': login}
-        headers = {'referer': 'http://www.douban.com/accounts/login?source=main',
-                   'host': 'accounts.douban.com'}
+
+        # 如果有验证码信息，就把验证码信息加入到要post的数据中
         if captcha_id:
             data['captcha-id'] = captcha_id
             data['captcha-solution'] = captcha_solution
+        
+        # 第二次设置头信息，这次是设置更加完整，准备post登陆信息给服务验证
+        headers = {'referer': 'http://www.douban.com/accounts/login?source=main',
+                   'host': 'accounts.douban.com'}
+        
+
+        
+        
+        # 第二次发送请求，把验证码信息，用户名，密码等信息都用post方式发给服务器
         self.session.post(url, data=data, headers=headers)
         print(self.session.cookies.items())
 
@@ -60,9 +79,11 @@ def _get_captcha(content):
     class CaptchaParser(HTMLParser):
         def __init__(self):
             HTMLParser.__init__(self)
-            self.captcha_id = None
+            self.captcha_id = None  # 默认情况下验证码信息为空
             self.captcha_url = None
 
+
+        # 重写htmlparser这个方法来解析出验证码信息
         def handle_starttag(self, tag, attrs):
             if tag == 'img' and _attr(attrs, 'id') == 'captcha_image' and _attr(attrs, 'class') == 'captcha_image':
                 self.captcha_url = _attr(attrs, 'src')
@@ -93,5 +114,5 @@ def _get_ck(content):
 
 if __name__ == '__main__':
     c = DoubanClient()
-    c.login('username@douban.com', 'password@douban.com')
+    c.login('hughohoho@gmail.com', 'n,f4f6DRzroUZ(bLrWzG')
     c.edit_signature('username', 'python 爬虫基础')
