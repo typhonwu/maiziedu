@@ -118,6 +118,13 @@ def re_pattern_syntax():
     print(re.findall(r'abc.$', 'abc1\nabc2'))
     print(re.findall(r'abc.$', 'abc1\nabc2', re.MULTILINE))
 
+    # *:0到多
+    # +:1到多
+    # ?:0或1
+    print(re.match(r'ab*', 'a'))
+    print(re.match(r'ab+', 'a'))
+    print(re.match(r'ab?', 'a'))
+
 
 
 
