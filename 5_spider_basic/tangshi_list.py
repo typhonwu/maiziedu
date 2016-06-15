@@ -17,6 +17,13 @@ class PoemParser(HTMLParser):
         # 默认未进入特定的标签，后面如果找到符合条件的标签再改为True,然后开始抓取
         self.in_div = False
         self.in_a = False
+        # 用compile方便后面复用正则表达式，为了提高可读性，还可以用注释模式
+        self.pattern = re.compile(r'''
+            (.*)  # 匹配标题  group(1)
+            \(  # 匹配作者左边的括号
+            (.*)  # 匹配作者  group(2)
+            \)  # 匹配作者右表的括号
+            ''', re.VERBOSE)
         self.tangshi_list = []
         self.current_poem = {}
         pass
@@ -36,8 +43,9 @@ class PoemParser(HTMLParser):
     def handle_data(self, data):
         if self.in_a:
             print(data)
+            # 调用定义好的compile对象进行提取
             m = self.pattern.match(data)
-            if m:
+            if m:  # 如果取到了数据，就直接把分组正则获取的内容放入当前正在抓取的古诗
                 self.current_poem['title'] = m.group(1)
                 self.current_poem['author'] = m.group(2)
                 self.tangshi_list.append(self.current_poem)
