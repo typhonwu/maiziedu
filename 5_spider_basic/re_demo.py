@@ -55,7 +55,15 @@ def re_demo():
     m = re.search(r'(\d+).*\$(\d+\.?\d*)', txt)
     print(m.groups())
 
-
+def re_method():
+    # search vs. match
+    # match从字符串开头开始匹配，search只要找到一个就可以了
+    print(re.search('c', 'abcd'))
+    print(re.match('c', 'abcd'))
+    print(re.search('^c', 'abcd'))  # ^一定是从开头开始匹配，等同于match('c',abcd)
+    print(re.match('.*c', 'abcd'))  # 等同于search('c',abcd)
+    m = re.match('(.*)c', 'abcd')
+    print(m.group(0), m.group(1))
 
 if __name__ == '__main__':
     re_pattern_flags()
