@@ -25,11 +25,14 @@ def worker_func_lock(lock):
 
 # 线程锁
 gLock = threading.Lock()
+# 线程信号量
+gSem = threading.Semaphore(3)
+
 
 def thread_lock_demo():
     for i in range(10):
         # 开始带锁的线程
-        threading.Thread(target=worker_func_lock, args=[gLock]).start()
+        threading.Thread(target=worker_func_lock, args=[gSem]).start()
 
 if __name__ == '__main__':
     # simple_thread_demo()
