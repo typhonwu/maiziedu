@@ -95,6 +95,16 @@ def re_method():
 
 
 
+def re_match_object():
+    # group：用括号表示分组，这样会分别匹配并分组，可以用下标来指定
+    s1 = 'Joey Huang'
+    m = re.match(r'(\w+) (\w+)', s1)
+    print(m.group(0, 1, 2))  # 0指代全部，1指代第一组，2指代第二组
+    print(m.groups())  # 返回从1开始后面所有匹配组
+
+
+
+
 
 
 
