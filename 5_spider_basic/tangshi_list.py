@@ -34,7 +34,14 @@ class PoemParser(HTMLParser):
         pass
 
     def handle_data(self, data):
-        pass
+        if self.in_a:
+            print(data)
+            m = self.pattern.match(data)
+            if m:
+                self.current_poem['title'] = m.group(1)
+                self.current_poem['author'] = m.group(2)
+                self.tangshi_list.append(self.current_poem)
+                self.current_poem = {}
 
 
 def retrive_tangshi_300():
