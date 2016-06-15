@@ -160,7 +160,9 @@ def re_pattern_syntax_meta_char():
     print(re.search(r'[0-9]{3}(-[0-9]{4})\1', 'The Phone Number is 138-2231-2231').group())
 
 
-
+    # \d\D：匹配数字\非数字
+    print(re.search(r'\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').group())
+    print(re.search(r'(\D+)\d{3}-\d{4}-\d{4}', 'The Phone Number is 138-2231-2398').groups())
 
 
 
