@@ -41,7 +41,7 @@ def retrieve_users():
     parser = UserParser()
     print chardet.detect(r.content)
     
-    parser.feed(r.content)
+    parser.feed(r.content.decode('utf-8'))
     return parser.user_list
 
 if __name__ == '__main__':
