@@ -75,7 +75,8 @@ class UserParser(HTMLParser):
             # 拼接后获取用户信息
             user_info= requests.get('http://tieba.baidu.com' + _attr(attrs, 'href'))
             parser = UserInfoParser()
-            parser.feed(user_info.content)
+            print chardet.detect(user_info.content)
+            parser.feed(user_info.content.decode('GB18030'))
             # 把用户信息解析类返回的头像链接放入
             self.current_user['portrait'] == parser.img_url
             # 注意取完后关闭一下,并初始化 
