@@ -7,11 +7,13 @@ import re
 from HTMLParser import HTMLParser
 import pdb
 
+
 class UserParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.user_list = []
-        pass
+        self.in_span = False
+        self.current_user = {}
 
     def handle_starttag(self,tag,attrs):
         # 定义一个内部函数用来解析属性
@@ -20,18 +22,28 @@ class UserParser(HTMLParser):
                 if attr[0] == attrname:
                     return attr[1]
             return None
+        # 确认用户名所在的span标签
+        pdb.set_trace()
+        if tag == 'span' and _attr(attrs, 'class') == 'tb_icon_author':
+            self.in_span = True
+            # 获取用户名属性  
+            self.current_user['name'] = _attr(attrs,'title')
+            
+
+
 
     def handle_data(self,data):
         pass
 
-def retrive_users():
+def retrieve_users():
     url = 'http://tieba.baidu.com/f?kw=python&fr=ala0&tpl=5'
     r = requests.get(url)
-    parser = poemParser()
-    parser.feed(r.content)
+    parser = UserParser()
+
+    
+    parser.feed(r.content.decode('utf-8'))
     return parser.user_list
 
 if __name__ == '__main__':
     l = retrieve_users()
     print('total %d users' % len(l))
-    
