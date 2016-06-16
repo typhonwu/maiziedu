@@ -14,7 +14,12 @@ class UserParser(HTMLParser):
         pass
 
     def handle_starttag(self,tag,attrs):
-        pass
+        # 定义一个内部函数用来解析属性
+        def _attr(attrlist, attrname):  # 传入属性列表和要获取属性值的属性名
+            for attr in attrlist:  # 取出的attr是元组，0下标指属性名，1下标指向属性值
+                if attr[0] == attrname:
+                    return attr[1]
+            return None
 
     def handle_data(self,data):
         pass
@@ -27,4 +32,6 @@ def retrive_users():
     return parser.user_list
 
 if __name__ == '__main__':
-    retrieve_users()
+    l = retrieve_users()
+    print('total %d users' % len(l))
+    
