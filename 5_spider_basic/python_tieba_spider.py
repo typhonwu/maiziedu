@@ -65,14 +65,14 @@ class UserParser(HTMLParser):
             if _attr(attrs, 'title'):
                 self.current_user['name'] = re.split(': ', # 把属性值分段
                     _attr(attrs, 'title')
-                    # 要先转为字符串才能切分，然后取用户名  
-                    .encode("utf-8"))[1]\
-                    # 取完后还得转回unicode串
-                    .decode("utf-8")
+                    # 要先转为字符串才能切分，然后取用户名,取完后还得转回unicode串  
+                    .encode("utf-8"))[1].decode("utf-8")
 
         # 获取用户主页链接
         if self.in_span and tag == 'a':
-            print _attr(attrs, 'href')
+            # print 'http://tieba.baidu.com' + _attr(attrs, 'href')
+            # 拼接一下再放入字典
+            self.current_user['url'] = 'http://tieba.baidu.com' + _attr(attrs, 'href')
             # 注意取完后关闭一下 
             self.in_div = False
             self.in_span = False
