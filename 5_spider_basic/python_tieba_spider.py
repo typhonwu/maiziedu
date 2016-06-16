@@ -7,12 +7,10 @@
 '''
 要获取的html标签范围：
 <div class="threadlist_lz clearfix"> # 这是第一个定位标签
-
-                <div class="threadlist_title pull_left j_th_tit ">
-    
-    
-    <a href="/p/4612057728" title="【腾讯课堂免费Python直播课程】秒杀一切Python视频资料" target="_blank" class="j_th_tit ">【腾讯课堂免费Python直播课程】秒杀一切Python视频资料</a>
-</div><div class="threadlist_author pull_right">
+    <div class="threadlist_title pull_left j_th_tit ">
+        <a href="/p/4612057728" title="【腾讯课堂免费Python直播课程】秒杀一切Python视频资料" target="_blank" class="j_th_tit ">【腾讯课堂免费Python直播课程】秒杀一切Python视频资料</a>
+    </div>
+    <div class="threadlist_author pull_right">
 
 
     # 这是第二个定位标签，其中title是作者
@@ -39,15 +37,15 @@ import pdb
 import chardet
 
 class UserParser(HTMLParser):
-    def __init__(self):
+    def __init__(self): # 一次请求只初始化一次
         HTMLParser.__init__(self)
         self.user_list = []
         self.in_div = False
         self.in_span = False
-        self.in_a = False
         self.current_user = {}
 
     def handle_starttag(self,tag,attrs):
+
         # 定义一个内部函数用来解析属性
         def _attr(attrlist, attrname):  # 传入属性列表和要获取属性值的属性名
             for attr in attrlist:  # 取出的attr是元组，0下标指属性名，1下标指向属性值
@@ -57,9 +55,13 @@ class UserParser(HTMLParser):
         # 确认用户名所在的div标签
         if tag == 'div' and _attr(attrs, 'class') == 'threadlist_lz clearfix':
             # pdb.set_trace()
-            print tag+':' + _attr(attrs, 'class')
+            # print tag+':' + _attr(attrs, 'class')
             self.in_div = True
-            
+
+        # 轮到其中的span标签，可以获得用户名
+        if self.in_div and tag == 'span': 
+            self.in_span = True
+            print _attr(attrs, 'title')
 
 
 
