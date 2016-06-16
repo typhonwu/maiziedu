@@ -62,7 +62,9 @@ class UserParser(HTMLParser):
         if self.in_div and tag == 'span': 
             self.in_span = True
             print _attr(attrs, 'title')
-
+        # 获取用户主页链接
+        if self.in_span and tag == 'a':
+            print _attr(attrs, 'href')
 
 
     def handle_data(self, data):
