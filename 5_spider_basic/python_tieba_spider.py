@@ -81,6 +81,7 @@ def retrieve_users():
     r = requests.get(url)
     parser = UserParser()
     print chardet.detect(r.content)
+    pdb.set_trace()
     parser.feed(r.content.decode('utf-8'))
     return parser.user_list
 
