@@ -65,7 +65,10 @@ class UserParser(HTMLParser):
         # 获取用户主页链接
         if self.in_span and tag == 'a':
             print _attr(attrs, 'href')
-
+        # 注意取完后关闭一下   
+        if _attr(attrs, 'class') == 'pull-right is_show_create_time':
+            self.in_div = False
+            self.in_span = False
 
     def handle_data(self, data):
         pass
