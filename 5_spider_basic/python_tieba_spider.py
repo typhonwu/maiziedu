@@ -6,7 +6,7 @@ import requests
 import re
 from HTMLParser import HTMLParser
 import pdb
-
+import chardet
 
 class UserParser(HTMLParser):
     def __init__(self):
@@ -39,7 +39,7 @@ def retrieve_users():
     url = 'http://tieba.baidu.com/f?kw=python&fr=ala0&tpl=5'
     r = requests.get(url)
     parser = UserParser()
-
+    print chardet.detect(r.content)
     
     parser.feed(r.content.decode('utf-8'))
     return parser.user_list
