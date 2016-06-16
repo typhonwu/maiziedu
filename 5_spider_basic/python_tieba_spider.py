@@ -61,9 +61,14 @@ class UserParser(HTMLParser):
         # 轮到其中的span标签，可以获得用户名
         if self.in_div and tag == 'span': 
             self.in_span = True
-            print _attr(attrs, 'title')
-            # print re.split(':',_attr(attrs, 'title'))
-            # self.current_user['name'] = re.split(_attr(attrs, 'title'))
+            # print _attr(attrs, 'title')
+            if _attr(attrs, 'title'):
+                self.current_user['name'] = re.split(': ', # 把属性值分段
+                    _attr(attrs, 'title')
+                    # 要先转为字符串才能切分，然后取用户名  
+                    .encode("utf-8"))[1]\
+                    # 取完后还得转回unicode串
+                    .decode("utf-8")
 
         # 获取用户主页链接
         if self.in_span and tag == 'a':
@@ -81,7 +86,6 @@ def retrieve_users():
     r = requests.get(url)
     parser = UserParser()
     print chardet.detect(r.content)
-    pdb.set_trace()
     parser.feed(r.content.decode('utf-8'))
     return parser.user_list
 
