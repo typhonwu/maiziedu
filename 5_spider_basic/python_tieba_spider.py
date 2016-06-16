@@ -2,6 +2,12 @@
 '''
 爬取python贴吧里面用户名及头像图片信息.爬取网页链接:http://tieba.baidu.com/f?kw=python&fr=ala0&tpl=5，只需要爬取该贴吧链接里面的头像即可,用户名作为头像图片的名称。
 '''
+import requests
+import re
+from HTMLParser import HTMLParser
+import os
+from pip.download import user_agent
+
 
 class python_tieba_spider():
     def __init(self):
@@ -23,6 +29,18 @@ class python_tieba_spider():
         content = self.get_page(self.url)
         items = self.parse(content)
         self.save(items,'python_tieba_users')
+
+class UserParser(HTMLParser):
+    def __init__(self):
+        pass
+
+    def handle_starttag(self,tag,attrs):
+        pass
+
+    def handle_data(self,data):
+        pass
+
+    def handle_
 if __name__ == '__main__'
     pts = python_tiea_spider()
     pts.run()
