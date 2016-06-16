@@ -23,7 +23,7 @@ class UserParser(HTMLParser):
                     return attr[1]
             return None
         # 确认用户名所在的span标签
-        pdb.set_trace()
+        #pdb.set_trace()
         if tag == 'span' and _attr(attrs, 'class') == 'tb_icon_author':
             self.in_span = True
             # 获取用户名属性  
@@ -41,7 +41,7 @@ def retrieve_users():
     parser = UserParser()
     print chardet.detect(r.content)
     
-    parser.feed(r.content.decode('utf-8'))
+    parser.feed(r.content)
     return parser.user_list
 
 if __name__ == '__main__':
