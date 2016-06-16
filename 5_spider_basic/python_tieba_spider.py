@@ -43,6 +43,7 @@ class UserParser(HTMLParser):
         self.in_div = False
         self.in_span = False
         self.current_user = {}
+        self.user_list =[]
 
     def handle_starttag(self,tag,attrs):
 
@@ -71,15 +72,38 @@ class UserParser(HTMLParser):
         # 获取用户主页链接
         if self.in_span and tag == 'a':
             # print 'http://tieba.baidu.com' + _attr(attrs, 'href')
-            # 拼接一下再放入字典
-            self.current_user['url'] = 'http://tieba.baidu.com' + _attr(attrs, 'href')
-            # 注意取完后关闭一下 
+            # 拼接后获取用户信息
+            user_info= requests.get('http://tieba.baidu.com' + _attr(attrs, 'href'))
+            parser = UserInfoParser()
+            parser.feed(user_info.content)
+            # 把用户信息解析类返回的头像链接放入
+            self.current_user['portrait'] == parser.img_url
+            # 注意取完后关闭一下,并初始化 
+            self.user_list.append(self.current_user)
+            self.current_user = {}
             self.in_div = False
             self.in_span = False
-            
 
-    def handle_data(self, data):
-        pass
+# 用户头像解析类
+class UserInfoParser(HTMLParser):
+    def __init__(self):
+        self.in_a = False
+
+    # 定义一个内部函数用来解析属性
+    def _attr(attrlist, attrname):  # 传入属性列表和要获取属性值的属性名
+        for attr in attrlist:  # 取出的attr是元组，0下标指属性名，1下标指向属性值
+            if attr[0] == attrname:
+                return attr[1]
+        return None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a' and self._attr(attrs, 'class') == 'userinfo_head':
+            self.in_a = True
+
+    def handle_startendtag(self, tag, attrs):
+        if tag == 'img' and self.in_a:
+            self.img_url == self._attr(attrs, 'src')
+
 
 def retrieve_users():
     url = 'http://tieba.baidu.com/f?kw=python&fr=ala0&tpl=5'
@@ -87,8 +111,10 @@ def retrieve_users():
     parser = UserParser()
     print chardet.detect(r.content)
     parser.feed(r.content.decode('utf-8'))
-    return parser.user_list
+    # print parser.user_list
+    for user in parser.user_list:
+        pass
 
 if __name__ == '__main__':
     l = retrieve_users()
-    print('total %d users' % len(l))
+    # print('total %d users' % len(l))
