@@ -67,3 +67,64 @@ core.bare=false
 core.logallrefupdates=true
 core.ignorecase=true
 core.precomposeunicode=true
+
+- 可以打开.gitconfig查看配置信息
+  1 [filter "lfs"]
+  2         clean = git-lfs clean %f
+  3         smudge = git-lfs smudge %f
+  4         required = true
+  5 [user]
+  6         name = hugh MBP
+  7         email = jonhson_hugh@163.com
+
+/Users/apple:712$cd git-test/
+/Users/apple:713$git init
+Initialized empty Git repository in /Users/apple/git-test/.git/
+/Users/apple:714$ls
+/Users/apple:715$la
+.   ..  .git
+/Users/apple:716$ll
+/Users/apple:717$cd .git
+/Users/apple:718$ls
+HEAD        branches    config      description hooks       info        objects     refs
+
+3.版本库-暂存区：git add
+版本库-分支: git commit
+
+On branch master
+
+Initial commit
+
+nothing to commit (create/copy files and use "git add" to track)
+/Users/apple:724$git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+    index.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+/Users/apple:725$git add index.html
+/Users/apple:726$git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+    new file:   index.html
+
+/Users/apple:727$git commit
+error: There was a problem with the editor 'vi'.
+Please supply the message using either -m or -F option.
+/Users/apple:728$git commit -am"add index.html"
+[master (root-commit) f5fee62] add index.html
+ 1 file changed, 1 insertion(+)
+ create mode 100644 index.html
+/Users/apple:729$git status
+On branch master
+nothing to commit, working directory clean
