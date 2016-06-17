@@ -448,3 +448,118 @@ Deleted branch dev (was b13165a).
 
 
 
+8.bug分支和feature分支
+注意：暂存区是所有分支共有的，如果你没有提交直接切换，那么切换后的分支缓存区是不变的，你这时提交会把缓存区中的内容提交到当前分支
+
+创建并切换bug分支：
+/Users/apple:873$git checkout -b bug_001
+Switched to a new branch 'bug_001'
+/Users/apple:874$git branch
+* bug_001
+  dev
+  master
+/Users/apple:875$git status
+On branch bug_001
+nothing to commit, working directory clean
+
+-git stash可以封存当前分支对缓存区的改变，切换分支后混存区回复到修改前的状态：
+/Users/apple:878$git branch
+  bug_001
+* dev
+  master
+/Users/apple:879$git stash
+No local changes to save
+/Users/apple:880$git stash
+Saved working directory and index state WIP on dev: 86f2c00 merge dev --no-ff
+HEAD is now at 86f2c00 merge dev --no-ff
+/Users/apple:881$git checkout bug_001
+Switched to branch 'bug_001'
+/Users/apple:882$git status
+On branch bug_001
+nothing to commit, working directory clean
+
+- 封存后切换一个临时分支bug_001，修改好之后就可以合并到master，然后再回头到dev里面继续之前的工作：
+/Users/apple:884$git branch
+* bug_001
+  dev
+  master
+/Users/apple:885$git status
+On branch bug_001
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   readme.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+/Users/apple:886$git add readme.md
+/Users/apple:887$git commit -m"fix bug_001"
+[bug_001 0a2e2f0] fix bug_001
+ 1 file changed, 1 insertion(+)
+/Users/apple:888$git checkout master
+Switched to branch 'master'
+/Users/apple:889$git merge bug_001 --no-ff -m"merge bug_001"
+Merge made by the 'recursive' strategy.
+ readme.md | 1 +
+ 1 file changed, 1 insertion(+)
+/Users/apple:890$git log --oneline
+8b8fc9e merge bug_001
+0a2e2f0 fix bug_001
+86f2c00 merge dev --no-ff
+b13165a add class container div
+3a0b978 fix readme.md
+de5eb48 add readme.md
+e699e5b add readme.md
+c479418 modify and merge
+1609a38 modify index.html
+3ea2dd3 add style.css
+fd26d4d add my.js
+f5fee62 add index.html
+
+- 回到dev继续开发，切换之后要把之前封存的缓存区内容释放出来：
+/Users/apple:891$git checkout dev
+Switched to branch 'dev'
+/Users/apple:892$git stash pop
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (7c2f9d35501f9437040cf149d21a672f491e5bf8)
+
+- 封存列表：git stash pop就是弹出最上面的那条stash记录
+/Users/apple:893$git stash list
+/Users/apple:894$git stash
+Saved working directory and index state WIP on dev: 86f2c00 merge dev --no-ff
+HEAD is now at 86f2c00 merge dev --no-ff
+/Users/apple:895$git stash list
+stash@{0}: WIP on dev: 86f2c00 merge dev --no-ff
+/Users/apple:896$git stash
+No local changes to save
+/Users/apple:897$git stash apply stash@{0}
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+
+- feature分支：开发新功能时用,类似于beta
+/Users/apple:899$git checkout -b feature_001
+M index.html
+Switched to a new branch 'feature_001'
+/Users/apple:900$git branch -d feature_001
+error: Cannot delete the branch 'feature_001' which you are currently on.
+/Users/apple:901$git branch master
+fatal: A branch named 'master' already exists.
+/Users/apple:902$git checkout master
+M index.html
+Switched to branch 'master'
+/Users/apple:903$git branch -d feature_001
+Deleted branch feature_001 (was 86f2c00).
