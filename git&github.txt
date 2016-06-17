@@ -146,9 +146,7 @@ Date:   Fri Jun 17 00:36:28 2016 +0800
     add index.html
 
 
-
-
-    
+4. git rm ，git mv 修改暂存区记录（还未提交）
 
 
 
