@@ -42,8 +42,10 @@ class UserParser(HTMLParser):
         HTMLParser.__init__(self)
         self.in_div = False
         self.in_span = False
+        self.uniq = []  # 用来避免重复抓取用户名
+        self.uniq_flag = False
         self.user_list =[]
-        self.parser = UserInfoParser()
+        self.current_user = {}
          
     def handle_starttag(self,tag,attrs):
 
@@ -57,11 +59,20 @@ class UserParser(HTMLParser):
         # 确认用户名所在的div标签
         if tag == 'div' and _attr(attrs, 'class') == 'threadlist_lz clearfix':
             # pdb.set_trace()
-            print tag+':' + _attr(attrs, 'class')
+            # print tag+':' + _attr(attrs, 'class')
             self.in_div = True
 
         # 轮到其中的span标签;只要title存在且包含“主题作者”四个字，肯定是目标span
         if self.in_div and tag == 'span' and _attr(attrs, 'title')!=None and u'\u4e3b\u9898\u4f5c\u8005' in _attr(attrs, 'title'): 
+            # 和之前一样，提取用户名
+            name = re.split(': ', # 把属性值分段
+                    _attr(attrs, 'title')
+                    .encode("utf-8"))[1].decode("utf-8")
+            # 用户名不重复时才抓取
+            if name not in self.uniq:
+                self.uniq.append(name)
+                self.current_user['name'] = name
+                self.uniq_flag = True
             self.in_span = True
 
 
@@ -69,9 +80,12 @@ class UserParser(HTMLParser):
         if self.in_span and tag == 'a' and _attr(attrs, 'class')!=None and 'frs-author-name' in _attr(attrs, 'class'):
             # 拼接后获取用户信息
             user_link = 'http://tieba.baidu.com' + _attr(attrs, 'href')
-            print user_link
-            self.user_list.append(user_link)
-            
+            # print user_link
+            # 用户名不重复时才放入链接
+            if self.uniq_flag:
+                self.current_user['user_link'] = user_link
+                self.user_list.append(self.current_user)
+                self.uniq_flag = False
             self.current_user = {}
             self.in_div = False
             self.in_span = False
@@ -97,33 +111,30 @@ class UserInfoParser(HTMLParser):
         if tag == 'img' and self.in_a:
             self.img_url = self._attr(attrs, 'src') #之前这里写成了两个等号，提示
 
-#提示：写程序的时候最好把功能分开（注意解耦）
-#1，先获取用户页面链接
-#2，再根据用户链接获取用户头像的img_url
-                       
+
+# 提示：写程序的时候最好把功能分开（注意解耦）
+# 1，先获取用户页面链接
+# 2，再根据用户链接获取用户头像的img_url
+
+
 def retrieve_users():
     url = 'http://tieba.baidu.com/f?kw=python&fr=ala0&tpl=5'
     r = requests.get(url)
     parser = UserParser()
     # print chardet.detect(r.content)
     parser.feed(r.content.decode('utf-8'))
-    # print parser.user_list
-    print "Total: ",len(parser.user_list)
-    
-    #这里定义成字典，使相同用户发的贴，只保留一份用户信息；
-    results = {}
-    
     userinfoparser = UserInfoParser()
-    for user in parser.user_list[:5]:
+    for user in parser.user_list:
         # print "User: ",user
-        response = requests.get(user)
+        response = requests.get(user['user_link'])
         userinfoparser.feed(response.content.decode('GB18030'))
-        results[user] = userinfoparser.img_url
+        user['user_link'] = userinfoparser.img_url
+        # 初始化实例
         userinfoparser.reset()
         
-    return results
+    return parser.user_list
 
 if __name__ == '__main__':
     l = retrieve_users()
     for key in l:
-        print key," -- ",l[key]
+        print key['name']," -- ",key['user_link']
