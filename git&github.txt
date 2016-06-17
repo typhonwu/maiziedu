@@ -149,6 +149,12 @@ Date:   Fri Jun 17 00:36:28 2016 +0800
 4. git rm ，git mv 修改暂存区记录（还未提交）
   git rm -f 同时从本地和缓存区删除
 
+5. git revert/reset
+HEAD：一个游标，指向最后一次提交
+git revert HEAD 回撤当前版本（排第一）
+git revert HEAD^^回撤到上两个版本（排第三）
+git revert HEAD~100回撤到上100个版本
+
 
 
 
