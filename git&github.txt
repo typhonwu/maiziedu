@@ -128,3 +128,32 @@ Please supply the message using either -m or -F option.
 /Users/apple:729$git status
 On branch master
 nothing to commit, working directory clean
+
+4. git log
+/Users/apple:734$git log --oneline
+f5fee62 add index.html
+/Users/apple:735$git log --decorate
+commit f5fee62a242f0ea4d36dcc6d3dde40040ee9c072 (HEAD -> master)
+Author: hugh MBP <jonhson_hugh@163.com>
+Date:   Fri Jun 17 00:36:28 2016 +0800
+
+    add index.html
+/Users/apple:736$git log --all
+commit f5fee62a242f0ea4d36dcc6d3dde40040ee9c072
+Author: hugh MBP <jonhson_hugh@163.com>
+Date:   Fri Jun 17 00:36:28 2016 +0800
+
+    add index.html
+
+
+
+
+    
+
+
+
+
+
+
+
+
