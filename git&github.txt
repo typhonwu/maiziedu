@@ -155,7 +155,68 @@ git revert HEAD 回撤当前版本（排第一）
 git revert HEAD^^回撤到上两个版本（排第三）
 git revert HEAD~100回撤到上100个版本
 
+- soft:只从分支中撤回，还在暂存区，等待提交
+git log --oneline
+f369cdd 添加my.js
+f5fee62 add index.html
+/Users/apple:759$git reset HEAD^ --soft
+/Users/apple:760$git status
+On branch master
+nothing to commit, working directory clean
+/Users/apple:761$git log --oneline
+f5fee62 add index.html
 
+- mixed:同时从暂存区和分支中撤回
+/Users/apple:773$git log --oneline
+5445aab 添加style.css
+a8d1c18 添加my.js
+f5fee62 add index.html
+/Users/apple:774$ls
+index.html  my.js   style.css
+/Users/apple:775$git reset HEAD^ --mixed
+/Users/apple:776$ls
+index.html  my.js   style.css
+/Users/apple:777$git log --oneline
+a8d1c18 添加my.js
+f5fee62 add index.html
+/Users/apple:778$git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+  style.css
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+- hard:同时从工作区，暂存区，分支中撤回。这叫硬重置，慎用
+/Users/apple:782$git log --oneline
+d6458db 添加style.css
+a8d1c18 添加my.js
+f5fee62 add index.html
+/Users/apple:783$git reset HEAD^ --hard
+HEAD is now at a8d1c18 添加my.js
+/Users/apple:784$git log --oneline
+a8d1c18 添加my.js
+f5fee62 add index.html
+/Users/apple:785$git status
+On branch master
+nothing to commit, working directory clean
+/Users/apple:786$ls
+index.html  my.js
+
+- 通过版本号重置（软重置）用这个更好，更精确
+/Users/apple:788$git reset f5fee62
+/Users/apple:789$git log --oneline
+f5fee62 add index.html
+/Users/apple:790$git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+  my.js
+
+nothing added to commit but untracked files present (use "git add" to track)
 
 
 
