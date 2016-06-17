@@ -563,3 +563,116 @@ M index.html
 Switched to branch 'master'
 /Users/apple:903$git branch -d feature_001
 Deleted branch feature_001 (was 86f2c00).
+
+
+
+
+
+
+
+
+9. 托管到github
+/Users/apple:904$git remote add origin git@github.com:hughohoho/git-test.git
+/Users/apple:905$git push -u origin master
+Counting objects: 29, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (21/21), done.
+Writing objects: 100% (29/29), 2.45 KiB | 0 bytes/s, done.
+Total 29 (delta 8), reused 0 (delta 0)
+To git@github.com:hughohoho/git-test.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+
+
+10.git remote/clone
+
+/Users/apple:907$git clone git@github.com:hughohoho/git-test.git
+fatal: destination path 'git-test' already exists and is not an empty directory.
+/Users/apple:908$cd git-test
+/Users/apple:909$mkdir clone-test
+/Users/apple:910$cd clone-test/
+/Users/apple:911$git clone git@github.com:hughohoho/git-test.git
+Cloning into 'git-test'...
+remote: Counting objects: 29, done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 29 (delta 8), reused 29 (delta 8), pack-reused 0
+Receiving objects: 100% (29/29), done.
+Resolving deltas: 100% (8/8), done.
+Checking connectivity... done.
+
+
+- 区别远程分支和本地分支
+/Users/apple:912$git branch -r
+  origin/master
+/Users/apple:913$git branch
+  bug_001
+  dev
+* master
+
+-推送到远程的dev分支
+/Users/apple:914$git push -u origin dev
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:hughohoho/git-test.git
+ * [new branch]      dev -> dev
+Branch dev set up to track remote branch dev from origin.
+
+- 推送之后就关联好了
+/Users/apple:915$git branch -r
+  origin/dev
+  origin/master
+
+- 每次默认只会克隆master分支
+/Users/apple:925$rm -rf clone-test/
+/Users/apple:926$git clone git@github.com:hughohoho/git-test.git
+Cloning into 'git-test'...
+remote: Counting objects: 29, done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 29 (delta 8), reused 29 (delta 8), pack-reused 0
+Receiving objects: 100% (29/29), done.
+Resolving deltas: 100% (8/8), done.
+Checking connectivity... done.
+
+/Users/apple:930$cd git-test/
+/Users/apple:931$git branch
+* master
+
+/Users/apple:932$git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+
+- 如果本地开发，我们可以本地创建dev分支并关联到远程的dev分支，这时才会把那个分支clone下来并关联好
+/Users/apple:933$ls
+index.html  my.js   readme.md style.css
+/Users/apple:934$cat readme.md  ---------------------------------之前是远程master分支的内容
+add test
+add modify
+/Users/apple:935$git checkout -b dev origin/dev
+Branch dev set up to track remote branch dev from origin.
+Switched to a new branch 'dev'
+/Users/apple:936$git branch
+* dev
+  master
+/Users/apple:937$git branch -a
+* dev
+  master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+/Users/apple:938$cat readme.md  ------------------------------------之后是远程dev分支的内容
+add test
+
+
+- 查看关联版本
+/Users/apple:941$git remote -v
+origin  git@github.com:hughohoho/git-test.git (fetch)
+origin  git@github.com:hughohoho/git-test.git (push)
+
+- 移除关联,移除之后就不能查看关联版本
+/Users/apple:943$git remote remove origin
+/Users/apple:944$git remote -v
+/Users/apple:945$git remote add origin git@github.com:hughohoho/git-test.git
+/Users/apple:946$git remote -v
+origin  git@github.com:hughohoho/git-test.git (fetch)
+origin  git@github.com:hughohoho/git-test.git (push)
