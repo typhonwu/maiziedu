@@ -682,3 +682,7 @@ origin  git@github.com:hughohoho/git-test.git (push)
 
 fetch只会更新，不合并。
 pull是更新+合并，尽量少用
+
+12. fork 和 pull request （github）
+github上直接保存到你账户下，类似于百度云的转存到我的网盘
+pull reqeusts 把你修改的内容推送给原作者
