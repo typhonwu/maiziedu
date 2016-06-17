@@ -676,3 +676,9 @@ origin  git@github.com:hughohoho/git-test.git (push)
 /Users/apple:946$git remote -v
 origin  git@github.com:hughohoho/git-test.git (fetch)
 origin  git@github.com:hughohoho/git-test.git (push)
+
+11.git pull/fetch（很重要）
+先pull才能push
+
+fetch只会更新，不合并。
+pull是更新+合并，尽量少用
