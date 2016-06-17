@@ -394,7 +394,7 @@ fd26d4d add my.js
 f5fee62 add index.html
 
 
-(推荐)带注释合并：
+(推荐)带注释的禁用快进合并：ff:fast forward
 /Users/apple:851$git checkout dev
 Switched to branch 'dev'
 /Users/apple:852$vim -C index.html
@@ -445,3 +445,6 @@ Deleted branch dev (was b13165a).
 /Users/apple:865$git branch
   dev
 * master
+
+
+
