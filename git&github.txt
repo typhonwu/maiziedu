@@ -220,6 +220,70 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 
 
+6.git branch
+/Users/apple:799$git branch
+* master
+/Users/apple:800$git branch dev
+/Users/apple:801$git branch
+  dev
+* master
+/Users/apple:802$git checkout dev
+Switched to branch 'dev'
+/Users/apple:803$git branch
+* dev
+  master
+/Users/apple:804$vim -C index.html
+/Users/apple:805$git status
+On branch dev
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+  modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+/Users/apple:806$git diff
+diff --git a/index.html b/index.html
+index 30d74d2..76ef1b3 100644
+--- a/index.html
++++ b/index.html
+@@ -1 +1 @@
+-test
+\ No newline at end of file
++this is modified
+/Users/apple:807$git commit -am"modify index.html"
+[dev 1609a38] modify index.html
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+/Users/apple:808$git log --oneline
+1609a38 modify index.html
+3ea2dd3 add style.css
+fd26d4d add my.js
+f5fee62 add index.html
+/Users/apple:809$git branch
+* dev
+  master
+/Users/apple:810$git checkout master
+Switched to branch 'master'
+/Users/apple:811$git branch
+  dev
+* master
+/Users/apple:812$cat index.html
+test/Users/apple:813$vim -C index.html
+/Users/apple:814$git log --oneline
+3ea2dd3 add style.css
+fd26d4d add my.js
+f5fee62 add index.html
+/Users/apple:815$git checkout dev
+Switched to branch 'dev'
+/Users/apple:816$git log --oneline
+1609a38 modify index.html
+3ea2dd3 add style.css
+fd26d4d add my.js
+f5fee62 add index.html
+/Users/apple:817$cat index.html
+this is modified
+/Users/apple:818$
+
 
 
 
