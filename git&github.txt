@@ -790,3 +790,8 @@ f5fee62 add index.html
 * 3ea2dd3 - add style.css (8 hours ago)<hugh MBP>
 * fd26d4d - add my.js (8 hours ago)<hugh MBP>
 * f5fee62 - add index.html (20 hours ago)<hugh MBP>
+
+
+12. ssh免密登录
+https://www.douban.com/note/308449369/
+[github]利用生成ssh key验证简化github每次push时填写账号密码认证
