@@ -97,14 +97,17 @@ class BioonspiderSpider(scrapy.Spider):
 
 
     def parse_content(self,response):
-        
+        # 获取文章标题及相关信息
         head = response.xpath(
             '//div[@class="list_left"]/div[@class="title5"]')[0]
         
         item=BioonItem()
-        
+        # 把文章标题及相关信息放入
         item['title'] = head.xpath('h1/text()').extract()[0]
-            
+        # 这里要注意的是正则的用法
+        # 首先因为是中文，所以要加u
+        # 然后就是这里用了分组匹配，\s指空格，括号内还有非贪婪模式
+        # 最后就是分组匹配之后用下标来指代取哪个数据
         item['source'] = head.xpath('p/text()').re(ur'来源：(.*?)\s(.*?)$')[0]
         
         item['date_time'] = head.xpath('p/text()').re(ur'来源：(.*?)\s(.*?)$')[1]
