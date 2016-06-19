@@ -16,8 +16,9 @@ from scrapy.utils.project import get_project_settings
 
 settings = get_project_settings()
 
-#--------------------USE MYSQLDB TO HANDLE DB-----------------------
+#--------------------USE MYSQLDB TO HANDLE DB 这是第一个版本操作数据库-----------------------
 
+# 这个方法用于连接数据库
 def get_db (**kwargs):
     '''connect database,return link resource'''
     try:
@@ -26,6 +27,8 @@ def get_db (**kwargs):
         print "Link DB error:",e
     else:
         return db
+
+# 这个方法主要用于创建数据表
 def create_table (data,primary,table,**kwargs):
     ''' Create table for storing resume data. '''
     sql='create table if not exists `%s`(%s) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci'
@@ -33,7 +36,9 @@ def create_table (data,primary,table,**kwargs):
     paras = ','.join(ps)
     SQL=sql%(table,paras)
     exec_sql(SQL,**kwargs)
-       
+
+
+# 这个方法用于执行查询，要传入sql语句  
 def exec_sql (sql,data='',**kwargs):
     '''execute insert sql and other operation'''
     conn=get_db(**kwargs)
@@ -47,6 +52,8 @@ def exec_sql (sql,data='',**kwargs):
     cur.close()    
     conn.close()
     return result
+
+# 这个方法用于向表格插入数据
 def insert_data (data_,table,**kwargs):
     '''insert data into database''' 
     insertSQL="insert into `"+table+"`(%s) values (%s)"
@@ -57,14 +64,15 @@ def insert_data (data_,table,**kwargs):
     data = [ data_[k] for k in keys ]
     exec_sql(sql,data,**kwargs)
     
-#--------------------USE ADBAPI TO HANDLE DB-----------------------
+#--------------------USE ADBAPI TO HANDLE DB 这是第二个版本操作数据库-----------------------
 
-
-
-def adb_connect_db(db_type,**kwargs):
+# 连接
+def adb_connect_db(db_type, **kwargs):
     dbpool = adbapi.ConnectionPool(db_type, **kwargs)
     return dbpool
 
+
+# 插入
 def adb_insert_data(item,table):
     db_type = settings.get('DBAPI')
     kwargs = settings.get('DBKWARGS')
