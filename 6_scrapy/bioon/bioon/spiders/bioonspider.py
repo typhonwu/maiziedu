@@ -10,47 +10,48 @@ class BioonspiderSpider(scrapy.Spider):
     name = "bioonspider"
     allowed_domains = ["bioon.com"]
     start_urls=['http://login.bioon.com/login']
-    
+
     def parse(self,response):
-        
-        #从response.headers中获取cookies信息
+
+        # 从response.headers中获取cookies信息
         r_headers = response.headers['Set-Cookie']
         cookies_v = r_headers.split(';')[0].split('=')
-        
+
         cookies = {cookies_v[0]:cookies_v[1]}
-        
-        #模拟请求的头部信息
+
+        # 模拟请求的头部信息
         headers = {
         'Host':	'login.bioon.com',
         'Referer':'http://login.bioon.com/login',
         'User-Agent':'Mozilla/5.0 (Windows NT 6.1; rv:40.0) Gecko/20100101 Firefox/40.0',
         'X-Requested-With':'XMLHttpRequest' 
         }
-        
-        #获取验证信息
+
+        # 获取验证信息,这个主要通过分析出验证信息所在标签通过xpath获取属性值
         csrf_token = response.xpath(
             '//input[@id="csrf_token"]/@value').extract()[0]
         
-        #获得post的目的URL
+        # 获得post的目的URL
         login_url = response.xpath(
             '//form[@id="login_form"]/@action').extract()[0]
         end_login = response.urljoin(login_url)
         
-        #生成post的数据
+        # 生成post的数据,这些都是通过浏览器分析得知要传送给服务器验证的数据
         formdata={
-        #请使用自己注册的用户名
+        # 请使用自己注册的用户名
         'account':'********',
         'client_id':'usercenter',
         'csrf_token':csrf_token,
         'grant_type':'grant_type',
         'redirect_uri':'http://login.bioon.com/userinfo',
-        #请使用自己注册的用户名
+        # 请使用自己注册的用户名
         'username':'********',
-        #请使用自己用户名的密码
+        # 请使用自己用户名的密码
         'password':'xxxxxxx',
         }
         
-        #模拟登录请求
+        # FormRequest把要传送的数据，头信息，cookies整合起来进行模拟登录
+        # 同时还可以指定一个模拟登陆之后的回调函数
         return FormRequest(
         end_login,
         formdata=formdata,
