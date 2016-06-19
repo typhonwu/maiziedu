@@ -68,6 +68,7 @@ class BioonspiderSpider(scrapy.Spider):
         # json.dumps : dict转成str
         # json.loads:str转成dict
         # 这里登陆请求发送后服务器返回的response.url为http://login.bioon.com/login/do_login
+        # 这个网址是登陆表单提交的url，也就是action=“...”
         # pdb调试可知它其实是一个json格式的字符串，所以这里转为字典，方便取数据
         obj = json.loads(response.body)
         
