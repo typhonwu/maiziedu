@@ -62,7 +62,7 @@ NEWSPIDER_MODULE = 'bioon.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'bioon.pipelines.SomePipeline': 300,
+    'bioon.pipelines.BioonPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
