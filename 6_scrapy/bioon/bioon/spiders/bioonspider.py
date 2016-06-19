@@ -64,7 +64,6 @@ class BioonspiderSpider(scrapy.Spider):
     def after_login(self,response):
         
         self.log('Now handling bioon login page.')
-        pdb.set_trace()
         aim_url = 'http://news.bioon.com/Cfda/'
         # json.dumps : dict转成str
         # json.loads:str转成dict
@@ -78,15 +77,25 @@ class BioonspiderSpider(scrapy.Spider):
         
         return scrapy.Request(aim_url,callback = self.parse_list)
     
+    # 这个函数在登陆请求发送并验证之后执行
+    # 但是并不要求一定要登陆后才执行
     def parse_list(self,response):
         
+        # 获取所有文章链接
+        # 注意：@href在chrome中并不能生效
+        # 也就是说，chrome中copy xpath功能只能定位到标签
+        # 然后属性我们自己再加上
         lis_news = response.xpath(
             '//ul[@id="cms_list"]/li/div/h4/a/@href').extract()
-        
+        pdb.set_trace()
         for li in lis_news:
-            end_url = response.urljoin(li)
-            yield scrapy.Request(end_url,callback=self.parse_content)
-    
+            # 这是scrapy中的response的url拼接函数
+            # response.urljoin() 是用来生成绝对地址的方法
+            # 并告知 Request ，请求的页面使用 parse_content 这个方法来解析。
+            yield scrapy.Request(response.urljoin(li),
+                                    callback=self.parse_content)
+
+
     def parse_content(self,response):
         
         head = response.xpath(
