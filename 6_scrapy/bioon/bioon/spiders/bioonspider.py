@@ -2,7 +2,7 @@
 import json
 import scrapy
 from scrapy import FormRequest
-
+import pdb
 from bioon import settings
 from bioon.items import BioonItem
 
@@ -39,19 +39,19 @@ class BioonspiderSpider(scrapy.Spider):
         # 生成post的数据,这些都是通过浏览器分析得知要传送给服务器验证的数据
         formdata={
         # 请使用自己注册的用户名
-        'account':'********',
+        'account':'johnson_hugh@163.com',
         'client_id':'usercenter',
         'csrf_token':csrf_token,
         'grant_type':'grant_type',
         'redirect_uri':'http://login.bioon.com/userinfo',
         # 请使用自己注册的用户名
-        'username':'********',
+        'username':'礁石',
         # 请使用自己用户名的密码
-        'password':'xxxxxxx',
+        'password':'123456',
         }
         
         # FormRequest把要传送的数据，头信息，cookies整合起来进行模拟登录
-        # 同时还可以指定一个模拟登陆之后的回调函数
+        # 同时还可以指定发送请求之后对返回的response如何处理的回调函数
         return FormRequest(
         end_login,
         formdata=formdata,
@@ -59,13 +59,17 @@ class BioonspiderSpider(scrapy.Spider):
         cookies=cookies,
         callback=self.after_login
         )
-
+    # 这是发送模拟登陆请求之后回调的函数
+    # 如无意外，返回的将是登陆成功之后的response
     def after_login(self,response):
         
         self.log('Now handling bioon login page.')
-        
+        pdb.set_trace()
         aim_url = 'http://news.bioon.com/Cfda/'
-        
+        # json.dumps : dict转成str
+        # json.loads:str转成dict
+        # 这里登陆请求发送后服务器返回的response.url为http://login.bioon.com/login/do_login
+        # pdb调试可知它其实是一个json格式的字符串，所以这里转为字典，方便取数据
         obj = json.loads(response.body)
         
         print "Loging state: ", obj['message']
