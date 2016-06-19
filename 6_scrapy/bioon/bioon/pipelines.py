@@ -5,8 +5,9 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-# from bioon.handledb import adb_insert_data,exec_sql
-# from bioon.settings import DBAPI,DBKWARGS
+from bioon.handledb import adb_insert_data,exec_sql
+from bioon.settings import DBAPI,DBKWARGS
+
 
 class BioonPipeline(object):
     def process_item(self, item, spider):
@@ -14,6 +15,7 @@ class BioonPipeline(object):
         print item['name']
         print item['value']
         print "End of pipeline."
-        #store data
-        #adb_insert_data(item,"tablename",DBAPI,**DBKWARGS)
+        # store data
+        # 调用handledb的方法来执行数据插入
+        # adb_insert_data(item,"tablename",DBAPI,**DBKWARGS)
         return item
