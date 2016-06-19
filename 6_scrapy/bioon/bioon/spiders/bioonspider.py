@@ -87,7 +87,6 @@ class BioonspiderSpider(scrapy.Spider):
         # 然后属性我们自己再加上
         lis_news = response.xpath(
             '//ul[@id="cms_list"]/li/div/h4/a/@href').extract()
-        pdb.set_trace()
         for li in lis_news:
             # 这是scrapy中的response的url拼接函数
             # response.urljoin() 是用来生成绝对地址的方法
@@ -102,6 +101,7 @@ class BioonspiderSpider(scrapy.Spider):
             '//div[@class="list_left"]/div[@class="title5"]')[0]
         
         item=BioonItem()
+
         # 把文章标题及相关信息放入
         item['title'] = head.xpath('h1/text()').extract()[0]
         # 这里要注意的是正则的用法
