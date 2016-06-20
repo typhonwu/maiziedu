@@ -2,18 +2,21 @@
 import scrapy
 from collectips.items import CollectipsItem
 
+
 class XiciSpider(scrapy.Spider):
     name = "xici"
     allowed_domains = ["xicidaili.com"]
     start_urls = (
         'http://www.xicidaili.com',
     )
-    
+
+    # 定义起始请求方法
+    # 主要就是循环抓取206页数据
     def start_requests(self):
-        reqs=[]
-        
-        for i in range(1,206):
-            req=scrapy.Request("http://www.xicidaili.com/nn/%s"%i)
+        reqs = []
+
+        for i in range(1, 206):
+            req = scrapy.Request("http://www.xicidaili.com/nn/%s" % i)
             reqs.append(req)
         
         return reqs
