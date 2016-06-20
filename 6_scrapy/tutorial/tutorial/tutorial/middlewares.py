@@ -1,20 +1,27 @@
+# -*- coding:utf-8 -*-
 # Importing base64 library because we'll need it ONLY in case 
 #if the proxy we are going to use requires authentication
 #-*- coding:utf-8-*-
 import base64
 from proxy import GetIp,counter
 import logging
-ips=GetIp().get_ips()
+
+
+ips = GetIp().get_ips()
+
 
 class ProxyMiddleware(object):
-    http_n=0     #counter for http requests
-    https_n=0    #counter for https requests  
+    # counter for http requests
+    http_n = 0
+    # counter for https requests
+    https_n = 0 
+
     # overwrite process request
     def process_request(self, request, spider):
         # Set the location of the proxy
         if request.url.startswith("http://"):
-            n=ProxyMiddleware.http_n
-            n=n if n<len(ips['http']) else 0 
+            n = ProxyMiddleware.http_n
+            n = n if n<len(ips['http']) else 0 
             request.meta['proxy']= "http://%s:%d"%(
                 ips['http'][n][0],int(ips['http'][n][1]))
             logging.info('Squence - http: %s - %s'%(n,str(ips['http'][n])))
