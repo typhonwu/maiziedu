@@ -36,6 +36,18 @@ class TmGoodsSpider(scrapy.Spider):
             # 如果不是绝对链接就拼接一下
             item["GOODS_URL"] = pre_goods_url if "http:" in pre_goods_url else ("http:" + pre_goods_url)
 
+            # 图片链接
+            try:
+                file_urls = div.xpath(
+                    'div[@class="productImg-wrap"]/a[1]/img/@src|'
+                    'div[@class="productImg-wrap"]/a[1]/img/@data-ks-lazyload').extract()[0]
+                item['file_urls'] = ["http:" + file_urls]
+            except Exception,e:
+                print "Error: ",e
+                import pdb
+                pdb.set_trace()
+
+
             yield scrapy.Request(
                 url=item["GOODS_URL"],
                 meta={'item': item},
