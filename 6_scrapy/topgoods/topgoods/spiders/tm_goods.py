@@ -42,24 +42,31 @@ class TmGoodsSpider(scrapy.Spider):
             yield scrapy.Request(
                 url=item["GOODS_URL"],
                 meta={'item': item},
-                callback=self.parse_detail,
+                callback=self.parse_detail, # 对每个抓取的链接返回一个请求，并调用这个回调函数进入下一个页面处理
                 dont_filter=True)
 
-    def parse_detail(self,response):
+
+    # 这是跳转到第二个页面之后调用的函数
+    # 多个页面跳转之后，用item把所有数据组合好
+    # 最后再返回
+    def parse_detail(self, response):
 
         div = response.xpath('//div[@class="extend"]/ul')
+        # 如果没有取到元素就用日志报错
         if not div:
-            self.log( "Detail Page error--%s"%response.url )
-            
+            self.log("Detail Page error--%s" % response.url)
+
         item = response.meta['item']
-        div=div[0]
-        #店铺名称
+        div = div[0]
+        # 店铺名称
         item["SHOP_NAME"] = div.xpath("li[1]/div/a/text()")[0].extract()
-        #店铺连接
+        # 店铺连接
         item["SHOP_URL"] = div.xpath("li[1]/div/a/@href")[0].extract()
-        #公司名称
-        item["COMPANY_NAME"] = div.xpath("li[3]/div/text()")[0].extract().strip()
-        #公司所在地
-        item["COMPANY_ADDRESS"] = div.xpath("li[4]/div/text()")[0].extract().strip()
-        
+        # 公司名称
+        item["COMPANY_NAME"] = div.xpath(
+            "li[3]/div/text()")[0].extract().strip()
+        # 公司所在地
+        item["COMPANY_ADDRESS"] = div.xpath(
+            "li[4]/div/text()")[0].extract().strip()
+
         yield item
