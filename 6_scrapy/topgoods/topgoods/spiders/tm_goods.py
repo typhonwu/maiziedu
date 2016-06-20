@@ -38,6 +38,9 @@ class TmGoodsSpider(scrapy.Spider):
 
             # 图片链接
             try:
+                # 注意图片元素有两种xpath表达式
+                # 这里其实写成一行是这样的：
+                # 'div[@class="productImg-wrap"]/a[1]/img/@src|div[@class="productImg-wrap"]/a[1]/img/@data-ks-lazyload'
                 file_urls = div.xpath(
                     'div[@class="productImg-wrap"]/a[1]/img/@src|'
                     'div[@class="productImg-wrap"]/a[1]/img/@data-ks-lazyload').extract()[0]
