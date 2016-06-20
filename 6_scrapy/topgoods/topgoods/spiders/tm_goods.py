@@ -33,11 +33,8 @@ class TmGoodsSpider(scrapy.Spider):
             # 商品连接
             pre_goods_url = div.xpath(
                 "p[@class='productTitle']/a/@href")[0].extract()
-
-            item["GOODS_URL"] = pre_goods_url \
-                # 如果不是绝对链接就拼接一下
-                    if "http:" in pre_goods_url \
-                    else ("http:" + pre_goods_url)
+            # 如果不是绝对链接就拼接一下
+            item["GOODS_URL"] = pre_goods_url if "http:" in pre_goods_url else ("http:" + pre_goods_url)
 
             yield scrapy.Request(
                 url=item["GOODS_URL"],
