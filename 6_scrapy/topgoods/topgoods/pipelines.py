@@ -8,4 +8,5 @@
 
 class TopgoodsPipeline(object):
     def process_item(self, item, spider):
+        print '图片链接-----------------', item['file_urls']
         return item

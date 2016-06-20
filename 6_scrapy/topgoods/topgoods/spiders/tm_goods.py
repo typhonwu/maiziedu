@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from topgoods.items import TopgoodsItem
-
+import pdb
 
 class TmGoodsSpider(scrapy.Spider):
     name = "tm_goods"
@@ -15,9 +15,8 @@ class TmGoodsSpider(scrapy.Spider):
     def parse(self, response):
 
         TmGoodsSpider.count += 1
-
         divs = response.xpath(
-            "//div[@id='J_ItemList']/div[@class='product']/div")
+            "//div[@id='J_ItemList']/div/div[@class='product-iWrap']")
         # 如果没有取到想要的元素就报错
         if not divs:
             self.log("List Page error--%s" % response.url)
@@ -47,7 +46,6 @@ class TmGoodsSpider(scrapy.Spider):
                 item['file_urls'] = ["http:" + file_urls]
             except Exception,e:
                 print "Error: ",e
-                import pdb
                 pdb.set_trace()
 
 
