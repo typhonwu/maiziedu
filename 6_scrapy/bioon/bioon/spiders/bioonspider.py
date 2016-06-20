@@ -117,3 +117,16 @@ class BioonspiderSpider(scrapy.Spider):
             '//div[@class="list_left"]/div[@class="text3"]').extract()[0]
         
         return item
+
+
+    # 在closed方法里设置邮件发送 
+    def closed(self,reason):  # 需要重写spider的closed方法
+        import pdb;pdb.set_trace()
+        self.logger.info("Spider closed: %s"%str(reason))
+        mailer = MailSender.from_settings(self.settings)
+        mailer.send(
+            to=["290977252@qq.com"], 
+            subject="Spider closed", 
+            body=str(self.crawler.stats.get_stats()),   # 读取crawler的状态信息，并添加到正文中
+            cc=["johnson_hugh@163.com"]
+            )

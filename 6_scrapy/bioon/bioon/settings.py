@@ -83,3 +83,15 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# 配置接受邮件人列表
+STATSMAILER_RCPTS = ['johnson_hugh@163.com',]
+# 配置发件人
+MAIL_FROM='johnson.ho'
+# smtp主机，这里用阿里云邮箱的
+MAIL_HOST='smtp.aliyun.com'
+# 设置smtp端口
+MAIL_PORT=587
+MAIL_USER='johnson.ho@aliyun.com'
+MAIL_PASS='hhf123456'
+
