@@ -3,8 +3,14 @@ from handledb import exec_sql
 import socket
 import urllib2
 
-dbapi="MySQLdb"
-kwargs={'user':'root','passwd':'toor','db':'ippool','host':'localhost', 'use_unicode':True}
+# 事先定义好后面要用的数据库参数
+dbapi = "MySQLdb"
+kwargs = {
+    'user': 'root',
+    'passwd': '123456',
+    'db': 'test',
+    'host': 'localhost',
+    'use_unicode': True}
 
 def counter(start_at=0):
     '''Function: count number
