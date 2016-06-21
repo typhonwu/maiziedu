@@ -40,19 +40,29 @@ def create_table (data, primary, table, **kwargs):
     # 调用另一个函数执行sql语句
     exec_sql(SQL, **kwargs)
 
-def exec_sql (sql,data='',**kwargs):
+# 执行sql语句的函数
+
+
+def exec_sql(sql, data='', **kwargs):
     '''execute insert sql and other operation'''
-    conn=get_db(**kwargs)
-    cur=conn.cursor()
-    if data=='':
+    conn = get_db(**kwargs)
+    cur = conn.cursor()
+    if data == '':
+        # 调用游标的sql语句执行函数
         cur.execute(sql)
     else:
-        cur.execute(sql,data)
+        cur.execute(sql, data)
+    # 执行之后调用函数获取全部结果，是一个列表
     result = cur.fetchall()
+    # 提交这个结果
     conn.commit()
-    cur.close()    
+    # 关闭游标
+    cur.close()
+    # 关闭连接
     conn.close()
     return result
+
+    
 def insert_data (data_,table,**kwargs):
     '''insert data into database''' 
     insertSQL="insert into `"+table+"`(%s) values (%s)"
