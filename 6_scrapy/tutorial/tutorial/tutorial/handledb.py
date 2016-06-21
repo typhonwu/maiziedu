@@ -10,12 +10,16 @@ Reference:funcs.py
 from twisted.enterprise import adbapi
 import MySQLdb
 
-def get_db (**kwargs):
+
+# 连接mysql
+
+
+def get_db(**kwargs):
     '''connect database,return link resource'''
     try:
-        db=MySQLdb.connect(**kwargs)
-    except Exception,e:
-        print "Link DB error:",e
+        db = MySQLdb.connect(**kwargs)
+    except Exception, e:
+        print "Link DB error:", e
     else:
         return db
 def create_table (data,primary,table,**kwargs):
