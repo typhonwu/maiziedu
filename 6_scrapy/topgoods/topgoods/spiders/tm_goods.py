@@ -12,6 +12,59 @@ class TmGoodsSpider(scrapy.Spider):
     # 记录处理的页数
     count = 0
 
+
+    def randomtime(self):
+        str1=str(time.time()).replace(".",'')
+        str2=time.strftime("%H%M", time.localtime())
+        return "_".join([str1,str2])
+    
+    def generate_request(self,response):
+        '''获得推荐商品的URL'''
+        
+        para_dict = OrderedDict()
+
+        text = response.xpath('//textarea[@class="ks-datalazyload"]/script')
+        j_command = response.xpath('//div[@id="J_Recommend"]')
+        attr = j_command.xpath('@data-p4p-cfg').extract()[0]
+        attr_dict = eval(attr)
+        para_dict['pid'] = attr_dict['pid']
+        
+        son_dict = OrderedDict()
+        son_dict['sbid'] = 2
+        son_dict['frcatid'] = attr_dict['frontcatid']
+        son_dict['keyword'] = attr_dict['keyword']
+        son_dict['pid'] = attr_dict['pid']
+        son_dict['offset'] = 45
+        son_dict['propertyid'] = attr_dict['propertyid']
+        son_dict['gprice'] = attr_dict['gprice']
+        son_dict['loc'] = attr_dict['loc']
+        son_dict['sort'] = attr_dict['sort']
+        son_dict['feature_names'] = ("promoPrice,multiImgs,tags,dsrDeliver,dsrDeliverGap"
+            ",dsrDescribe,dsrDescribeGap,dsrService,dsrServiceGap")
+        son_query = urllib.quote(urllib.urlencode(son_dict))
+        
+        para_dict['qs1'] = son_query
+        para_dict['_ksTS'] = self.randomtime()
+        para_dict['cb'] = "json519"
+        
+        end_url = "?".join(["https://mbox.re.taobao.com/gt",urllib.urlencode(para_dict)])
+        
+        return end_url
+        
+    def parse_recommand(self,response):
+ 
+        aim_str = re.findall(r'json519\((.*?)\)',response.body)
+        
+        if aim_str:
+            json_obj = json.loads(aim_str[0])
+            for obj in json_obj['data']['ds1']:
+                item = TopgoodsItem()
+                item["GOODS_URL"] = obj['eurl']
+                item["GOODS_PRICE"] = obj['price']
+                item["GOODS_NAME"] = obj['title']
+
+                yield item
+
     def parse(self, response):
 
         TmGoodsSpider.count += 1
