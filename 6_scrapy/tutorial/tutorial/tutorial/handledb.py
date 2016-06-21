@@ -62,16 +62,27 @@ def exec_sql(sql, data='', **kwargs):
     conn.close()
     return result
 
-    
-def insert_data (data_,table,**kwargs):
+# 插入数据的方法
+
+
+def insert_data(data_, table, **kwargs):
     '''insert data into database''' 
-    insertSQL="insert into `"+table+"`(%s) values (%s)"
+    insertSQL = "insert into `" + table + "`(%s) values (%s)"
+    # 传入的data_是字典类型，这里获取所有键名
+    # 其实就对应了表的字段名
     keys = data_.keys()
-    fields = ','.join([ '`%s`'%k for k in keys ])
+    # 把这些字段名拼接起来
+    # 这个给insertSQL第一个占位符
+    fields = ','.join(['`%s`' % k for k in keys])
+    # 拼接多个占位符
+    # 这个替换insertSQL第二个占位符
     qm = ','.join(['%s'] * len(keys))
-    sql = insertSQL % (fields,qm)
-    data = [ data_[k] for k in keys ]
-    exec_sql(sql,data,**kwargs)
+    # 替换为新的sql语句
+    # 这里的sql才是真正的sql语句，带确定数量的占位符
+    sql = insertSQL % (fields, qm)
+    # 从data_取出要插入的数据
+    data = [data_[k] for k in keys]
+    exec_sql(sql, data, **kwargs)
 
 
 def adb_connect_db(db_type,**kwargs):
