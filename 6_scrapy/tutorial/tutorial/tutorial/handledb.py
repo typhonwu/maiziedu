@@ -22,14 +22,24 @@ def get_db(**kwargs):
         print "Link DB error:", e
     else:
         return db
-def create_table (data,primary,table,**kwargs):
+
+# 创建表格,proxy中并没有用到这个方法
+def create_table (data, primary, table, **kwargs):
     ''' Create table for storing resume data. '''
+    # 这是建表sql语句，用了占位符
     sql='create table if not exists `%s`(%s) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci'
-    ps=["`%s` text"%x for x in data]+([primary,] if primary else [])
+    # 这是python的列表解析式
+    # 左边一个方括号是一个列表
+    # 右边是可选参数，有传入主键就加上
+    # data中是传入的建表需要的字段
+    ps = ["`%s` text" % x for x in data] + ([primary, ] if primary else [])
+    # 把列表中的字段名称拼接成字符串
     paras = ','.join(ps)
-    SQL=sql%(table,paras)
-    exec_sql(SQL,**kwargs)
-       
+    # 再填充sql语句的占位符
+    SQL = sql % (table, paras)
+    # 调用另一个函数执行sql语句
+    exec_sql(SQL, **kwargs)
+
 def exec_sql (sql,data='',**kwargs):
     '''execute insert sql and other operation'''
     conn=get_db(**kwargs)
