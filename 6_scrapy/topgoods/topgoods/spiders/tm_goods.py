@@ -2,6 +2,7 @@
 import scrapy
 from topgoods.items import TopgoodsItem
 import pdb
+from collections import OrderedDict
 
 class TmGoodsSpider(scrapy.Spider):
     name = "tm_goods"
@@ -26,9 +27,10 @@ class TmGoodsSpider(scrapy.Spider):
         text = response.xpath('//textarea[@class="ks-datalazyload"]/script')
         j_command = response.xpath('//div[@id="J_Recommend"]')
         attr = j_command.xpath('@data-p4p-cfg').extract()[0]
+        # 把js代码中的相应数据字符串转化为字典
         attr_dict = eval(attr)
         para_dict['pid'] = attr_dict['pid']
-        
+        # 转化之后的字典依次根据键名取出数据放好
         son_dict = OrderedDict()
         son_dict['sbid'] = 2
         son_dict['frcatid'] = attr_dict['frontcatid']
@@ -41,21 +43,30 @@ class TmGoodsSpider(scrapy.Spider):
         son_dict['sort'] = attr_dict['sort']
         son_dict['feature_names'] = ("promoPrice,multiImgs,tags,dsrDeliver,dsrDeliverGap"
             ",dsrDescribe,dsrDescribeGap,dsrService,dsrServiceGap")
+        # urllib.urlencode:
+        # 接受参数形式为：[(key1, value1), (key2, value2),...] 和 {'key1': 'value1', 'key2': 'value2',...}
+        # 返回的是形如'key2=value2&key1=value1'字符串。
+        # quote就是把链接编码
         son_query = urllib.quote(urllib.urlencode(son_dict))
-        
+
         para_dict['qs1'] = son_query
         para_dict['_ksTS'] = self.randomtime()
         para_dict['cb'] = "json519"
-        
+        # 最终拼接成请求链接
         end_url = "?".join(["https://mbox.re.taobao.com/gt",urllib.urlencode(para_dict)])
         
         return end_url
-        
-    def parse_recommand(self,response):
- 
+
+    # 处理手工拼接js数据发出请求后收到的response
+    def parse_recommand(self, response):
+        # 找到其中的目标字符串
+        # 这其实是在浏览器中检查找到每次点击js动态生成的链接后
+        # 服务器返回的response中就包含了一个json模样的字符串
+        # 里面包含了产品链接，价格，标题
         aim_str = re.findall(r'json519\((.*?)\)',response.body)
-        
+
         if aim_str:
+            # 把字符串转为json格式
             json_obj = json.loads(aim_str[0])
             for obj in json_obj['data']['ds1']:
                 item = TopgoodsItem()
@@ -73,6 +84,16 @@ class TmGoodsSpider(scrapy.Spider):
         # 如果没有取到想要的元素就报错
         if not divs:
             self.log("List Page error--%s" % response.url)
+
+        # 这里调用方法手工拼接js代码中的数据，生成请求链接
+        # 这些链接对应了天猫网页最下方的直通车点击图
+        # 因为这些图不出现在html代码中，而是有js动态生成链接的
+        rec_url = self.generate_request(response)
+        yield scrapy.Request(
+            url=rec_url,
+            callback=self.parse_recommand,
+            dont_filter=True,
+            )
 
         for div in divs:
             item = TopgoodsItem()
