@@ -89,6 +89,7 @@ def insert_data(data_, table, **kwargs):
     exec_sql(sql, data, **kwargs)
 
 
+# adbapi连接数据库的方法
 def adb_connect_db(db_type,**kwargs):
     '''
     db_type-->"MySQLdb"
