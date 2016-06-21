@@ -7,6 +7,10 @@ Email:wst.521@163.com
 Date:2014.8.20
 Reference:funcs.py
 '''
+'''
+Twisted 是一个异步网络框架，不幸的是大部分数据库api实现只有阻塞式接口.
+twisted.enterprise.adbapi为此产生，它是DB-API 2.0 API的非阻塞接口，可以访问各种关系数据库。
+'''
 from twisted.enterprise import adbapi
 import MySQLdb
 
