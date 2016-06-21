@@ -50,7 +50,7 @@ def use_proxy(browser, proxy, url):
     browser.implicitly_wait(30)
     return browser
 
-
+# 这个单例模型用于获取ip的类继承
 class Singleton(object):
     '''Signal instance example.'''
     def __new__(cls, *args, **kw):  
@@ -58,6 +58,7 @@ class Singleton(object):
             orig = super(Singleton, cls)  
             cls._instance = orig.__new__(cls, *args, **kw)  
         return cls._instance 
+
 
 class GetIp(Singleton):
     def __init__(self):
