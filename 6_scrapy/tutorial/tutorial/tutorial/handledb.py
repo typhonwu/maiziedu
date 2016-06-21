@@ -90,24 +90,37 @@ def insert_data(data_, table, **kwargs):
 
 
 # adbapi连接数据库的方法
-def adb_connect_db(db_type,**kwargs):
+def adb_connect_db(db_type, **kwargs):
     '''
     db_type-->"MySQLdb"
     '''
     dbpool = adbapi.ConnectionPool(db_type, **kwargs)
     return dbpool
 
-def adb_insert_data(item,table,db_type,**kwargs):
+# adbapi插入数据库的方法
+
+
+def adb_insert_data(item, table, db_type, **kwargs):
     keys = item.keys()
     fields = u','.join(keys)
+    # 这里u''表示unicode码，为中文准备
+    # 拼接出插入数据个数相同的占位符字符串
     qm = u','.join([u'%s'] * len(keys))
-    insert_sql="insert into `"+table+"`(%s) values (%s)"
+    insert_sql = "insert into `"+table+"`(%s) values (%s)"
+    # 第一次替换占位符，得到最终带占位符的sql语句
     sql = insert_sql % (fields, qm)
     data = [item[k] for k in keys]
-    dbpool=adb_connect_db(db_type,**kwargs)
+    # 调用adbapi连接数据库，这里db_type指明是mysql类型的数据库
+    # 两个参数都定义在settings中了
+    dbpool = adb_connect_db(db_type, **kwargs)
+    # 执行sql语句
+    # adbapi不需要获得游标
     d = dbpool.runOperation(sql, data)
+    # 成功的话调用这个函数
     d.addCallback(insSuccess)
-    d.addErrback(insFailed,item)
+    # 失败的话调用这个函数
+    d.addErrback(insFailed, item)
+    # 关闭数据库连接
     dbpool.close()
     
 def insSuccess(data):
