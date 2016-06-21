@@ -2,7 +2,7 @@
 import scrapy
 from douban_movie.items import DoubanMovieItem
 
-class movie_scraper(scrapy.Spider)
+class movie_scraper(scrapy.Spider):
     name = 'douban_movie_spider'
     allowed_domains = ["http:/www.douban.com"]
     start_url = (
@@ -11,7 +11,7 @@ class movie_scraper(scrapy.Spider)
 
     def parse(self,response):
 
-        a_list = response.xpath("//*[@id="gaia"]/div[4]/div/a")
+        a_list = response.xpath("//*[@id='gaia']/div[4]/div/a")
 
         if not a_list:
             self.log("List Page error-- %s" % response.url)
