@@ -1,4 +1,5 @@
-import sys
+# -*- coding:utf-8 -*-
+from selenium import webdriver
 from handledb import exec_sql
 import socket
 import urllib2
@@ -21,20 +22,35 @@ def counter(start_at=0):
         return count[0]
     return incr
 
-def use_proxy (browser,proxy,url):
+# 定义方法使用代理打开链接
+
+
+def use_proxy(browser, proxy, url):
     '''Open browser with proxy'''
-    #After visited transfer ip
-    profile=browser.profile
-    profile.set_preference('network.proxy.type', 1)  
-    profile.set_preference('network.proxy.http', proxy[0])  
-    profile.set_preference('network.proxy.http_port', int(proxy[1]))  
-    profile.set_preference('permissions.default.image',2)
-    profile.update_preferences() 
-    browser.profile=profile
+    # 用代理打开浏览器
+    # 访问之后就切换代理ip
+    # 注意传入的browser其实是selenium的webdriver生成的一个浏览器对象
+    # browser = webdriver.Chrome()
+    # 先获取浏览器档案
+    profile = browser.profile
+    # 设置档案代理类型
+    profile.set_preference('network.proxy.type', 1)
+    # 设置档案http代理
+    profile.set_preference('network.proxy.http', proxy[0])
+    # 设置代理端口
+    profile.set_preference('network.proxy.http_port', int(proxy[1]))
+    # 设置网页图像显示
+    profile.set_preference('permissions.default.image', 2)
+    # 更新档案
+    profile.update_preferences()
+    browser.profile = profile
+    # 用浏览器打开链接
     browser.get(url)
+    # 设置超时时间
     browser.implicitly_wait(30)
     return browser
-    
+
+
 class Singleton(object):
     '''Signal instance example.'''
     def __new__(cls, *args, **kw):  
