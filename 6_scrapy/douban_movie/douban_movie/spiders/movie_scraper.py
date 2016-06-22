@@ -20,15 +20,24 @@ class movie_scraper(scrapy.Spider):
         'Referer':'https://movie.douban.com/explore',
         'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36',
         'X-Requested-With':'XMLHttpRequest',
-    }
-        url = "https://movie.douban.com/explore#\!type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0"
+        }
+
+        formdata = {
+            'type':'movie',
+            'tag':'热门',
+            'sort':'time',
+            'page_limit':'20',
+            'page_start':'0',
+        }
+        url = "https://movie.douban.com/explore"
         # yield scrapy.Request(url = url, headers = headers)
         return [
-            scrapy.Request(url = url, headers = headers),
+            scrapy.FormRequest(url = url, formdata = formdata, headers = headers,  ),
         ]
     
     def parse(self,response):
         print response.url
+        # print response.body
         a_list = response.xpath("//*[@id='gaia']/div[4]/div/a")
 
         if not a_list:
