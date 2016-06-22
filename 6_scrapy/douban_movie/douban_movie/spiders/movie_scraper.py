@@ -31,11 +31,8 @@ class movie_scraper(scrapy.Spider):
         ]
     
     def parse(self,response):
-        print response.url
-        cookie_list = response.headers['Set-Cookie'].split(';')
-        cookie_value = [x.split('=')[1] for x in cookie_list]
-        print cookie_value
-        print cookie_str
+        # 获取服务器响应的cookie值并提取为列表
+        cookie_value = [x.split('=')[1] for x in response.headers['Set-Cookie'].split(';')]
         
         formdata = {
             'type':'movie',
