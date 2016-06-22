@@ -6,7 +6,10 @@ from douban_movie.items import DoubanMovieItem
 class movie_scraper(scrapy.Spider):
     name = 'douban_movie_spider'
     # 设置headers，注意每行要加逗号
-    headers = {
+    allowed_domains = ["douban.com"]
+
+    def start_requests(self):
+        headers = {
         'Accept':'*/*',
         'Accept-Encoding': 'gzip, deflate, sdch',
         'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4',
@@ -18,12 +21,8 @@ class movie_scraper(scrapy.Spider):
         'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36',
         'X-Requested-With':'XMLHttpRequest',
     }
-    pdb.set_trace()
-    allowed_domains = ["douban.com"]
-
-    def start_requests(self):
         url = "https://movie.douban.com/explore#\!type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0"
-        return scrapy.Request(url = url, headers = headers)
+        yield scrapy.Request(url = url, headers = headers)
     
     def parse(self,response):
         print response.url
