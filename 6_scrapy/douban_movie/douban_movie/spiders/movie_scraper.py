@@ -4,13 +4,7 @@ import pdb
 from douban_movie.items import DoubanMovieItem
 import re
 
-class movie_scraper(scrapy.Spider):
-    name = 'douban_movie_spider'
-    # 设置headers，注意每行要加逗号
-    allowed_domains = ["douban.com"]
-
-    def start_requests(self):
-        headers = {
+headers = {
         'Accept':'*/*',
         'Accept-Encoding': 'gzip, deflate, sdch',
         'Accept-Language':'zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4',
@@ -23,29 +17,40 @@ class movie_scraper(scrapy.Spider):
         'X-Requested-With':'XMLHttpRequest',
         }
 
+class movie_scraper(scrapy.Spider):
+    name = 'douban_movie_spider'
+    # 设置headers，注意每行要加逗号
+    allowed_domains = ["douban.com"]
+
+    def start_requests(self):
+        global headers
 
         url = "https://movie.douban.com/explore"
         # yield scrapy.Request(url = url, headers = headers)
         return [
-            scrapy.Request(url = url, headers = headers,  ),
+            scrapy.Request(url=url, headers=headers, ),
         ]
     
     def parse(self,response):
+        global headers
+        # url = 'https://movie.douban.com/explore#!type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0'
+        url = 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0'
         # 获取服务器响应的cookie值并提取为列表
-        cookie_value = [x.split('=')[1] for x in response.headers['Set-Cookie'].split(';')]
-        
-        formdata = {
-            'type':'movie',
-            'tag':'热门',
-            'sort':'time',
-            'page_limit':'20',
-            'page_start':'0',
+        cookie_values = [x.split('=')[1] for x in response.headers['Set-Cookie'].split(';')]
+        cookies = {
+            'bid': cookie_values[0],
+            'Expires': cookie_values[1],
+            'Domain': cookie_values[2],
+            'Path': cookie_values[3],
         }
 
-        # a_list = response.xpath("//*[@id='gaia']/div[4]/div/a")
+        yield scrapy.Request(
+                url=url,
+                callback=self.parse_movie,
+                cookies=cookies,
+                headers=headers,
+            )
 
-        #if not a_list:
-         
-        #   self.log("List Page error-- %s" % response.url)
-
-        # yield FormRequest()
+    def parse_movie(self, response):
+        print response.url
+        print response.body
