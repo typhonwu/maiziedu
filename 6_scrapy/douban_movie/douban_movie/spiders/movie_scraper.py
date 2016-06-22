@@ -22,7 +22,10 @@ class movie_scraper(scrapy.Spider):
         'X-Requested-With':'XMLHttpRequest',
     }
         url = "https://movie.douban.com/explore#\!type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0"
-        yield scrapy.Request(url = url, headers = headers)
+        # yield scrapy.Request(url = url, headers = headers)
+        return [
+            scrapy.Request(url = url, headers = headers),
+        ]
     
     def parse(self,response):
         print response.url
