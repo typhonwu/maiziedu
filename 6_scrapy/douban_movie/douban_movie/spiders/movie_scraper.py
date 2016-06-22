@@ -52,5 +52,17 @@ class movie_scraper(scrapy.Spider):
             )
 
     def parse_movie(self, response):
-        print response.url
-        print response.body
+        # 从返回的正文中取出[{...}]之间的内容
+        dict_str = re.search('\[\{.*}]', response.body).group()
+        # 取出所有{。。。}之间的内容，是dict格式的字符串
+        temp = re.findall('\{.*?}', json_str)
+        # 替换布尔量，否则报错
+        temp1 = [x.replace('false','False') for x in temp]
+        temp2 = [x.replace('true','True') for x in temp1]
+        # 替换转义符号
+        temp3 = [x.replace('\\', '') for x in temp2]
+        # 使用eval把正确的字符串转为对应的类型
+        dict_list = [eval(x) for x in temp3]
+        print type(dict_list[1])
+        print dict_list[1]['url']
+
