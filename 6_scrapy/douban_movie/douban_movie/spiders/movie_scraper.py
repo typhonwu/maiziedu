@@ -2,6 +2,7 @@
 import scrapy
 import pdb
 from douban_movie.items import DoubanMovieItem
+import re
 
 class movie_scraper(scrapy.Spider):
     name = 'douban_movie_spider'
@@ -22,6 +23,20 @@ class movie_scraper(scrapy.Spider):
         'X-Requested-With':'XMLHttpRequest',
         }
 
+
+        url = "https://movie.douban.com/explore"
+        # yield scrapy.Request(url = url, headers = headers)
+        return [
+            scrapy.Request(url = url, headers = headers,  ),
+        ]
+    
+    def parse(self,response):
+        print response.url
+        cookie_list = response.headers['Set-Cookie'].split(';')
+        cookie_value = [x.split('=')[1] for x in cookie_list]
+        print cookie_value
+        print cookie_str
+        
         formdata = {
             'type':'movie',
             'tag':'热门',
@@ -29,16 +44,11 @@ class movie_scraper(scrapy.Spider):
             'page_limit':'20',
             'page_start':'0',
         }
-        url = "https://movie.douban.com/explore"
-        # yield scrapy.Request(url = url, headers = headers)
-        return [
-            scrapy.FormRequest(url = url, formdata = formdata, headers = headers,  ),
-        ]
-    
-    def parse(self,response):
-        print response.url
-        # print response.body
-        a_list = response.xpath("//*[@id='gaia']/div[4]/div/a")
 
-        if not a_list:
-            self.log("List Page error-- %s" % response.url)
+        # a_list = response.xpath("//*[@id='gaia']/div[4]/div/a")
+
+        #if not a_list:
+         
+        #   self.log("List Page error-- %s" % response.url)
+
+        # yield FormRequest()
