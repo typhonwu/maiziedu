@@ -17,6 +17,7 @@ headers = {
         'X-Requested-With':'XMLHttpRequest',
         }
 
+cookies = {}
 class movie_scraper(scrapy.Spider):
     name = 'douban_movie_spider'
     # 设置headers，注意每行要加逗号
@@ -33,6 +34,7 @@ class movie_scraper(scrapy.Spider):
     
     def parse(self,response):
         global headers
+        global cookies
         # url = 'https://movie.douban.com/explore#!type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0'
         url = 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start=0'
         # 获取服务器响应的cookie值并提取为列表
@@ -52,10 +54,12 @@ class movie_scraper(scrapy.Spider):
             )
 
     def parse_movie(self, response):
+        global cookies
+        global headers
         # 从返回的正文中取出[{...}]之间的内容
         dict_str = re.search('\[\{.*}]', response.body).group()
         # 取出所有{。。。}之间的内容，是dict格式的字符串
-        temp = re.findall('\{.*?}', json_str)
+        temp = re.findall('\{.*?}', dict_str)
         # 替换布尔量，否则报错
         temp1 = [x.replace('false','False') for x in temp]
         temp2 = [x.replace('true','True') for x in temp1]
@@ -63,6 +67,22 @@ class movie_scraper(scrapy.Spider):
         temp3 = [x.replace('\\', '') for x in temp2]
         # 使用eval把正确的字符串转为对应的类型
         dict_list = [eval(x) for x in temp3]
-        print type(dict_list[1])
-        print dict_list[1]['url']
+        for x in dict_list:
+            item = DoubanMovieItem()
+            item['title'] = x['title']
+            item['post_url'] = x['cover']
+            pdb.set_trace()
+            yield scrapy.Request(
+                    url=x['url'],
+                    meta={'item': item},  # 通过meta把item传送到另外一个页面抓取中
+                    cookies=cookies,
+                    headers=headers,
+                    callback=self.parse_intro,
+                    # dont_filter=True,
+                )
 
+    def parse_intro(self, response):
+        item = response.meta['item']
+        item['intro'] = resopnse.xpath('//*[@id="link-report"]/span/text()').extract[0]
+
+        yield item
