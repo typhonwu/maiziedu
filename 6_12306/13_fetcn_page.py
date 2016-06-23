@@ -43,7 +43,7 @@ def fetch_price(t, start, end, train_no, seat_types, fd):
         raise e
 
     prices = json.loads(s.content)
-    
+
     price = prices["data"]
     out = u"\n"
     if "A9" in price:
@@ -96,7 +96,7 @@ def fetch_price(t, start, end, train_no, seat_types, fd):
     fd.write("\n")
     print s
 
-
+# 这是主函数
 def fetch_data(t, start, end, fd):
 
     url = "https://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT"
@@ -108,7 +108,7 @@ def fetch_data(t, start, end, fd):
         return
 
     datas = json.loads(s.content)
-
+    # 判断是否获取到站点数据
     if "datas" not in datas["data"]:
         print "no train", t, start.encode("utf-8"), end.encode("utf-8")
         return
@@ -137,6 +137,7 @@ def fetch_data(t, start, end, fd):
         print s
 
         time.sleep(2)
+        # 接着传入站点参数获取票价
         fetch_price(t, data["from_station_no"], data["to_station_no"], data["train_no"], data["seat_types"], fd)
 
         time.sleep(2)
@@ -148,31 +149,3 @@ if __name__ == "__main__":
 
     with open("13.txt", "w") as fd:
         fetch_data((datetime.datetime.now() + datetime.timedelta(days = 3)).strftime("%Y-%m-%d"), "HZH", "VAP", fd)
-
-
-
-
-
-    
-
-
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# vim: set ts=4 sw=4 sts=4 tw=100 et:
