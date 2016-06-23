@@ -7,10 +7,12 @@ import requests
 from bs4 import BeautifulSoup
 
 def fetch_provinces():
+    # 通过开发者工具发现这个url
     url = "https://kyfw.12306.cn/otn/userCommon/allProvince"
 
     try:
-        s = requests.get(url, verify = False)
+        # 因为是发送https请求，所以加入verify参数
+        s = requests.get(url, verify=False)
     except Exception, e:
         print "fetch provinces. " + url
         raise e
@@ -22,29 +24,3 @@ if __name__ == "__main__":
     provs = fetch_provinces()
     for prov in provs:
         print prov["chineseName"]
-
-
-
-    
-
-
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# vim: set ts=4 sw=4 sts=4 tw=100 et:
