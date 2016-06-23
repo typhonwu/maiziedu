@@ -71,7 +71,7 @@ class movie_scraper(scrapy.Spider):
             item = DoubanMovieItem()
             item['title'] = x['title']
             item['post_url'] = x['cover']
-            pdb.set_trace()
+            # pdb.set_trace()
             yield scrapy.Request(
                     url=x['url'],
                     meta={'item': item},  # 通过meta把item传送到另外一个页面抓取中
@@ -83,6 +83,6 @@ class movie_scraper(scrapy.Spider):
 
     def parse_intro(self, response):
         item = response.meta['item']
-        item['intro'] = resopnse.xpath('//*[@id="link-report"]/span/text()').extract[0]
+        item['intro'] = response.xpath('//*[@id="link-report"]/span/text()').extract()[0]
 
         yield item
