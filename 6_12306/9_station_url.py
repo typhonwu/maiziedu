@@ -14,7 +14,9 @@ def fetch_data(url, bureau, desc, fd):
 
     b = BeautifulSoup(s.content, "lxml")
     datas = b.select("tbody > tr")
+    # 前两行不是数据
     if len(datas) <= 2:
+        # 注意中文要encode一下
         s = "find nothing " + url + " " + bureau.encode("utf-8") + " " + desc.encode("utf-8")
         print s
         fd.write(s + "\n")
@@ -23,7 +25,7 @@ def fetch_data(url, bureau, desc, fd):
         if i < 2:
             continue
         infos = datas[i].find_all("td")
-        
+        # 同样中文写入要交u''
         out = u""
         for info in infos:
             out += info.text
@@ -54,7 +56,9 @@ if __name__ == "__main__":
         for i in range(0, len(names)):
             sub_url1 = url + sub_urls[i * 2]["href"][2:]
             print sub_url1
+            # 中文需要加u''
             fetch_data(sub_url1, names[i].text, u"车站", fd)
+            # 避免太快被12306屏蔽ip
             time.sleep(5)
 
             sub_url2 = url + sub_urls[i * 2 + 1]["href"][2:] 
