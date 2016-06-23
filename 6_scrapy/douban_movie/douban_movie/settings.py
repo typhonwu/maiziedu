@@ -7,9 +7,9 @@ NEWSPIDER_MODULE = 'douban_movie.spiders'
 
 
 # 打开图片下载管道
-ITEM_PIPELINES = {'scrapy.pipelines.images.ImagesPipeline': 1}
+ITEM_PIPELINES = {'douban_movie.pipelines.MyImagesPipeline': 1}
 # 把items中的图片链接字段配置在这里
-IMAGES_URLS_FIELD = 'post_url'
+IMAGES_URLS_FIELD = 'post_urls'
 # 设置图片保存路径
 IMAGES_STORE = r'.'
 

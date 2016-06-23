@@ -5,4 +5,4 @@ import scrapy
 class DoubanMovieItem(scrapy.Item):
     title = scrapy.Field()
     intro = scrapy.Field()
-    post_url = scrapy.Field()
+    post_urls = scrapy.Field()
