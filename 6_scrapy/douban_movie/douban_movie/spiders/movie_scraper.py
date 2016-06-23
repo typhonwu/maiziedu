@@ -70,7 +70,7 @@ class movie_scraper(scrapy.Spider):
         for x in dict_list:
             item = DoubanMovieItem()
             item['title'] = x['title']
-            item['post_url'] = x['cover']
+            item['post_url'] = [x['cover'], ]
             # pdb.set_trace()
             yield scrapy.Request(
                     url=x['url'],
