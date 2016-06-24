@@ -25,9 +25,11 @@ class StationsSpider(scrapy.Spider):
         # 第一次请求站点页面之后再根据抓取的站点名称分别发出数据请求
         # 第二次请求响应的是站点数据
         for i in range(0, len(names)):
+            # 偶数为车站数据
             sub_url1 = response.url + sub_urls[i * 2][2:]
+            # meta是一个字典，声明是否为站点
             yield Request(sub_url1, callback = self.parse_station, meta = {'bureau':names[i], 'station':True})
-
+            # 奇数为乘降所数据
             sub_url2 = response.url + sub_urls[i * 2 + 1][2:]
             yield Request(sub_url2, callback = self.parse_station, meta = {'bureau':names[i], 'station':False})
     # 对第二次请求得到的响应进行解析
@@ -41,6 +43,7 @@ class StationsSpider(scrapy.Spider):
             infos = datas[i].css("td::text").extract()
 
             item = StationItem()
+            # 专门有字段确定是否为站点
             item["bureau"] = response.meta["bureau"]
             item["station"] = response.meta["station"]
             item["name"] = infos[0]
