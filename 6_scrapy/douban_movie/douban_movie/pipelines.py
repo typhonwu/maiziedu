@@ -5,12 +5,15 @@ from scrapy.http import Request
 import pdb
 
 title = []
+intro = []
 class MyImagesPipeline(ImagesPipeline):
 
     def get_media_requests(self, item, info):
         # print item['title']
         global title
+        global intro
         title = item['title']
+        intro = item['intro']
         for image_url in item['post_urls']:
             yield Request(image_url)
 
@@ -18,8 +21,12 @@ class MyImagesPipeline(ImagesPipeline):
     def file_path(self, request, response=None, info= None):
         # print '这里执行的是file_path'
         global title
+        global intro
         print title
         # image_guid = request.url.split('/')[-1]
+        intro_path = 'full/%s/%s.txt' % (title, title)
+        with open(intro_path, 'w+') as file:
+            file.write(intro)
         return 'full/%s/%s' % (title, title+'.jpg')
 
     # 这里的路径值来自于file_path
