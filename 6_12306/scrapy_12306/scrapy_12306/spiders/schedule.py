@@ -36,6 +36,7 @@ class ScheduleSpider(scrapy.Spider):
         yield Request(s_url, callback = self.parse, meta = {"t":t})
 
     def parse(self, response):
+        # 获取的response.body就是json格式的
         datas = json.loads(response.body)
         url = "https://kyfw.12306.cn/otn/czxx/queryByTrainNo?"
         for data in datas["data"]:
@@ -47,9 +48,9 @@ class ScheduleSpider(scrapy.Spider):
             item["start"] = briefs[0]
             item["end"] = briefs[1][:-1]
             yield item
-
+            # 根据获取数据构造url要传递的参数
             params = u"train_no=" + data["train_no"] + u"&from_station_telecode=BBB&to_station_telecode=BBB&depart_date=" + response.meta["t"]
-
+            # 这是第二次请求了，同样有url，callback，meta传递
             yield Request(url + params, callback = self.parse_train_schedule, meta = {"train_no":data["train_no"]})
 
     def parse_train_schedule(self, response):
