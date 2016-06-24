@@ -25,7 +25,8 @@ class AgencysSpider(scrapy.Spider):
 
             params = {"province":prov["chineseName"].encode("utf-8"), "city":"", "county":""}
             s_url = url + urllib.urlencode(params)
-
+            # 返回item才会自动交给pipelne处理
+            # 这里就是发起第二次请求，并对响应回调一个函数
             yield Request(s_url, callback = self.parse_agency)
 
     def parse_agency(self, response):
@@ -40,7 +41,7 @@ class AgencysSpider(scrapy.Spider):
             item["windows"] = data["windows_quantity"]
             item["start"] = data["start_time_am"]
             item["end"] = data["stop_time_pm"]
-
+            # 这里返回的item先会交给AgencySQLPipeline处理
             yield item
 
         yield CommitItem()
