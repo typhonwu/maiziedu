@@ -30,6 +30,24 @@ class StationItem(scrapy.Item):
     passenger = scrapy.Field()
     luggage = scrapy.Field()
     package = scrapy.Field()
+
+class BriefItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    code = scrapy.Field()
+    train_no = scrapy.Field()
+    start = scrapy.Field()
+    end = scrapy.Field()
+
+class InfoItem(scrapy.Item):
+    train_no = scrapy.Field()
+    no = scrapy.Field()
+    station = scrapy.Field()
+    type = scrapy.Field()
+    start_time = scrapy.Field()
+    arrive_time = scrapy.Field()
+    stopover_time = scrapy.Field()
+    
 # 这个item设计的非常巧妙，不需要字段
 # 它的存在从名字就看出来了
 # 类似于信号
