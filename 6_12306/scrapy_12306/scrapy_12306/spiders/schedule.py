@@ -6,9 +6,9 @@ import urllib
 
 import scrapy
 from scrapy.http.request import Request
-from project26.items import BriefItem
-from project26.items import InfoItem
-from project26.items import CommitItem
+from scrapy_12306.items import BriefItem
+from scrapy_12306.items import InfoItem
+from scrapy_12306.items import CommitItem
 
 class ScheduleSpider(scrapy.Spider):
     name = 'ScheduleSpider'
@@ -17,7 +17,7 @@ class ScheduleSpider(scrapy.Spider):
 
     custom_settings = {
             'ITEM_PIPELINES': {
-                'project26.pipelines.SQLPipeline': 300,
+                'scrapy_12306.pipelines.SQLPipeline': 300,
             },
     }
     # 如果是比较复杂的动态链接，就用start_requests代替start_urls
