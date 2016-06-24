@@ -12,6 +12,7 @@ from project26.items import CommitItem
 
 class ScheduleSpider(scrapy.Spider):
     name = 'ScheduleSpider'
+    # 这个只能用于固定的简单链接
     #start_urls = ['https://kyfw.12306.cn/otn/queryTrainInfo/getTrainName']
 
     custom_settings = {
@@ -19,15 +20,19 @@ class ScheduleSpider(scrapy.Spider):
                 'project26.pipelines.SQLPipeline': 300,
             },
     }
-
+    # 如果是比较复杂的动态链接，就用start_requests代替start_urls
     def start_requests(self):
         url = "https://kyfw.12306.cn/otn/queryTrainInfo/getTrainName?"
-
+        # 这里实现了根据当前时间发起的http请求
         t = (datetime.datetime.now() + datetime.timedelta(days = 3)).strftime("%Y-%m-%d")
         params = {"date":t}
-        
+        # 使用urllib对带参数的url进行编码
         s_url = url + urllib.urlencode(params)
         self.logger.debug("start url " + s_url)
+        # 最后返回一个构造好的请求
+        # 带参数并编码好的url
+        # 回调函数
+        # 用meta传送变量值到回调函数
         yield Request(s_url, callback = self.parse, meta = {"t":t})
 
     def parse(self, response):
