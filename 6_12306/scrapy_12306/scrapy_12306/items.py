@@ -19,6 +19,9 @@ class AgencyItem(scrapy.Item):
     windows = scrapy.Field()
     start = scrapy.Field()
     end = scrapy.Field()
-
+# 这个item设计的非常巧妙，不需要字段
+# 它的存在从名字就看出来了
+# 类似于信号
+# 通知pipeline执行提交操作
 class CommitItem(scrapy.Item):
     pass

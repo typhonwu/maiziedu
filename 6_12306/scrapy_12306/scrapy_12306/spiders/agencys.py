@@ -43,7 +43,8 @@ class AgencysSpider(scrapy.Spider):
             item["end"] = data["stop_time_pm"]
             # 这里返回的item先会交给AgencySQLPipeline处理
             yield item
-
+        # 这里返回的item同样交给AgencySQLPipeline处理
+        # 不过它会触发提交数据的操作
         yield CommitItem()
 
 

@@ -37,6 +37,9 @@ class AgencySQLPipeline(object):
                 (%s, %s, %s, %s, %s, %s, %s, %s)"
 
     def process_item(self, item, spider):
+        # 如果提交的是commititem，就执行一次数据库提交
+        # 这给出一个思路：通过定义某些特殊item，然后爬虫把它们当做信号来通知pipeline进行特定处理
+        # 耦合度就低很多了
         if isinstance(item, CommitItem):
             self.conn.commit()
         else:
