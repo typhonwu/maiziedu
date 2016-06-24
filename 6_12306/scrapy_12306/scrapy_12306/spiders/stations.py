@@ -35,7 +35,15 @@ class StationsSpider(scrapy.Spider):
     # 对第二次请求得到的响应进行解析
     def parse_station(self, response):
         datas = response.css("table table tr")
+        # 这个结果很容易出错，所以调试时要特别关注，用debug
+        self.logger.debug(datas)
+        # critical: 
+        # error: 比较严重的错误，恢复可能性比较小
+        # warning: 程序出错时使用，比较小的错误，比如网络中断，但是如果持续出错就需要修改
+        # info: 程序运行时比较关注的信息，比如发出顺序
+        # debug: 调试时使用，正式运行之后要关闭
         if len(datas) <= 2:
+            self.logger.info('no item ' + response.meta["bureau"] + ' ' + response.meta["station"])
             return
         for i in range(0, len(datas)):
             if i < 2:

@@ -64,7 +64,10 @@ class StationSQLPipeline(object):
 
     def process_item(self, item, spider):
         if isinstance(item, CommitItem):
-            self.conn.commit()
+            try:
+                self.conn.commit()
+            except Exception, e:
+                spider.logger.warning("commit fail.")
         else:
             self.cursor.execute(self.sql, (item["bureau"], item["station"],
                 item["name"], item["address"],
