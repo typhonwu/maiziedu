@@ -48,4 +48,25 @@ class AgencySQLPipeline(object):
                 item["name"], item["windows"],
                 item["start"] + u"00",
                 item["end"] + u"00"))
-        
+
+class StationSQLPipeline(object):
+    def __init__(self):
+        self.conn = pymysql.connect(host = 'localhost', port = 3306, 
+                                        user = '12306',
+                                        password = '12306',
+                                        db = '12306-train',
+                                        charset = 'utf8')
+        self.cursor = self.conn.cursor()
+        self.sql = "INSERT IGNORE INTO `stations` (`bureau`, `station`,\
+                `name`, `address`, `passenger`, `luggage`,\
+                `package`) VALUES\
+                (%s, %s, %s, %s, %s, %s, %s)"
+
+    def process_item(self, item, spider):
+        if isinstance(item, CommitItem):
+            self.conn.commit()
+        else:
+            self.cursor.execute(self.sql, (item["bureau"], item["station"],
+                item["name"], item["address"],
+                item["passenger"], item["luggage"],
+                item["package"]))

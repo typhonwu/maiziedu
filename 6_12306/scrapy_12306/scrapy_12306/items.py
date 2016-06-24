@@ -19,6 +19,17 @@ class AgencyItem(scrapy.Item):
     windows = scrapy.Field()
     start = scrapy.Field()
     end = scrapy.Field()
+
+class StationItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    bureau = scrapy.Field()
+    station = scrapy.Field()
+    name = scrapy.Field()
+    address = scrapy.Field()
+    passenger = scrapy.Field()
+    luggage = scrapy.Field()
+    package = scrapy.Field()
 # 这个item设计的非常巧妙，不需要字段
 # 它的存在从名字就看出来了
 # 类似于信号
