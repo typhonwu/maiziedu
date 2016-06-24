@@ -4,8 +4,8 @@ import urllib
 
 import scrapy
 from scrapy.http.request import Request
-from project23.items import AgencyItem
-from project23.items import CommitItem
+from scrapy_12306.items import AgencyItem
+from scrapy_12306.items import CommitItem
 
 class AgencysSpider(scrapy.Spider):
     name = 'AgentcysSpider'
@@ -14,7 +14,7 @@ class AgencysSpider(scrapy.Spider):
     # 还可以在爬虫中自定义特定的管道
     custom_settings = {
             'ITEM_PIPELINES': {
-                'project23.pipelines.AgencySQLPipeline': 300,
+                'scrapy_12306.pipelines.AgencySQLPipeline': 300,
             }
     }
 

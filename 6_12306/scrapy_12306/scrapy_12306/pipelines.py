@@ -8,7 +8,7 @@
 import pymysql.cursors
 
 from scrapy.exceptions import DropItem
-from project23.items import CommitItem
+from scrapy_12306.items import CommitItem
 
 
 class ProvincePipeline2(object):
