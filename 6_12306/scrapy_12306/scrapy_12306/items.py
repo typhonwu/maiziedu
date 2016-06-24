@@ -22,4 +22,3 @@ class AgencyItem(scrapy.Item):
 
 class CommitItem(scrapy.Item):
     pass
-
