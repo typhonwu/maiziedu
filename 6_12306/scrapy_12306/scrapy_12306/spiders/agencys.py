@@ -10,7 +10,8 @@ from project23.items import CommitItem
 class AgencysSpider(scrapy.Spider):
     name = 'AgentcysSpider'
     start_urls = ['https://kyfw.12306.cn/otn/userCommon/allProvince']
-
+    # 除了在settings中统一设置pipelines
+    # 还可以在爬虫中自定义特定的管道
     custom_settings = {
             'ITEM_PIPELINES': {
                 'project23.pipelines.AgencySQLPipeline': 300,
