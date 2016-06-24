@@ -7,8 +7,19 @@
 
 import scrapy
 
+class ProvinceItem(scrapy.Item):
+    name = scrapy.Field()    
 
-class Scrapy12306Item(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+class AgencyItem(scrapy.Item):
+    province = scrapy.Field()
+    city = scrapy.Field()
+    county = scrapy.Field()
+    address = scrapy.Field()
+    name = scrapy.Field()
+    windows = scrapy.Field()
+    start = scrapy.Field()
+    end = scrapy.Field()
+
+class CommitItem(scrapy.Item):
     pass
+
