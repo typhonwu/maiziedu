@@ -52,7 +52,7 @@ class ScheduleSpider(scrapy.Spider):
             params = u"train_no=" + data["train_no"] + u"&from_station_telecode=BBB&to_station_telecode=BBB&depart_date=" + response.meta["t"]
             # 这是第二次请求了，同样有url，callback，meta传递
             yield Request(url + params, callback = self.parse_train_schedule, meta = {"train_no":data["train_no"]})
-
+    # 第二级请求获得的响应才是时刻表
     def parse_train_schedule(self, response):
         stations = json.loads(response.body)
 
