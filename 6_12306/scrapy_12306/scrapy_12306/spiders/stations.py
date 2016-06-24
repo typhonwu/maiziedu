@@ -48,6 +48,7 @@ class StationsSpider(scrapy.Spider):
             item["station"] = response.meta["station"]
             item["name"] = infos[0]
             item["address"] = infos[1]
+            # 如果不为中文空，代表打上了勾
             item["passenger"] = infos[2].strip() != u""
             item["luggage"] = infos[3].strip() != u""
             item["package"] = infos[4].strip() != u""
