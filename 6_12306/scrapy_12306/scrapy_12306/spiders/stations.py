@@ -18,6 +18,8 @@ class StationsSpider(scrapy.Spider):
     }
 
     def parse(self, response):
+        # css选择器就是chrome中复制selector那个
+        # 返回一个选择器，extract后返回字符串，是unicode编码
         names = response.css("#secTable > tbody > tr > td::text").extract()
         sub_urls = response.css("#mainTable td.submenu_bg > a::attr(href)").extract()
         for i in range(0, len(names)):
