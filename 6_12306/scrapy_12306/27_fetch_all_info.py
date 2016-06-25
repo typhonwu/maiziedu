@@ -44,6 +44,8 @@ if __name__ == '__main__':
         # 先对这个车次经过的路线排序
         seq = sorted(route)
         len1 = len(seq)
+        # 一个车次路线上任意两个站点之间都能通行
+        # 这是排列组合的方式
         sum += len1 * (len1 - 1) / 2
         for i in range(0, len1):
             if route[seq[i]] not in routes:

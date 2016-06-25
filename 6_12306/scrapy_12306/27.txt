@@ -38,5 +38,12 @@ mysql> desc train_briefs;
 mysql> select count(*) from train_briefs;
 
 站点组合 7000 + 条 无 http 请求
+用27_fetch_all.py来找到
+
+
 票价 / 余票 48 w + 条 http 请求 7000 +
+通过站点组合获取数据量
+
+
 正晚点查询 48 w + 条 http 请求 48 w + 
+和票价查询一致
