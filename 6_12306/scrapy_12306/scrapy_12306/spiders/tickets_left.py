@@ -8,10 +8,10 @@ import pymysql.cursors
 
 import scrapy
 from scrapy.http.request import Request
-from project28.items import BriefDeltaItem
-from project28.items import StationItem
-from project28.items import TicketItem
-from project28.items import CommitItem
+from scrapy_12306.items import BriefDeltaItem
+from scrapy_12306.items import StationCodeItem
+from scrapy_12306.items import TicketItem
+from scrapy_12306.items import CommitItem
 
 class TicketsSpider(scrapy.Spider):
     name = 'TicketsSpider'
@@ -71,7 +71,7 @@ class TicketsSpider(scrapy.Spider):
         for i in range(1, len(stations)):
             station = stations[i].split(u"|")
             results[station[1]] = station[2]
-            item = StationItem()
+            item = StationCodeItem()
             item["name"] = station[1]
             item["code"] = station[2]
             yield item

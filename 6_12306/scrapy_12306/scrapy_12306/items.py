@@ -52,7 +52,7 @@ class BriefDeltaItem(scrapy.Item):
     code = scrapy.Field()
     seat_type = scrapy.Field()
 
-class StationItem(scrapy.Item):
+class StationCodeItem(scrapy.Item):
     name = scrapy.Field()
     code = scrapy.Field()
 

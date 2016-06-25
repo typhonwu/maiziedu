@@ -26,6 +26,6 @@ create table `train_tickets` (
     `wz` smallint,
     `qt` smallint,
     primary key (`train_no`, `start`, `end`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table `train_briefs` add column `seat_type` varchar(20) default null;
