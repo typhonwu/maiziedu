@@ -19,6 +19,11 @@ class ScheduleSpider(scrapy.Spider):
             'ITEM_PIPELINES': {
                 'scrapy_12306.pipelines.Schedule_SQLPipeline': 300,
             },
+            'DUPEFILTER_DEBUG': True,
+            'DOWNLOADER_MIDDLEWARES': {
+                'scrapy_12306.middle.DownloaderMiddleware': 500,
+            },
+            'DUPEFILTER_CLASS': "scrapy_12306.filter.URLTurnFilter",
     }
     # 如果是比较复杂的动态链接，就用start_requests代替start_urls
     def start_requests(self):
