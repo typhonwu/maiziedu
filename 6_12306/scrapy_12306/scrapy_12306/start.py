@@ -6,7 +6,8 @@ import time
 import datetime
 
 import pymysql.cursors
-
+# 需要指明类加载路径
+# 因为本来是scrapy做的，我们要自己启动就需要自己动手
 project_path = os.path.dirname(os.path.abspath(__file__ + "/.."))
 sys.path.insert(0, project_path)
 
@@ -41,7 +42,7 @@ crawler = CrawlerProcess(settings)
 
 @defer.inlineCallbacks
 def crawl():
-
+    # 把本轮轮次数据的插入放在这里
     n = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     turn = int(time.time() / 86400)
 
@@ -54,7 +55,7 @@ def crawl():
         cursor.execute("INSERT IGNORE INTO `turns` VALUES (%s, %s)", (turn, n))
     conn.commit()
     conn.close()
-
+    # 然后依次执行爬虫
     yield crawler.crawl(AgencysSpider, turn)
     yield crawler.crawl(StationsSpider, turn)
     yield crawler.crawl(ScheduleSpider, turn)
