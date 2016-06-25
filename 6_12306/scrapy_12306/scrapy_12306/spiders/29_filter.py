@@ -14,7 +14,7 @@ class FilterSpider(scrapy.Spider):
 
     def parse(self, response):
         self.logger.info("--------------------------")
-
+        # DEBUG: Filtered duplicate request
         yield Request(url='https://www.baidu.com/s?wd=3', callback = self.parse_e)
         yield Request(url='https://www.baidu.com/s?wd=3', callback = self.parse_e)
 
