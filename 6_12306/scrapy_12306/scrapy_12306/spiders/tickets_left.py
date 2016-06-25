@@ -22,7 +22,9 @@ class TicketsSpider(scrapy.Spider):
                 'project28.pipelines.Tikcets_left_SQLPipeline': 300,
             },
     }
-
+    # 定义一个静态方法，可以直接通过类名来调用
+    # 这正是27.数据量分析中的那个方法
+    # 获取所有可到达的路线
     @staticmethod
     def fetch_routes():
         conn = pymysql.connect(host = 'localhost',
@@ -77,7 +79,7 @@ class TicketsSpider(scrapy.Spider):
             yield item
 
         yield CommitItem()
-
+        # 通过类名调用这个静态方法获取所有路线
         routes = TicketsSpider.fetch_routes()
 
         url = "https://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&"
