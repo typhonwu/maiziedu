@@ -17,7 +17,7 @@ class ScheduleSpider(scrapy.Spider):
 
     custom_settings = {
             'ITEM_PIPELINES': {
-                'scrapy_12306.pipelines.SQLPipeline': 300,
+                'scrapy_12306.pipelines.Schedule_SQLPipeline': 300,
             },
     }
     # 如果是比较复杂的动态链接，就用start_requests代替start_urls
