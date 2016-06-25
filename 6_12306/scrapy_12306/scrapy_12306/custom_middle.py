@@ -2,7 +2,7 @@
 import datetime
 
 from scrapy.exceptions import IgnoreRequest
-
+# 对断点续传间隔时间过长也可以处理
 class CustomDownloaderMiddleware(object):
 
     def process_request(self, request, spider):

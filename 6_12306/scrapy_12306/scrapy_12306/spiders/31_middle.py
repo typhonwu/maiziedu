@@ -13,7 +13,7 @@ class MiddleSpider(scrapy.Spider):
     custom_settings = {
             'DUPEFILTER_DEBUG': True,
             'DOWNLOADER_MIDDLEWARES': {
-                'project31.custom_middle.CustomDownloaderMiddleware': 500
+                'scrapy_12306.custom_middle.CustomDownloaderMiddleware': 500
                 }
     }
 
