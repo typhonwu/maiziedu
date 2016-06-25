@@ -11,6 +11,8 @@ logger = logging.getLogger()
 class URLTurnFilter(RFPDupeFilter):
     def request_fingerprint(self, request):
 #        logger.info("fliter " + request.url)
+        # 以turn作为去重标准之一
+        # 也就是说，如果是同一轮的同一请求就过滤去重
         if "turn" in request.meta:
             return request.url + ("-- %d" % request.meta["turn"])
         else:
