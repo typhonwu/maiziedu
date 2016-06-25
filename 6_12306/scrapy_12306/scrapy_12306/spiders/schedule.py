@@ -8,6 +8,7 @@ import scrapy
 from scrapy.http.request import Request
 from scrapy_12306.items import BriefItem
 from scrapy_12306.items import InfoItem
+from scrapy_12306.items import TurnItem
 from scrapy_12306.items import CommitItem
 
 class ScheduleSpider(scrapy.Spider):
@@ -25,8 +26,22 @@ class ScheduleSpider(scrapy.Spider):
             },
             'DUPEFILTER_CLASS': "scrapy_12306.filter.URLTurnFilter",
     }
+    
+    def __init__(self, *a, **kw):
+        super(ScheduleSpider, self).__init__(*a, **kw)
+        turn = int(time.time() / 86400)
+        self.turn = turn
+#        self.turn = 1
+        self.logger.info("this turn %d" % turn)
+
     # 如果是比较复杂的动态链接，就用start_requests代替start_urls
     def start_requests(self):
+        self.logger.info("-------------------------")
+
+        turnItem = TurnItem()
+        turnItem["id"] = self.turn
+        turnItem["mark"] = n.strftime("%Y-%m-%d %H:%M:%S")
+
         url = "https://kyfw.12306.cn/otn/queryTrainInfo/getTrainName?"
         # 这里实现了根据当前时间发起的http请求
         t = (datetime.datetime.now() + datetime.timedelta(days = 3)).strftime("%Y-%m-%d")
@@ -38,9 +53,10 @@ class ScheduleSpider(scrapy.Spider):
         # 带参数并编码好的url
         # 回调函数
         # 用meta传送变量值到回调函数
-        yield Request(s_url, callback = self.parse, meta = {"t":t})
+        yield Request(s_url, callback = self.parse, meta = {"t":t, "turn":self.turn, "item":turnItem})
 
     def parse(self, response):
+        yield response.meta["item"]
         # 获取的response.body就是json格式的
         datas = json.loads(response.body)
         url = "https://kyfw.12306.cn/otn/czxx/queryByTrainNo?"
@@ -70,14 +86,7 @@ class ScheduleSpider(scrapy.Spider):
             info["train_no"] = response.meta["train_no"];
             info["no"] = int(data["station_no"])
             info["station"] = data["station_name"]
-
-#homework
-            if info["no"] == 1:
-                info["type"] = 0
-            elif size == info["no"]:
-                info["type"] = 1
-            else:
-                info["type"] = 2
+            info["turn"] = response.meta["turn"]
 
             if data["start_time"] != u"----":
                 info["start_time"] = data["start_time"] + u":00";
