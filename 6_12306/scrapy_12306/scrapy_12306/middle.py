@@ -6,7 +6,7 @@ from scrapy.exceptions import IgnoreRequest
 class DownloaderMiddleware(object):
 
     def process_request(self, request, spider):
-        
+        # 通过turn来作为过时标准
         if "turn" in request.meta:
             turn = request.meta["turn"]
             if turn != spider.turn:
@@ -18,21 +18,3 @@ class DownloaderMiddleware(object):
 
         else:
             return None
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# vim: set ts=4 sw=4 sts=4 tw=100 et:

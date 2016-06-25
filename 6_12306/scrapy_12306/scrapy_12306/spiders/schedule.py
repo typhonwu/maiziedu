@@ -26,9 +26,11 @@ class ScheduleSpider(scrapy.Spider):
             },
             'DUPEFILTER_CLASS': "scrapy_12306.filter.URLTurnFilter",
     }
-    
+    # 在构造方法中初始化这次爬取的轮次
     def __init__(self, *a, **kw):
         super(ScheduleSpider, self).__init__(*a, **kw)
+        # 24小时为一轮
+        # 24小时之内抓取的都算一轮
         turn = int(time.time() / 86400)
         self.turn = turn
 #        self.turn = 1
@@ -53,6 +55,7 @@ class ScheduleSpider(scrapy.Spider):
         # 带参数并编码好的url
         # 回调函数
         # 用meta传送变量值到回调函数
+        # 添加轮次信息，方便中间件过滤
         yield Request(s_url, callback = self.parse, meta = {"t":t, "turn":self.turn, "item":turnItem})
 
     def parse(self, response):
