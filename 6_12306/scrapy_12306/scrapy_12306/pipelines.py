@@ -86,7 +86,9 @@ class Schedule_SQLPipeline(object):
                     (%s, %s, %s, %s)"
         self.info_sql = "INSERT IGNORE INTO `train_infos` VALUES\
                     (%s, %s, %s, %s, %s, %s, %s)"
-
+        self.turn_sql = "INSERT IGNORE INTO `turns` VALUES\
+                    (%s, %s)"
+                    
     def process_item(self, item, spider):
         try:
             if isinstance(item, CommitItem):
@@ -94,13 +96,17 @@ class Schedule_SQLPipeline(object):
             elif isinstance(item, BriefItem):
                 self.cursor.execute(self.brief_sql, (item["code"], 
                     item["train_no"],
-                    item["start"], item["end"]))
-            else:
+                    item["start"], item["end"], item["turn"]))
+            elif isinstance(item, InfoItem):
                 self.cursor.execute(self.info_sql, (item["train_no"], 
                     item["no"],
-                    item["station"], item["type"],
+                    item["station"],
                     item["start_time"], item["arrive_time"],
-                    item["stopover_time"]))
+                    item["stopover_time"], item["turn"]))
+            else:
+                self.cursor.execute(self.turn_sql, (item["id"],
+                    item["mark"]))
+                self.conn.commit()
         except Exception, e:
             spider.logger.warning("excute sql fail.")
             spider.logger.warning(str(e))
