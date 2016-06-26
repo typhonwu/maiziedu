@@ -2,7 +2,9 @@
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
 from scrapy.http import Request
-import os
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 import pdb
 
 title = []
